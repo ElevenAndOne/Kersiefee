@@ -132,6 +132,25 @@ body {
   overflow-x: hidden;
 }
 
+/* ---------- Hero fold + parallax ---------- */
+.hero-parallax-art {
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.hero-fold {
+  margin-top: calc(var(--spacing) * -10);
+  border-radius: 2.5rem 2.5rem 0 0;
+  box-shadow: 0 -1rem 2.5rem rgb(85 16 30 / 0.08);
+}
+
+@media (width <= 48rem) {
+  .hero-fold {
+    margin-top: calc(var(--spacing) * -6);
+    border-radius: 1.75rem 1.75rem 0 0;
+  }
+}
+
 /* ---------- Typography helpers ---------- */
 .h1 {
   @apply text-h1;

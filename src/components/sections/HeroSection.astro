@@ -1,8 +1,14 @@
 ---
-import Container from "../ui/Container.astro";
 import Section from "../ui/Section.astro";
 ---
 
-<Section id="hero-section" bg="pink">
-  <Container class="min-h-screen"> </Container>
+<Section id="hero-section" bg="pink" class="isolate min-h-[100svh]" data-hero-parallax-root>
+  <div class="absolute -inset-x-4 -inset-y-6 flex items-center justify-center" aria-hidden="true">
+    <img
+      src="/images/backgrounds/kersiefees-hero-illustration.svg" alt="" class="hero-parallax-art size-full max-w-none object-cover object-center" width="1920"
+      height="966" fetchpriority="high" data-hero-parallax-art
+    />
+  </div>
+
+  <div class="relative min-h-[100svh]"></div>
 </Section>

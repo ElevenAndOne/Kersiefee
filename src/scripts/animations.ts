@@ -181,6 +181,31 @@ function smoothScroll() {
   gsap.ticker.lagSmoothing(0);
 }
 
+/**
+ * Keep the hero artwork drifting downward inside its section while the next
+ * section rises over it. The artwork still leaves the viewport, just more
+ * slowly than the page, which creates the layered fold/parallax effect.
+ */
+function heroParallax() {
+  const hero = document.querySelector<HTMLElement>("[data-hero-parallax-root]");
+  const art = hero?.querySelector<HTMLElement>("[data-hero-parallax-art]");
+  if (!hero || !art) return;
+
+  gsap.to(art, {
+    y: () => Math.min(window.innerHeight * 0.22, 200),
+    scale: 1.035,
+    transformOrigin: "center center",
+    ease: "none",
+    scrollTrigger: {
+      trigger: hero,
+      start: "top top",
+      end: "bottom top",
+      scrub: 0.65,
+      invalidateOnRefresh: true,
+    },
+  });
+}
+
 export function initAnimations() {
   if (reducedMotion()) return;
   document.documentElement.classList.add("gsap-ready");
@@ -192,6 +217,7 @@ export function initAnimations() {
   popReveals();
   ticketReveals();
   marquees();
+  heroParallax();
 
   // splitting needs final line boxes, so wait for the webfont
   document.fonts.ready.then(splitHeadings);

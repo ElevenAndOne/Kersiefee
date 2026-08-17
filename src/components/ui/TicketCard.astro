@@ -53,7 +53,7 @@ const isRed = variant === "red";
          rather than a bg-* utility (see .ticket-notch in global.css) */
       isRed ? "text-white [--notch--fill:var(--color-cherry)]" : "text-cherry [--notch--fill:var(--color-white)]",
     ]}>
-    <div class="flex flex-col items-start gap-15 self-center landscape:gap-8">
+    <div class="flex flex-col items-start gap-15 self-center landscape:gap-8 landscape:pt-5">
       <div class="flex max-w-120 flex-col gap-5">
         <h3 class="h1">{title}</h3>
         {lines.map((line) => <p class="h3">{line}</p>)}
