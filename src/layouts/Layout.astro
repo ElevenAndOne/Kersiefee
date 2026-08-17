@@ -1,0 +1,35 @@
+---
+import "@fontsource/lato/400.css";
+import "@fontsource/lato/700.css";
+import "@fontsource/lato/900.css";
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Ceres Kersiefees 2026",
+  description =
+    "Vier die kersieseisoen saam met ons by die Ceres Kersiefees – sport, musiek, kos en kersies vir die hele gesin. Saterdag, 5 Desember 2026, Rugbyklub, Ceres.",
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="af">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+    <script>
+    import { initAnimations } from "../scripts/animations";
+    initAnimations();
+    </script>
+  </body>
+</html>

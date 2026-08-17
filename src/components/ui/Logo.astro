@@ -1,0 +1,21 @@
+---
+/** Stacked KERSIE / FEES wordmark from Figma. */
+import kersie from "../../assets/figma/logo-fees.svg";
+import fees from "../../assets/figma/logo-kersie.svg";
+
+interface Props {
+  class?: string;
+}
+const { class: className = "" } = Astro.props;
+---
+
+<span class:list={["relative block w-31 landscape:w-28", className]} aria-label="Ceres Kersiefees">
+  <img
+    src={kersie.src} alt="" class="block w-full" width="124"
+    height="26"
+  />
+  <img
+    src={fees.src} alt="" class="mt-px ml-px block w-[98%]" width="122"
+    height="33"
+  />
+</span>

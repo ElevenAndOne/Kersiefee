@@ -1,0 +1,66 @@
+---
+import PhotoCarousel from "../interactive/PhotoCarousel.tsx";
+import Container from "../ui/Container.astro";
+import Section from "../ui/Section.astro";
+
+import iconCalendar from "../../assets/figma/icon-calendar.svg";
+import iconMap from "../../assets/figma/icon-map.svg";
+import iconTickets from "../../assets/figma/icon-tickets.svg";
+
+import crowd2 from "../../assets/figma/about-photo-crowd-2.jpg";
+import crowd from "../../assets/figma/about-photo-crowd.jpg";
+import family2 from "../../assets/figma/about-photo-family-2.jpg";
+import family from "../../assets/figma/about-photo-family.jpg";
+import food2 from "../../assets/figma/about-photo-food-2.jpg";
+import food from "../../assets/figma/about-photo-food.jpg";
+
+const photos = [
+  { src: family.src, alt: "'n Gesin kuier saam op die feesterrein" },
+  { src: food.src, alt: "Kersie-geïnspireerde disse by die kosstalletjies" },
+  { src: crowd.src, alt: "Feesgangers geniet die dag by die Kersiefees" },
+  { src: family2.src, alt: "Kinders speel tydens die fees" },
+  { src: food2.src, alt: "Vars Ceres-kersies by 'n stalletjie" },
+  { src: crowd2.src, alt: "Besoekers luister na die live musiek" },
+];
+
+const tickerItems = [
+  { icon: iconMap.src, label: "Saterdag, 5 Desember 2026" },
+  { icon: iconCalendar.src, label: "Rugbyklub, Ceres" },
+  { icon: iconMap.src, label: "Saterdag, 5 Desember 2026" },
+  { icon: iconTickets.src, label: "Kaartjies nou beskikbaar" },
+];
+---
+
+<Section id="about-section" bg="white">
+  <Container>
+    <span class="h3 mt-6 block text-center mx-auto max-w-3xl">Welkom by</span>
+    <h1 class="h1 mt-6 text-center mx-auto max-w-3xl" data-split>Ceres Kersiefees 2026</h1>
+    <p class="h4 mt-6 text-center mx-auto max-w-3xl">
+      Die Ceres Kersiefees is soveel meer as net 'n fees – dit word gevorm deur 'n gemeenskap. Dis die kersies wat om familietafels gedeel word, die
+      produsente wat jaar ná jaar hul passie uitleef en topgehalte kersies verbou, en die kosstalletjies wat hierdie vrug omskep in die geurigste en
+      smaaklikste disse. Dis die musiek, sport, lag en kuier wat deur die dag ontvou. Elke deel van die fees word moontlik gemaak deur mense wat met passie en
+      trots hul bydrae lewer.
+    </p>
+
+    <div class="mt-20 landscape:mt-12">
+      <PhotoCarousel photos={photos} client:visible />
+    </div>
+
+    <div class="flex flex-col items-center mt-32" data-marquee data-marquee-speed="40">
+      <div class="w-screen">
+        <div class="marquee-track gap-28 pr-28 landscape:gap-16 landscape:pr-16">
+          {[0, 1].map((copy) => (
+            <div class="flex shrink-0 items-center gap-28 landscape:gap-16" aria-hidden={copy === 1 ? "true" : undefined}>
+              {tickerItems.map((item) => (
+                <span class="flex shrink-0 items-center gap-6">
+                  <img src={item.icon} alt="" class="h-24 w-auto landscape:h-16" loading="lazy" />
+                  <span class="h2 whitespace-nowrap">{item.label}</span>
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </Container>
+</Section>

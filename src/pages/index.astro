@@ -1,0 +1,33 @@
+---
+import Footer from "../components/ui/Footer.astro";
+import NavBar from "../components/ui/NavBar.astro";
+import Layout from "../layouts/Layout.astro";
+
+import AboutSection from "../components/sections/AboutSection.astro";
+import ContactSection from "../components/sections/ContactSection.astro";
+import DirectionsSection from "../components/sections/DirectionsSection.astro";
+import EventSection from "../components/sections/EventSection.astro";
+import FAQSection from "../components/sections/FAQSection.astro";
+import HeroSection from "../components/sections/HeroSection.astro";
+import SponsorsSection from "../components/sections/SponsorsSection.astro";
+import SportsSection from "../components/sections/SportsSection.astro";
+import TicketSection from "../components/sections/TicketSection.astro";
+import VendorsSection from "../components/sections/VendorsSection.astro";
+---
+
+<Layout>
+  <NavBar />
+  <main>
+    <HeroSection />
+    <AboutSection />
+    <EventSection />
+    <TicketSection />
+    <VendorsSection />
+    <SportsSection />
+    <DirectionsSection />
+    <SponsorsSection />
+    <FAQSection />
+    <ContactSection />
+  </main>
+  <Footer />
+</Layout>

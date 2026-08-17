@@ -1,0 +1,25 @@
+{
+  "editor.formatOnSave": true,
+  "[astro]": {
+    "editor.defaultFormatter": "astro-build.astro-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "dprint.dprint"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "TypeScriptTeam.native-preview"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "dprint.dprint"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "vscode.css-language-features"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "dprint.dprint"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "dprint.dprint"
+  },
+  "prettier.enable": false
+}

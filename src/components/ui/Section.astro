@@ -1,0 +1,27 @@
+---
+/**
+ * Base section: shared vertical rhythm and background variants.
+ * Page sections compose this and add their own <Container> for width.
+ */
+interface Props {
+  id?: string;
+  /** background variant */
+  bg?: "pink" | "white" | "cherry" | "grass" | "none";
+  /** vertical padding preset */
+  class?: string;
+}
+
+const { id, bg = "pink", class: className = "" } = Astro.props;
+
+const bgClasses = {
+  pink: "bg-blossom text-cherry",
+  white: "bg-white text-cherry",
+  cherry: "bg-cherry text-white",
+  grass: "bg-green-grass text-white",
+  none: "",
+};
+---
+
+<section id={id} class:list={["relative overflow-hidden", bgClasses[bg], className]}>
+  <slot />
+</section>

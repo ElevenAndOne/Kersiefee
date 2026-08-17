@@ -1,0 +1,41 @@
+---
+import Button from "../ui/Button.astro";
+import Container from "../ui/Container.astro";
+import Section from "../ui/Section.astro";
+
+/* Partner logos exported from Figma */
+const logos = Object.values(
+  import.meta.glob<{ default: { src: string; }; }>(
+    "../../assets/figma/sponsor-*.svg",
+    { eager: true },
+  ),
+).map((m) => m.default.src);
+---
+
+<Section id="sponsors-section" bg="pink">
+  <Container>
+    <div class="grid grid-cols-2 gap-16 tablet:grid-cols-1">
+      <div class="flex flex-col gap-6">
+        <h2 class="h1" data-split>Dankie aan ons borge!</h2>
+        <p class="h3 mt-4">Ceres Kersiefees 2026 word moontlik gemaak deur die vrygewige ondersteuning van ons borge.</p>
+      </div>
+      <div class="flex flex-col items-end">
+        <Button class="shrink-0">Meer vrae? Kontak ons</Button>
+      </div>
+    </div>
+
+    <div class="flex flex-col items-center mt-32" data-marquee data-marquee-speed="40">
+      <div class="w-screen">
+        <div class="marquee-track gap-24 pr-24 landscape:gap-16 landscape:pr-16">
+          {[0, 1].map((copy) => (
+            <div class="flex shrink-0 items-center gap-24 landscape:gap-16" aria-hidden={copy === 1 ? "true" : undefined}>
+              {logos.map((src, i) => (
+                <img src={src} alt={copy === 0 ? `Borg-logo ${i + 1}` : ""} class="h-25 w-auto max-w-55 object-contain landscape:h-16" loading="lazy" />
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </Container>
+</Section>

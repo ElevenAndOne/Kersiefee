@@ -1,0 +1,56 @@
+---
+import Container from "../ui/Container.astro";
+import Section from "../ui/Section.astro";
+
+import HighlightsCarousel from "../interactive/HighlightsCarousel.tsx";
+
+const slides = [
+  {
+    title: "Hoekom Kersies en Ceres?",
+    body:
+      "Ceres is nie sommer net nóg 'n dorp wat 'n kersiefees aanbied nie – dit is die tuiste van Suid-Afrika se kersies. Hier, tussen die boorde waar die meeste van die land se kersies verbou word, kry besoekers die geleentheid om die ware storie agter elke kersie te beleef.",
+  },
+  {
+    title: "Die hart van Suid-Afrika se kersiebedryf",
+    body:
+      "Ceres is een van die land se voorste kersieproduserende streke. Elke seisoen word duisende kilograme kersies hier geoes en na winkels regoor Suid-Afrika en internasionaal versprei.",
+  },
+  {
+    title: "Ideale groeitoestande",
+    body: "Met koue winters, warm somers, skoon bergwater en vrugbare grond bied Ceres die perfekte klimaat om van Suid-Afrika se beste kersies te verbou.",
+  },
+  {
+    title: "Vier die mense agter die oes",
+    body:
+      "Die Ceres Kersiefees is 'n viering van die produsente, plaaswerkers en gemeenskap wat elke jaar met passie werk om kersies van wêreldgehalte te lewer. Hier ontmoet jy die mense agter die vrug.",
+  },
+  {
+    title: "'n Egte plaaservaring",
+    body: "Omring deur asemrowende berge en werkende boorde, bied Ceres 'n unieke plaas-tot-tafel ervaring wat jy nêrens anders kan beleef nie.",
+  },
+  {
+    title: "Meer as net kersies",
+    body:
+      "Die fees vier alles wat met kersies verband hou – van vars kersies en heerlike kos tot plaaslike produkte, kuns, musiek, sport en pret vir die hele gesin.",
+  },
+  {
+    title: "Ondersteun plaaslike gemeenskappe",
+    body: "Elke besoek ondersteun plaaslike boere, entrepreneurs, kunstenaars, kosverkopers en gemeenskapsinisiatiewe wat saam die Ceres-vallei laat floreer.",
+  },
+  {
+    title: "'n Bestemming wat die reis werd is",
+    body: "Net twee ure vanaf Kaapstad bied Ceres die perfekte geleentheid vir 'n daguitstappie of naweekwegbreek gedurende die mooiste tyd van die jaar.",
+  },
+];
+---
+
+<Section id="event-section" bg="white">
+  <div class="absolute inset-0 flex flex-col justify-end items-center">
+    <div class="w-full aspect-1920/845 min-w-210">
+      <img src="/images/backgrounds/kersiefees-grassland.svg" alt="Event Section Background" class="w-full h-full" />
+    </div>
+  </div>
+  <Container class="relative min-h-200 flex flex-col justify-center">
+    <HighlightsCarousel slides={slides} client:visible />
+  </Container>
+</Section>

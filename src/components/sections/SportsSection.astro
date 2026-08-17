@@ -1,0 +1,123 @@
+---
+import Container from "../ui/Container.astro";
+import Section from "../ui/Section.astro";
+import SportCard from "../ui/SportCard.astro";
+
+/* Card order matters: the masonry columns fill top-to-bottom, so this order
+   reproduces the three columns in Figma (and stays readable once they
+   collapse to two columns and then one). */
+const sports = [
+  {
+    title: "Sundowner Golf",
+    image: "/images/sports/golf.svg",
+    lines: [
+      "Datum: 4 Desember",
+      "Plek: Ceres Gholfklub",
+      "Inskrywings: R120 by die Ceres Gholfklub",
+      "Formaat: Enkel stableford",
+    ],
+    cta: "Kontak Ons",
+  },
+  {
+    title: "Rolbal",
+    image: "/images/sports/bowls.svg",
+    lines: [
+      "Datum: 5 Desember",
+      "Plek: Ceres Rolbalklub",
+      "Inskrywings: 083 256 2590 voor 25 November",
+      "Formaat: 3 wedstryde van 90 minute elk",
+      "Ingesluit by inskrywing: R1000 per span (4 persone) sluit middagete & toegang tot die Ceres Kersiefees in.",
+    ],
+    cta: "Kontak Ons",
+  },
+  {
+    title: "TruCape Fast Five Hockey",
+    image: "/images/sports/hokkie.svg",
+    lines: [
+      "Datum: 5 Desember",
+      "Plek: Laerskool FD Conradie Sportgronde",
+      "Inskrywings per skool: 023 313 3407",
+      "Afdelings: Junior (o.10 - o.13) & Senior (o.14 - 19)",
+      "Ingesluit by inskrywing: R600 per span (5 spelers) & Toegang tot die Ceres Kersiefees",
+    ],
+  },
+  {
+    title: "Junior Tennis Tournament",
+    image: "/images/sports/tennis.svg",
+    lines: [
+      "Datum: 4-6 Desember",
+      "Plek: Ceres Tennis Club",
+      "Afdelings:",
+      "U/9 orange ball: R275",
+      "U/10 & U/12 green dot ball: R375",
+      "U/14, U/16, U/18 ordinary ball: R375",
+      "Cost includes singles and doubles, except U/9 singles only",
+    ],
+  },
+  {
+    title: "Hyrox",
+    image: "/images/sports/hyrox.svg",
+    lines: [
+      "Datum: 5 Desember; 9–11am",
+      "Plek: The Barn Gym Ceres",
+      "Inskrywings: The Barn Gym (083 301 6941)",
+      "Ingesluit by inskrywing: R200 Members / R300 Non-Members; Toegang tot die Ceres Kersiefees",
+    ],
+  },
+  {
+    title: "Kinder Kampus Driekamp",
+    image: "/images/sports/bicyle.svg",
+    lines: [
+      "Datum: 5 Desember",
+      "Plek: Ceres (Alhambra, Bo-Swaarmoed)",
+      "Ingesluit by inskrywing: R500 (KKD Hemp, Swempet, wedrennommer & gratis toegang tot die Ceres Kersiefees)",
+      "",
+      "Afdelings:",
+      "",
+      "McFun: 3-5 jaar",
+      "Sproeier: 20m",
+      "Hardloop: 200m",
+      "Fietsry: 100",
+      "",
+      "Mid: 9-10 jaar",
+      "Swem: 50m",
+      "Fietsry: 2km",
+      "Draf: 1km",
+      "",
+      "Mini: 6-8 jaar",
+      "Plas: 30m",
+      "Fietsry: 1km",
+      "Draf: 500m",
+      "",
+      "Max: 11-13 jaar",
+      "Swem: 100m",
+      "Fietsry: 4km",
+      "Draf: 2km",
+    ],
+  },
+  {
+    title: "Padel",
+    image: "/images/sports/opadel.svg",
+    lines: [
+      "Datum: 5 Desember; 9–11am",
+      "Plek: Ceres Padel",
+      "Inskrywings: Playtomic App",
+      "Ingesluit by inskrywing: R225; Toegang tot die Ceres Kersiefees",
+    ],
+  },
+];
+---
+
+<Section id="sport-section" bg="pink">
+  <Container class="flex flex-col gap-24 landscape:gap-12">
+    <h2 class="h1 text-center" data-split>Neem deel aan Ceres Kersiefees Sport!</h2>
+
+    {/* Pinterest-style masonry: CSS multi-column keeps the cards unbroken and
+        lets each column pack to its own height — 3 → 2 → 1 columns. */}
+    <div class="columns-3 gap-5 tablet:columns-2 landscape:columns-1">
+      {sports.map((sport) => (
+        <SportCard {...sport} class="mb-5 break-inside-avoid" data-rise />
+      ))}
+    </div>
+  </Container>
+</Section>

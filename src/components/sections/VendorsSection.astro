@@ -1,0 +1,38 @@
+---
+import VendorSlideshow from "../interactive/VendorSlideshow.tsx";
+import Button from "../ui/Button.astro";
+import Container from "../ui/Container.astro";
+import Section from "../ui/Section.astro";
+
+import crowd2 from "../../assets/figma/about-photo-crowd.jpg";
+import vendors2 from "../../assets/figma/vendors-2.jpg";
+import vendors3 from "../../assets/figma/vendors-3.jpg";
+
+const photos = [
+  { src: vendors3.src, alt: "Besoekers gesels by die verkoperstalletjies" },
+  { src: vendors2.src, alt: "Kersie-geïnspireerde produkte by die mark" },
+  { src: crowd2.src, alt: "Feesgangers by die kosstalletjies" },
+];
+---
+
+<Section id="vendors-section" bg="pink">
+  <Container class="grid grid-cols-[minmax(0,35rem)_minmax(0,1fr)] gap-16 tablet:grid-cols-1 items-center">
+    <div class="grid min-h-131 tablet:min-h-105 portrait:min-h-80">
+      <VendorSlideshow photos={photos} client:visible />
+    </div>
+    <div>
+      <h2 class="h1 max-w-114" data-split>Kersie-Geïnspireerde Verkopers</h2>
+      <p class="body-lg mt-8">Ontdek ambagware, konfyte, handwerk, en kulinêre genietinge – alles wat die kersie vier!</p>
+      <p class="h3 font-bold mt-6">Wil jy 'n verkoper wees?</p>
+      <p class="body-lg mt-6">
+        Dis die kersies wat om familietafels gedeel word, die produsente wat jaar ná jaar hul passie uitleef en topgehalte kersies verbou, en diekosstalletjies
+        wat hierdie vrug omskep in die geurigste en smaaklikste disse. Daarom is ons op soek na uitstaande kersie-geinspireerde kos, drankies,gebak en
+        lekkergoed wat saam met ons 'n onvergeetlike feeservaring kan skep.
+      </p>
+      <p class="body-lg mt-6">
+        Ons keur elke aansoek sorgvuldig om 'n gevarieerde en gehalte kosaanbod saam te stel. Ons wens ons kon almal akkommodeer, maar spasie is beperk.
+      </p>
+      <Button class="mt-8">Doen Aansoek om ‘n Verkoper te Wees</Button>
+    </div>
+  </Container>
+</Section>

@@ -1,0 +1,46 @@
+---
+import FaqAccordion from "../interactive/FaqAccordion.tsx";
+import Button from "../ui/Button.astro";
+import Container from "../ui/Container.astro";
+import Section from "../ui/Section.astro";
+
+const items = [
+  {
+    question: "Hoe laat begin die geleentheid?",
+    answer: "Sportgeleenthede begin om 06:00. Die hoof fees by die Rugbyklub open om 09:00. Die sonsondergang konsert begin om 18:00.",
+  },
+  {
+    question: "Het ek 'n kaartjie nodig?",
+    answer:
+      "Fees toegang is gratis met sportgeleentheid registrasie, of R50 algemene toegang. Die sonsondergang konsert vereis 'n aparte kaartjie (R250 standaard, R500 VIP).",
+  },
+  {
+    question: "Is dit gesinsvriendelik?",
+    answer: "Absoluut! Ons het 'n toegewyde kinders sone met aktiwiteite heeldag. Familie kaartjies beskikbaar.",
+  },
+  {
+    question: "Waar kan ek parkeer?",
+    answer: "Gratis parkering by die Rugbyklub en aangewese nabygeleë areas.",
+  },
+  {
+    question: "Kan ek my eie kos saambring?",
+    answer: "Buite kos word toegelaat by die fees, maar ons moedig jou aan om ons kersie-geïnspireerde verkopers te ondersteun!",
+  },
+  {
+    question: "Wat as dit reën?",
+    answer: "Die geleentheid gaan voort reën of skyn. Sommige aktiwiteite is onder dak.",
+  },
+  {
+    question: "Word honde toegelaat?",
+    answer: "Goed-opgevoede honde aan leibande is welkom by die buite fees areas. Geen honde by die sonsondergang konsert nie.",
+  },
+];
+---
+
+<Section id="faq-section" bg="pink">
+  <Container class="flex flex-col gap-16">
+    <h2 class="h1" data-split>Gereelde Vrae</h2>
+    <FaqAccordion items={items} client:visible />
+    <Button>Meer vrae? Kontak ons</Button>
+  </Container>
+</Section>

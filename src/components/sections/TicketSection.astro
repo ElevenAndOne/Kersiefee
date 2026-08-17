@@ -1,0 +1,72 @@
+---
+import type { ComponentProps } from "astro/types";
+import Container from "../ui/Container.astro";
+import Section from "../ui/Section.astro";
+import TicketCard from "../ui/TicketCard.astro";
+
+/* The stack alternates red/white and right/left, and each ticket carries the
+   tilt it has in Figma. Paint order runs down the page: each ticket overlaps
+   the one above it, so the stack reads top-to-bottom as you scroll. */
+const tickets: ComponentProps<typeof TicketCard>[] = [
+  {
+    title: "Kersie Kreatief",
+    lines: ["Kunsuitstalling deur plaaslike kunstenaars", "Donderdag, 3 Desember 2026"],
+    prices: [{ price: "R300" }],
+    variant: "red",
+    rotate: 3,
+  },
+  {
+    title: "Kersie Langtafel",
+    lines: ["Kersie-geinspireerde ete by Homegrown, Ceres", "Vrydag, 4 Desember 2026"],
+    prices: [{ price: "R300" }],
+    variant: "white",
+    rotate: -2,
+  },
+  {
+    title: "Kersiefees Toegang",
+    lines: ["Saterdag, 5 Desember 2026"],
+    prices: [
+      { label: "Standaard kaartjie:", price: "R250" },
+      { label: "Kinder kaartjie (5-18 ouderdom):", price: "R150" },
+    ],
+    variant: "red",
+    rotate: -0.36,
+  },
+  {
+    title: "Opelug Preek",
+    lines: ["Sondag, 6 Desember 2026"],
+    cta: "Leer meer",
+    variant: "white",
+    rotate: -3,
+  },
+  {
+    title: "Fynbos Velddag",
+    lines: ["Geinspireerde fynbos gesprek saam met Leon Kruge, in die Kouebokkeveld"],
+    prices: [{ price: "R300" }],
+    variant: "red",
+    rotate: 3,
+  },
+];
+---
+
+<Section id="ticket-section" bg="pink">
+  <Container class="flex flex-col items-center gap-24 landscape:gap-12">
+    <h2 class="h1 text-center" data-split>Kaartjies & Pryse</h2>
+
+    {/* Overlapping stack: the tickets are tilted, so the negative margin only
+        eats the slack their rotation adds — they meet corner-to-corner. */}
+    <div class="isolate flex w-full flex-col">
+      {tickets.map((ticket, i) => (
+        <div
+          class:list={[
+            "flex",
+            i % 2 === 0 ? "justify-end" : "justify-start",
+            i < tickets.length - 1 && "-mb-11 landscape:mb-8",
+          ]}
+          style={`z-index: ${i + 1};`}>
+          <TicketCard {...ticket} placeholder class="w-[82%] landscape:w-full" />
+        </div>
+      ))}
+    </div>
+  </Container>
+</Section>

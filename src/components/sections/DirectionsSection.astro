@@ -1,0 +1,26 @@
+---
+import Container from "../ui/Container.astro";
+import Section from "../ui/Section.astro";
+
+import map from "../../assets/figma/map.png";
+import GoogleMap from "../interactive/GoogleMap.tsx";
+import Button from "../ui/Button.astro";
+
+const apiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
+---
+
+<Section id="directions-section" bg="cherry">
+  <Container class="grid grid-cols-[minmax(0,35rem)_minmax(0,1fr)] gap-16 tablet:grid-cols-1 items-center">
+    <div>
+      <h2 class="h1" data-split>Hoe om daar te kom</h2>
+      <h3 class="h3 mt-8">Rigtings</h3>
+      <p>Vanaf Kaapstad: 90 minute via N1 Vanaf Paarl: 45 minute via R46 Vanaf Worcester: 30 minute via R43</p>
+      <h3 class="h3 mt-6">Parkering</h3>
+      <p>Gratis parkering beskikbaar by die Rugbyklub en nabygeleë aangewese areas.</p>
+      <Button class="mt-8" href="https://maps.google.com/?q=Rugbyklub+Ceres" variant="white">Bekyk Kaart</Button>
+    </div>
+    <div>
+      <GoogleMap apiKey={apiKey} fallbackSrc={map.src} fallbackAlt="Kaart van Ceres en omgewing – die fees is by die Rugbyklub, Ceres" client:visible />
+    </div>
+  </Container>
+</Section>

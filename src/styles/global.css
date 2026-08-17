@@ -1,0 +1,333 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Desktop-first breakpoints. Unprefixed utilities style the desktop layout;
+   each variant overrides it from that device size DOWN (declaration order
+   matters: later variants win when several match).
+     tablet:    ≤ 1280px
+     landscape: ≤ 768px  (phones landscape / small tablets)
+     portrait:  ≤ 480px  (phones portrait)
+--------------------------------------------------------------------------- */
+/* Escalating specificity (`:not(#tw-bp)`) keeps the hierarchy deterministic:
+   portrait beats landscape beats tablet, regardless of CSS emission order. */
+@custom-variant tablet {
+  @media (width <= 80rem) {
+    @slot;
+  }
+}
+
+@custom-variant landscape {
+  @media (width <= 48rem) {
+    &:not(#tw-bp) {
+      @slot;
+    }
+  }
+}
+
+@custom-variant portrait {
+  @media (width <= 30rem) {
+    &:not(#tw-bp):not(#tw-bp) {
+      @slot;
+    }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Kersiefees design tokens (from the Figma variables + measured values)
+--------------------------------------------------------------------------- */
+@theme {
+  /* Colors */
+  --color-cherry: #ec1848;
+  /* Cherry Red */
+  --color-cherry-dark: #b61f2e;
+  /* Darker Red */
+  --color-cherry-deep: #d82850;
+  /* Footer background */
+  --color-blossom: #fbe2e9;
+  /* Light Pink */
+  --color-cream: #fcf7fa;
+  /* Card off-white */
+  --color-green-light: #96c639;
+  /* Light Green */
+  --color-green-mid: #4a853e;
+  /* Mid Green */
+  --color-green-grass: #5e9842;
+  /* Grass illustration base */
+  --color-green-shadow: #277539;
+  /* Shadow Green */
+  /* Typography (Lato; Figma styles H1/H2/H3, Paragraph 1/2, Button) */
+  --font-sans: "Lato", system-ui, sans-serif;
+  --text-h1: clamp(2rem, 1.2rem + 2.5vw, 3rem);
+  /* Heading 1 · 48 Black */
+  --text-h1--line-height: 1.1;
+  --text-h1--font-weight: 900;
+  --text-h1--letter-spacing: -0.02em;
+  --text-h2: clamp(1.5rem, 1.1rem + 1.5vw, 2.125rem);
+  /* Heading 2 · 34 Black */
+  --text-h2--line-height: 1.1;
+  --text-h2--font-weight: 900;
+  --text-h2--letter-spacing: -0.02em;
+  --text-h3: clamp(1.125rem, 1rem + 0.6vw, 1.5rem);
+  /* Heading 3 · 24 Medium */
+  --text-h3--line-height: 1.1;
+  --text-h3--font-weight: 500;
+  --text-body-lg: clamp(1.0625rem, 1rem + 0.2vw, 1.125rem);
+  /* Paragraph 1 · 18 */
+  --text-body-lg--line-height: 1.5;
+  --text-body: 1rem;
+  /* Paragraph 2 · 16 */
+  --text-body--line-height: 1.5;
+  --text-button: clamp(1.0625rem, 1rem + 0.2vw, 1.125rem);
+  /* Button · 18 ExtraBold */
+  --text-button--line-height: 1;
+  --text-button--font-weight: 800;
+  --text-lead: clamp(1.1875rem, 1.1rem + 0.3vw, 1.375rem);
+  /* Heading 4 · 22 */
+  --text-lead--line-height: 1.5;
+  --tracking-tightest: -0.02em;
+  /* Spacing */
+  --spacing-section: 6rem;
+  /* default section padding (Figma: 96px) */
+  --spacing-section-sm: 4rem;
+  /* Content widths (snapped to the 4px grid) */
+  --container-content: 100rem;
+  /* 1464px · the one standard content width */
+  --container-nav: 112.5rem;
+  /* 1800px · nav pill */
+  --container-hero: 120rem;
+  /* 1920px · hero art */
+  /* Radii */
+  --radius-blob: 20px;
+  /* cards, fields, media */
+  --radius-tile: 10px;
+  /* small tiles (footer rocket) */
+  /* Shadows (Figma ticket drop shadow: dy 6 / blur σ12.7 / cherry 10%) */
+  --shadow-cherry: 0 6px 25px rgb(236 24 72 / 0.1);
+  --shadow-cherry-soft: 0 6px 25px rgb(236 24 72 / 0.08);
+  --shadow-pop: 0 20px 50px -12px rgb(182 31 46 / 0.35);
+  /* floating popups */
+  --drop-shadow-cherry: 0 6px 25px rgb(236 24 72 / 0.1);
+
+  --shadow--size: 1.5rem;
+  /* Ticket notch radius (the scalloped edge) */
+  --notch--size: 2.5rem;
+}
+
+html {
+  /* CSS fallback; Lenis takes over when animations are enabled */
+  scroll-behavior: smooth;
+  overflow-x: clip;
+}
+
+html.lenis {
+  scroll-behavior: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+body {
+  @apply bg-blossom font-sans text-cherry antialiased;
+  overflow-x: hidden;
+}
+
+/* ---------- Typography helpers ---------- */
+.h1 {
+  @apply text-h1;
+}
+
+.h2 {
+  @apply text-h2;
+}
+
+.h3 {
+  @apply text-h3;
+}
+
+.body-lg {
+  @apply text-body-lg;
+}
+
+/* ---------- 3D extruded card (highlight slides, contact box) ---------- */
+.card-3d {
+  position: relative;
+  background: var(--color-cream);
+}
+
+.card-3d {
+  --card-depth: calc(var(--spacing) * 4);
+}
+
+.card-3d::before {
+  /* bottom face */
+  content: "";
+  position: absolute;
+  left: calc(var(--card-depth) / -2);
+  right: calc(var(--card-depth) / 2);
+  bottom: calc(var(--card-depth) * -1);
+  height: var(--card-depth);
+  background: var(--color-cherry-dark);
+  transform: skewX(-45deg);
+}
+
+.card-3d::after {
+  /* right face */
+  content: "";
+  position: absolute;
+  top: calc(var(--card-depth) / 2);
+  bottom: calc(var(--card-depth) / -2);
+  right: calc(var(--card-depth) * -1);
+  width: var(--card-depth);
+  background: var(--color-cherry);
+  transform: skewY(-45deg);
+}
+
+/* ---------- Marquee ---------- */
+.marquee {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marquee-track {
+  display: inline-flex;
+  align-items: center;
+  will-change: transform;
+}
+
+/* ---------- Themed Google Map: hide chrome, keep only the map ---------- */
+.themed-map .gm-style-cc,
+.themed-map .gmnoprint,
+.themed-map a[href^="https://maps.google"],
+.themed-map img[alt="Google"] {
+  display: none !important;
+}
+
+/* ---------- Ticket notches ----------
+   Half-circles along two opposite edges, PAINTED rather than masked. The
+   card's fill is three background layers: a scalloped strip down each edge
+   (a circle tiled along it, transparent inside the circle) and a plain block
+   filling the middle, overlapping the strips by 1px so there's no seam.
+
+   Painted, not masked, on purpose. A `mask` puts the element on its own
+   composited layer, so a rotated ticket gets antialiased twice — once for
+   the mask, once for the geometry — and the boundary pixel drops from ~0.40
+   coverage to ~0.16, which reads as a pale hairline down every straight
+   edge. Nothing on the mask side fixes it (oversized tiles, mask-clip:
+   no-clip and a single layer all measure identically); painting the shape
+   into the background skips the second pass and matches an unnotched card
+   exactly. Keep it mask-free.
+
+   Because the background does the filling, the card must NOT carry its own
+   bg-* colour — that would sit behind the gradients and fill the notches in.
+   Set --notch--fill instead.
+
+   Knobs: --notch--fill (card colour), --notch--size (radius),
+   --notch--space (flat run between two notches), --notch--nudge (pushes each
+   circle just past the edge so its rim clears the box).
+
+   A wide ticket is notched left/right; once it goes tall and narrow the
+   pattern swaps to top/bottom. */
+.ticket-notch {
+  --notch--space: 1rem;
+  --notch--gap: calc(var(--notch--size) * 2 + var(--notch--space));
+  --notch--nudge: 1px;
+
+  background-color: transparent;
+  background-image:
+    radial-gradient(
+      var(--notch--size) at calc(var(--notch--nudge) * -1) 50%,
+      #0000 98%,
+      var(--notch--fill, var(--color-cherry))
+    ),
+    radial-gradient(
+    var(--notch--size) at calc(100% + var(--notch--nudge)) 50%,
+    #0000 98%,
+    var(--notch--fill, var(--color-cherry))
+  ),
+    linear-gradient(
+    var(--notch--fill, var(--color-cherry)),
+    var(--notch--fill, var(--color-cherry))
+  );
+  background-size:
+    var(--notch--size) var(--notch--gap),
+    var(--notch--size) var(--notch--gap),
+    calc(100% - var(--notch--size) * 2 + 2px) 100%;
+  background-position: left, right, center;
+  background-repeat: repeat-y, repeat-y, no-repeat;
+  clip-path: polygon(
+    1px 1px,
+    calc(100% - 1px) 1px,
+    calc(100% - 1px) calc(100% - 1px),
+    1px calc(100% - 1px)
+  );
+
+  @variant landscape {
+    --notch--size: 1.25rem;
+    background-image:
+      radial-gradient(
+        var(--notch--size) at 50% calc(var(--notch--nudge) * -1),
+        #0000 98%,
+        var(--notch--fill, var(--color-cherry))
+      ),
+      radial-gradient(
+      var(--notch--size) at 50% calc(100% + var(--notch--nudge)),
+      #0000 98%,
+      var(--notch--fill, var(--color-cherry))
+    ),
+      linear-gradient(
+      var(--notch--fill, var(--color-cherry)),
+      var(--notch--fill, var(--color-cherry))
+    );
+    background-size:
+      var(--notch--gap) var(--notch--size),
+      var(--notch--gap) var(--notch--size),
+      100% calc(100% - var(--notch--size) * 2 + 2px);
+    background-position: top, bottom, center;
+    background-repeat: repeat-x, repeat-x, no-repeat;
+  }
+}
+
+/* ---------- Box Shadow ---------- */
+.box-shadow::before {
+  content: "";
+  background: var(--color-cherry-dark);
+  position: absolute;
+  top: 100%;
+  left: 0px;
+  right: 0px;
+  height: var(--shadow--size);
+  transform-origin: 50% 0%;
+  transform: skew(45deg, 0deg);
+}
+
+.box-shadow::after {
+  content: "";
+  background: var(--color-cherry);
+  position: absolute;
+  left: 100%;
+  top: 0px;
+  bottom: 0px;
+  width: var(--shadow--size);
+  transform-origin: 0% 50%;
+  transform: skew(0deg, 45deg);
+}
+
+/* The carousel sets its glide inline so hydration matches; opt out here. */
+@media (prefers-reduced-motion: reduce) {
+  [data-carousel-slide] {
+    transition: none !important;
+  }
+}
+
+/* ---------- Reveal (pre-GSAP state; JS removes) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  html.gsap-ready [data-reveal],
+  html.gsap-ready [data-rise],
+  html.gsap-ready [data-pop],
+  html.gsap-ready [data-pop-group] > *,
+  /* headings stay hidden until SplitText has built the line masks */
+  html.gsap-ready [data-split] {
+    opacity: 0;
+  }
+}
