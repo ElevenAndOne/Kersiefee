@@ -8,21 +8,25 @@
 import Container from "../ui/Container.astro";
 import Section from "../ui/Section.astro";
 
-import kersiejol1 from "../../assets/figma/kersiejol-photo-1.jpg";
-import kersiejol2 from "../../assets/figma/kersiejol-photo-2.jpg";
-import kersiejol3 from "../../assets/figma/kersiejol-photo-3.jpg";
+import cherry_01 from "../../assets/images/cherry-section/01.png";
+import cherry_02 from "../../assets/images/cherry-section/02.png";
+import cherry_03 from "../../assets/images/cherry-section/03.png";
+import cherry_04 from "../../assets/images/cherry-section/04.png";
+import cherry_05 from "../../assets/images/cherry-section/05.png";
 
 const activities = ["Mini-hindernisbaan", "Ballonkuns", "Gesigverf", "Smullekkernye", "Inkleurstasie", "Haarvleg (Colourful Braids)"];
 
 const photos = [
-  { src: kersiejol1.src, alt: "Kersie-kleurkuns by die inkleurstasie" },
-  { src: kersiejol2.src, alt: "'n Kersiefees-kleuter geniet die Kersie-Jol Area" },
-  { src: kersiejol3.src, alt: "'n Gesin geniet die Kersie-Jol Area saam" },
+  { src: cherry_01.src, alt: "" },
+  { src: cherry_02.src, alt: "" },
+  { src: cherry_03.src, alt: "" },
+  { src: cherry_04.src, alt: "" },
+  { src: cherry_05.src, alt: "" },
 ];
 ---
 
 <Section id="kersie-jol" bg="none">
-  <Container class="flex flex-col items-center gap-10">
+  <Container class="flex flex-col items-center gap-24">
     <div class="flex flex-col items-center gap-6 text-center">
       <h2 class="h1" data-split>Kersie-Jol Area</h2>
       <p class="body-lg max-w-4xl">
@@ -46,10 +50,18 @@ const photos = [
       </div>
     </div>
 
-    <div class="grid w-full grid-cols-3 gap-5 tablet:grid-cols-1">
-      {photos.map((photo) => (
-        <img src={photo.src} alt={photo.alt} class="aspect-square w-full rounded-blob object-cover" loading="lazy" data-rise />
-      ))}
+    <div class="flex flex-col items-center w-full" data-marquee data-marquee-speed="35">
+      <div class="w-screen">
+        <div class="marquee-track gap-10 pr-10">
+          {[0, 1].map((copy) => (
+            <div class="flex shrink-0 items-center gap-10" aria-hidden={copy === 1 ? "true" : undefined}>
+              {photos.map((photo) => (
+                <img src={photo.src} alt={photo.alt} class="aspect-square w-80  rounded-blob object-cover" loading="lazy" data-rise />
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   </Container>
 </Section>
