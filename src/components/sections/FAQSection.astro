@@ -16,7 +16,9 @@ import postTicket from "../../assets/figma/social-post-ticket.jpg";
 const HANDLE = "Ceres_Kersiefees";
 const PROFILE = `https://www.instagram.com/${HANDLE.toLowerCase()}/`;
 
-const posts: { src: string; alt: string; }[] = [
+/* `href` deep-links a single post; without one the tile falls back to the
+   profile, which is where the "Sien meer" button goes too. */
+const posts: { src: string; alt: string; href?: string; }[] = [
   { src: postFeesvier.src, alt: "Ons gaan feesvier! - aankondiging van die Kersiefees" },
   { src: postTicket.src, alt: "5 Desember by Victoria Park Rugbyklub" },
   { src: postRiaan.src, alt: "Sien vir Riaan Benadé by die Kersiefees" },
@@ -57,7 +59,7 @@ const items = [
 ];
 ---
 
-<Section id="faq-section" bg="none">
+<Section id="faq-section" bg="white">
   <Container class="flex flex-col gap-24">
     <h2 class="h1" data-split>Gereelde Vrae</h2>
     <FaqAccordion items={items} chevronIcon={chevron.src} client:visible />
@@ -73,11 +75,14 @@ const items = [
       <Button href={PROFILE} class="shrink-0">Sien meer</Button>
     </div>
 
+    {/* Every tile clicks through to Instagram. The grid stacks to a single
+        column on a phone, so by the time a post is on screen it reads as its
+        own card — worth a tap rather than a scroll past. */}
     <div class="grid grid-cols-5 gap-6.5 tablet:grid-cols-3 landscape:grid-cols-2 portrait:grid-cols-1">
       {posts.map((post) => (
-        <div class="aspect-303/394 overflow-hidden rounded-blob">
-          <img src={post.src} alt={post.alt} class="size-full object-cover" loading="lazy" />
-        </div>
+        <a href={post.href ?? PROFILE} class="group block aspect-303/394 overflow-hidden rounded-blob">
+          <img src={post.src} alt={post.alt} class="size-full object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy" />
+        </a>
       ))}
     </div>
   </Container>

@@ -5,24 +5,99 @@ import Section from "../ui/Section.astro";
 
 import bgVector from "../../assets/figma/accommodation-bg-vector.svg";
 
-/* Verblyfopsies. Figma's "Grid" lays its 11 placeholder cards out as two
-   overflowing horizontal tracks (5 + 6, each wider than its row and clipped
-   left/right) — the same raw "Track/List spills past its frame" shape Figma
-   uses for the About/Sponsors marquees. But every card here is still the
-   placeholder "Card Title" / lorem ipsum / "Button Label" (no real listings,
-   no hint the 5-vs-6 split is meaningful), and the sibling Sport section
-   uses that identical raw shape for what is, in the shipped design, a plain
-   reflowing card grid rather than a scroller — so this follows suit: one
-   pool of cards in a responsive grid. Drop the real listings into `stays`
-   and the grid renders itself. */
+/* Verblyfopsies. Figma lays the listings out as two horizontal tracks, each
+   wider than its row and clipped left/right — the raw "Track/List spills past
+   its frame" shape the file also uses for the About/Sponsors/Kersie-Jol
+   tickers. Here it really is a scroller: the two rows travel in opposite
+   directions, the top one left, the bottom one right.
+
+   The dev-handover frame numbers its cards 1-4 and 7-11 — 5 and 6 never got
+   written — so the numbering is derived from the array position instead of
+   being typed in, and closes up on its own once those two land. */
 interface Stay {
   title: string;
+  /** Bold pricing block; one entry per line (a few of these run to three). */
+  price: string[];
   body: string;
-  cta?: string;
+  /** Booking destination. Figma carries none yet, so the CTA stays an inert
+      button until the real links are dropped in. */
   href?: string;
 }
 
-const stays: Stay[] = [];
+const guestHouses: Stay[] = [
+  {
+    title: "The Village Guest House & Restaurant",
+    price: ["Vanaf R680 per nag vir een persoon en R980 per nag vir twee persone wat deel."],
+    body:
+      "Dit is die beste veelsydige opsie in die dorp. Die gastehuis is sentraal geleë en bied verskillende kamertipes, gesinskamers, veilige parkering, Wi-Fi, ’n swembad en ’n gelisensieerde restaurant op die perseel. Daar is ook ’n kamer wat vir gaste met beperkte mobiliteit ingerig is.",
+  },
+  {
+    title: "Porterhouse Eleven Guest House",
+    price: ["Vanaf R1 000 per kamer per nag vir een persoon of R1 200 vir twee persone wat deel. Ontbyt kos R100 per persoon."],
+    body:
+      "’n Netjiese driester-gastehuis met agt ruim en suite-kamers, asook selfsorg- en gesinsopsies. Fasiliteite sluit lugversorging, Wi-Fi, veilige parkering, braaigeriewe en ’n klein plonspoel",
+  },
+  {
+    title: "Cherry Blossom Cottage",
+    price: ["Vanaf R2 000 vir een persoon of R2 700 vir twee persone. Tot vier persone kan vir R3 400 tuisgaan."],
+    body:
+      "’n Uitstekende opsie vir gesinne of klein groepe. Die tweeslaapkamerkothuis het en suite-badkamers, ’n volledig toegeruste kombuis, binnenshuise braai, kaggel, lugversorging, Wi-Fi en batterykrag tydens beurtkrag.",
+  },
+  {
+    title: "Mountain View Guest House",
+    price: ["R1 050 per nag vir een persoon of R1 500 vir twee persone wat deel. ’n Volledige Engelse ontbyt is ingesluit."],
+    body:
+      "’n Luukse B&B met vyf en suite-kamers, elkeen met ’n privaat stoepingang. Gaste geniet berg-, tuin- en swembad-uitsigte, asook lugversorging, Wi-Fi, veilige parkering en ontbyt.",
+  },
+];
+
+const campsites: Stay[] = [
+  {
+    title: "Klondyke Farm Cottages",
+    price: ["R110 per persoon per nag. Kinders jonger as vyf jaar kamp gratis."],
+    body:
+      "Die beste algehele kampeeropsie wat fasiliteite en waarde betref. Elke kampeerplek het elektrisiteit, ’n waterkraan, braaidrom met rooster, piekniektafel en toegang tot gedeelde ablusiegeriewe. Die plaas is troeteldiervriendelik en ongeveer 30 km buite Ceres geleë.",
+  },
+  {
+    title: "Petervale Guest Farm",
+    price: [
+      "R180 per volwassene per nag",
+      "R120 per kind tussen 2 en 11 jaar",
+      "Kinders jonger as twee jaar bly gratis",
+    ],
+    body:
+      "’n Rustige boskampeerervaring met uitsigte oor ’n dam. Die kampeerplekke het toilette, warmwaterstorte en vars fonteinwater. ’n Tipi-tent met ses matrasse kan ook teen ’n bykomende R460 per nag bespreek word.",
+  },
+  {
+    title: "Kaleo Guest Farm",
+    price: [
+      "Luukse kampeerplekke: R400 per staanplek vir ses persone",
+      "Boskampeerplekke: R350 per staanplek vir ses persone",
+      "Bykomende gaste: R60 per persoon",
+    ],
+    body:
+      "’n Veelsydige gasteplaas met verskillende kampeeropsies. Premium staanplekke bied privaat badkamergeriewe, elektrisiteit, ’n onderdakbraai en ’n wasbak. Aktiwiteite sluit staproetes, swem in die plaasdam, voëlkyk en die besigtiging van rotskuns in.",
+  },
+  {
+    title: "Pine Forest Holiday Resort",
+    price: ["Karavaan- en kampeerplekke vanaf R319 per staanplek vir ’n maksimum van ses persone. Elektrisiteit is ingesluit."],
+    body:
+      "Die gerieflikste kampeeropsie vir besoekers wat geleenthede in Ceres bywoon, aangesien dit in die dorp geleë is. Fasiliteite sluit ’n Olimpiese-grootte swembad, putt-putt, muurbalbaan, kinderspeelarea, braaigeriewe en ’n ontspanningsaal in.",
+  },
+  {
+    title: "Heiveld Farm Cottages",
+    price: ["Vanaf R420 vir een kampeerder of R470 vir twee kampeerders. Bykomende gaste betaal R200 per persoon per nag."],
+    body:
+      "’n Goeie keuse vir aktiewe besoekers. Die werkende plaas bied forelhengel, kanovaart, staproetes, bergfietsry, putt-putt, vlugbal, rotsklim, rotspoele, voëlkyk en toegang tot San-rotskuns.",
+  },
+];
+
+/* Guest houses drift left, the farms and campsites drift back right. `from`
+   continues the numbering across the two rows. */
+const rows = [
+  { stays: guestHouses, from: 1, reverse: false },
+  { stays: campsites, from: guestHouses.length + 1, reverse: true },
+];
 ---
 
 <Section id="akkommodasie" bg="none">
@@ -46,16 +121,103 @@ const stays: Stay[] = [];
       </p>
     </div>
 
-    {stays.length > 0 && (
-      <div class="grid w-full grid-cols-3 gap-5 tablet:grid-cols-2 landscape:grid-cols-1">
-        {stays.map((stay) => (
-          <article class="flex flex-col gap-5 rounded-blob border-2 border-cherry p-8.75 portrait:p-6" data-rise>
-            <h3 class="h2">{stay.title}</h3>
-            <p class="body-lg font-bold leading-tight">{stay.body}</p>
-            <Button href={stay.href ?? "#kontak"} variant="white" class="mt-auto self-start">{stay.cta ?? "Leer Meer"}</Button>
-          </article>
-        ))}
-      </div>
-    )}
+    {/* Figma's "Grid": two full-bleed tracks stacked with the same 20px gutter
+        that separates the cards inside them. */}
+    <div class="flex w-full flex-col gap-5">
+      {rows.map((row) => (
+        <div class="flex w-full flex-col items-center" data-stay-marquee data-marquee-speed="30" data-marquee-reverse={row.reverse || undefined}>
+          <div class="w-screen">
+            <div class="marquee-track items-start! gap-5 pr-5">
+              {[0, 1].map((copy) => (
+                <div class="flex shrink-0 items-start gap-5" aria-hidden={copy === 1 ? "true" : undefined}>
+                  {row.stays.map((stay, index) => (
+                    <article class="flex w-[clamp(17rem,28vw,32.4375rem)] shrink-0 flex-col gap-5 rounded-blob border-2 border-cherry p-8.75 portrait:p-6" data-rise>
+                      {/* The number hangs in the margin, so a wrapped title
+                          lines up under itself, not under the digits. */}
+                      <h3 class="h2 flex gap-2.5">
+                        <span class="shrink-0">{row.from + index}.</span>
+                        <span>{stay.title}</span>
+                      </h3>
+                      <p class="body-lg font-bold leading-tight">
+                        {stay.price.map((line, i) => (
+                          <Fragment>{i > 0 && <br />}{line}</Fragment>
+                        ))}
+                      </p>
+                      <p class="body-lg leading-snug">{stay.body}</p>
+                      <Button href={stay.href} variant="white" class="self-start">Kontak</Button>
+                    </article>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
   </Container>
 </Section>
+
+<script>
+  import { gsap } from "gsap";
+  import { reducedMotion, registerEases } from "../../scripts/motion";
+
+  registerEases();
+
+  /* Same full-bleed marquee mechanic as the About/Sponsors/Kersie-Jol tickers,
+     but on its own data attribute rather than `data-marquee` for two reasons:
+     these rows need a per-row direction, and — like the Sport carousel — cards
+     with a CTA in them need a genuine stop on hover, not the shared helper's
+     ease down to 15%. */
+  document.querySelectorAll<HTMLElement>("[data-stay-marquee]").forEach((wrap) => {
+    const track = wrap.querySelector<HTMLElement>(".marquee-track");
+    if (!track) return;
+
+    if (reducedMotion()) {
+      /* No auto-scroll: drop the aria-hidden duplicate group (it only exists
+         to make the loop seamless) and let the row become a plain
+         manually-scrollable strip instead. */
+      track.parentElement?.classList.add("overflow-x-auto");
+      track.querySelectorAll<HTMLElement>(':scope > [aria-hidden="true"]').forEach((el) => el.remove());
+      return;
+    }
+
+    /* The duplicate group stays aria-hidden for screen readers but must remain
+       hoverable and clickable — it's half of what's on screen at any moment.
+       Only its sequential Tab order is worth trimming, so keyboard users don't
+       get every listing's CTA twice. */
+    track.querySelectorAll<HTMLElement>(':scope > [aria-hidden="true"] a, :scope > [aria-hidden="true"] button').forEach((el) => {
+      el.tabIndex = -1;
+    });
+
+    const speed = Number(wrap.dataset.marqueeSpeed ?? 30); // px / second
+    const distance = track.scrollWidth / 2;
+    /* A reversed row starts one copy to the left and travels back to zero, so
+       it reads rightward while the row above it reads leftward. Either way the
+       two identical copies make the wrap-around invisible. */
+    const reverse = wrap.dataset.marqueeReverse !== undefined;
+    const tween = gsap.fromTo(
+      track,
+      { x: reverse ? -distance : 0 },
+      { x: reverse ? 0 : -distance, duration: distance / speed, ease: "none", repeat: -1 },
+    );
+
+    /* Inertial hover: ramps timeScale all the way to 0 so the row genuinely
+       comes to rest, then eases back up from wherever it stopped — no snap, no
+       restart, it just keeps reading where it left off. */
+    const rampTo = (scale: number, duration: number, ease: string) => gsap.to(tween, { timeScale: scale, duration, ease, overwrite: true });
+
+    const slowToStop = () => rampTo(0, 0.7, "power2.out");
+    const speedBackUp = () => rampTo(1, 0.9, "power1.inOut");
+
+    wrap.addEventListener("mouseenter", slowToStop);
+    wrap.addEventListener("mouseleave", speedBackUp);
+
+    // Keyboard focus pauses it the same way — a moving target is nearly
+    // impossible to use without a mouse.
+    wrap.addEventListener("focusin", slowToStop);
+    wrap.addEventListener("focusout", (event) => {
+      const next = (event as FocusEvent).relatedTarget as Node | null;
+      if (!next || !wrap.contains(next)) speedBackUp();
+    });
+  });
+</script>

@@ -18,17 +18,23 @@ const socials: { icon: string; label: string; href?: string }[] = [
   { icon: instagram.src, label: "Instagram", href: "https://www.instagram.com/ceres_kersiefees/" },
 ];
 
-const quickLinks = [
-  "Bepalings & Voorwaardes",
-  "Uitstalleraansoek",
-  "Borgnavrae",
-  "Privaatheidsbeleid",
-  "Mediapakket",
-  "Akkommodasievennootskap",
+/* Same story for the quick links, and same order as the frame's two-column
+   grid reads (row-major). Only three carry a dev note; the rest have no page
+   to point at yet, so they stay plain text rather than linking nowhere. */
+const quickLinks: { label: string; href?: string }[] = [
+  { label: "Bepalings & Voorwaardes" },
+  { label: "Mediapakket" },
+  { label: "Privaatheidsbeleid" },
+  {
+    label: "Verkoperaansoek",
+    href: "https://cdn.prod.website-files.com/6a7d878721e690252d56a2d1/6a85686c6eeac9033835794e_Y26_Kersiefees_Vendors-Info_v02_an.pdf",
+  },
+  { label: "Borgnavrae", href: "mailto:runeik@dutoit.com" },
+  { label: "Akkommodasievennootskap", href: "mailto:runeik@dutoit.com" },
 ];
 ---
 
-<footer class="relative overflow-hidden bg-blossom text-white">
+<footer class="relative overflow-hidden bg-white text-white">
   <!-- rolling red hills lead-in -->
   <img src='./images/backgrounds/kersiefees-footer-landscape.svg' alt="" aria-hidden="true" class="relative z-1 -mb-px block w-full max-w-none landscape:w-[290%] landscape:-translate-x-1/4" />
 
@@ -82,13 +88,16 @@ const quickLinks = [
         <div class="flex flex-col gap-2.5">
           <h3 class="text-lg font-bold">Vinnige Skakels</h3>
           <ul class="grid max-w-121 grid-cols-2 gap-6 text-base portrait:grid-cols-1">
-            {quickLinks.map((link) => (
-              <li>
-                <a href="#" class="opacity-80 transition-opacity hover:opacity-100">
-                  {link}
-                </a>
-              </li>
-            ))}
+            {quickLinks.map((link) => {
+              const Tag = link.href ? "a" : "span";
+              return (
+                <li>
+                  <Tag href={link.href} class:list={["opacity-80", link.href && "transition-opacity hover:opacity-100"]}>
+                    {link.label}
+                  </Tag>
+                </li>
+              );
+            })}
           </ul>
         </div>
       </div>

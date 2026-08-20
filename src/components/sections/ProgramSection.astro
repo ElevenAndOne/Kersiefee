@@ -6,11 +6,30 @@
  * the Saturday schedule). Kept as its own section so page order matches the
  * Figma frame exactly.
  */
+import VendorSlideshow from "../interactive/VendorSlideshow.tsx";
 import CloudOverlap from "../ui/CloudOverlap.astro";
 import Container from "../ui/Container.astro";
 import Section from "../ui/Section.astro";
 
-import stage from "../../assets/figma/program-photo-stage.jpg";
+import program_01 from "../../assets/images/program-section/01.png";
+import program_02 from "../../assets/images/program-section/02.png";
+import program_03 from "../../assets/images/program-section/03.png";
+import program_04 from "../../assets/images/program-section/04.png";
+import program_05 from "../../assets/images/program-section/05.png";
+import program_06 from "../../assets/images/program-section/06.png";
+import program_07 from "../../assets/images/program-section/07.png";
+import program_08 from "../../assets/images/program-section/08.png";
+
+const photos = [
+  { src: program_01.src, alt: "" },
+  { src: program_02.src, alt: "" },
+  { src: program_03.src, alt: "" },
+  { src: program_04.src, alt: "" },
+  { src: program_05.src, alt: "" },
+  { src: program_06.src, alt: "" },
+  { src: program_07.src, alt: "" },
+  { src: program_08.src, alt: "" },
+];
 
 const schedule = [
   "16:00 – Kersie-geïnspireerde Mark & Mixologie-kroeg",
@@ -23,7 +42,9 @@ const schedule = [
 
 <Section id="program" bg="cherry" class="pb-32 landscape:pb-24" data-cloud-parallax>
   <Container class="relative z-10 grid grid-cols-[minmax(0,35rem)_minmax(0,1fr)] gap-16 tablet:grid-cols-1 items-center">
-    <img src={stage.src} alt="Musiek en vermaak op die verhoog teen die berge" class="aspect-square w-full rounded-blob object-cover" loading="lazy" />
+    <div class="grid min-h-131 tablet:min-h-105 portrait:min-h-80">
+      <VendorSlideshow photos={photos} client:visible />
+    </div>
     <div class="text-white">
       <h2 class="h1" data-split>Maak dit 'n naweek om te onthou!</h2>
       <p class="h3 font-bold mt-8">Feesprogram</p>
