@@ -4,67 +4,71 @@ import Container from "../ui/Container.astro";
 import Section from "../ui/Section.astro";
 import TicketCard from "../ui/TicketCard.astro";
 
-/* The stack alternates red/white and right/left, and each ticket carries the
-   tilt it has in Figma. Paint order runs down the page: each ticket overlaps
-   the one above it, so the stack reads top-to-bottom as you scroll. */
+import bgVector from "../../assets/figma/ticket-bg-vector.svg";
+import kinderkaartjiePhoto from "../../assets/figma/ticket-photo-kinderkaartjie.png";
+import opelugPreekPhoto from "../../assets/figma/ticket-photo-opelug-preek.jpg";
+import standaardkaartjiePhoto from "../../assets/figma/ticket-photo-standaardkaartjie.jpg";
+
+/* Three tickets, spaced out (not overlapping) and alternating left/right +
+   a slight counter-clockwise tilt, as in the Figma frame. */
 const tickets: ComponentProps<typeof TicketCard>[] = [
   {
-    title: "Kersie Kreatief",
-    lines: ["Kunsuitstalling deur plaaslike kunstenaars", "Donderdag, 3 Desember 2026"],
-    prices: [{ price: "R300" }],
-    variant: "red",
-    rotate: 3,
-  },
-  {
-    title: "Kersie Langtafel",
-    lines: ["Kersie-geinspireerde ete by Homegrown, Ceres", "Vrydag, 4 Desember 2026"],
-    prices: [{ price: "R300" }],
+    title: "Standaardkaartjie",
+    lines: ["Saterdag, 5 Desember 2026"],
+    prices: [{ price: "R250" }],
     variant: "white",
     rotate: -2,
+    image: { src: standaardkaartjiePhoto.src, alt: "Feesganger geniet 'n verkoelende kersiedrankie" },
   },
   {
-    title: "Kersiefees Toegang",
-    lines: ["Saterdag, 5 Desember 2026"],
-    prices: [
-      { label: "Standaard kaartjie:", price: "R250" },
-      { label: "Kinder kaartjie (5-18 ouderdom):", price: "R150" },
-    ],
+    title: "Kinderkaartjie",
+    lines: ["(5-18 ouderdom)"],
+    prices: [{ price: "R150" }],
     variant: "red",
     rotate: -0.36,
+    /* Figma's second card-layout variant: the image is a transparent
+       cutout that bleeds to the card's top/bottom edges instead of
+       sitting inset like the other two cards. */
+    flush: true,
+    image: { src: kinderkaartjiePhoto.src, alt: "Riaan Benadé en Bok van Blerk tree op by die Kersiefees" },
   },
   {
     title: "Opelug Preek",
-    lines: ["Sondag, 6 Desember 2026"],
+    lines: [
+      "Sondag, 6 Desember 2026",
+      "Kerke, bedieninge en gelowiges van Ceres en omgewing word uitgenooi om saam te kom vir 'n spesiale oggend van lofprysing en aanbidding ter ere van Jesus.",
+    ],
+    prices: [{ price: "Gratis" }],
     cta: "Leer meer",
     variant: "white",
-    rotate: -3,
-  },
-  {
-    title: "Fynbos Velddag",
-    lines: ["Geinspireerde fynbos gesprek saam met Leon Kruge, in die Kouebokkeveld"],
-    prices: [{ price: "R300" }],
-    variant: "red",
-    rotate: 3,
+    rotate: -2,
+    image: { src: opelugPreekPhoto.src, alt: "Feesgangers aanbid saam terwyl die son sak" },
   },
 ];
 ---
 
-<Section id="ticket-section" bg="pink">
-  <Container class="flex flex-col items-center gap-24 landscape:gap-12">
-    <h2 class="h1 text-center" data-split>Kaartjies & Pryse</h2>
+<Section id="kaartjies" bg="none">
+  {/* Figma positions this 1109px-wide swirl at x=1206 in a 1920px-wide
+     frame, so its right edge sits ~20.6% past the section's own edge —
+     Section's overflow-hidden clips it there, same as in the design. */}
+  <img
+    src={bgVector.src} alt="" aria-hidden="true"
+    class="pointer-events-none absolute right-[-20.6%] top-[5.7%] w-[57.78%] max-w-none landscape:hidden"
+  />
 
-    {/* Overlapping stack: the tickets are tilted, so the negative margin only
-        eats the slack their rotation adds — they meet corner-to-corner. */}
-    <div class="isolate flex w-full flex-col">
+  <Container class="relative flex flex-col items-center gap-24 landscape:gap-12">
+    <div class="flex flex-col items-center gap-6 text-center">
+      <h2 class="h1" data-split>Kersiefees-Toegang</h2>
+      <p class="body-lg max-w-4xl">
+        Jou kaartjie na 'n dag vol kersiepret! Kom vier die Ceres Kersiefees saam met ons op Saterdag, 5 Desember 2026. Geniet heerlike kos, vars kersies,
+        musiek, vermaak en hope familiepret — alles op een plek. Kry jou kaartjies vroegtydig en maak seker jy mis nie dié somerfees nie.
+      </p>
+    </div>
+
+    <div class="flex w-full flex-col gap-8 landscape:gap-6">
       {tickets.map((ticket, i) => (
-        <div
-          class:list={[
-            "flex",
-            i % 2 === 0 ? "justify-end" : "justify-start",
-            i < tickets.length - 1 && "-mb-11 landscape:mb-8",
-          ]}
-          style={`z-index: ${i + 1};`}>
-          <TicketCard {...ticket} placeholder class="w-[82%] landscape:w-full" />
+        <div class:list={["flex", i % 2 === 0 ? "justify-start" : "justify-end"]}>
+          <TicketCard {...ticket} class="w-3/4 landscape:w-full" />
         </div>
       ))}
     </div>

@@ -132,25 +132,6 @@ body {
   overflow-x: hidden;
 }
 
-/* ---------- Hero fold + parallax ---------- */
-.hero-parallax-art {
-  will-change: transform;
-  backface-visibility: hidden;
-}
-
-.hero-fold {
-  margin-top: calc(var(--spacing) * -10);
-  border-radius: 2.5rem 2.5rem 0 0;
-  box-shadow: 0 -1rem 2.5rem rgb(85 16 30 / 0.08);
-}
-
-@media (width <= 48rem) {
-  .hero-fold {
-    margin-top: calc(var(--spacing) * -6);
-    border-radius: 1.75rem 1.75rem 0 0;
-  }
-}
-
 /* ---------- Typography helpers ---------- */
 .h1 {
   @apply text-h1;
@@ -203,11 +184,6 @@ body {
 }
 
 /* ---------- Marquee ---------- */
-.marquee {
-  overflow: hidden;
-  white-space: nowrap;
-}
-
 .marquee-track {
   display: inline-flex;
   align-items: center;
@@ -343,8 +319,6 @@ body {
 @media (prefers-reduced-motion: no-preference) {
   html.gsap-ready [data-reveal],
   html.gsap-ready [data-rise],
-  html.gsap-ready [data-pop],
-  html.gsap-ready [data-pop-group] > *,
   /* headings stay hidden until SplitText has built the line masks */
   html.gsap-ready [data-split] {
     opacity: 0;

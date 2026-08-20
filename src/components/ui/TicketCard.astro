@@ -4,6 +4,11 @@
  * on the left, a square image on the right. The tilt is an inline transform
  * (GSAP overwrites it on reveal), and the width comes from the caller, since
  * the ticket stack staggers its cards left and right.
+ *
+ * `flush` is the second Figma layout variant: instead of an inset square
+ * photo, the image bleeds to the card's top and bottom edges (used by the
+ * red "Kinderkaartjie" card, whose asset is a transparent cutout rather than
+ * a cropped photo).
  */
 import Button from "./Button.astro";
 
@@ -24,6 +29,8 @@ interface Props {
   image?: { src: string; alt: string; } | null;
   /** placeholder block instead of a photo (as in Figma) */
   placeholder?: boolean;
+  /** image bleeds to the card's top/bottom edges instead of sitting inset */
+  flush?: boolean;
   class?: string;
 }
 
@@ -37,6 +44,7 @@ const {
   rotate = 0,
   image = null,
   placeholder = false,
+  flush = false,
   class: className = "",
 } = Astro.props;
 
@@ -48,12 +56,22 @@ const isRed = variant === "red";
     class:list={[
       /* the image keeps Figma's share of the ticket (480 of the 1081px inner
          width), so the split holds as the ticket narrows */
-      "ticket-notch grid grid-cols-[minmax(0,1fr)_44%] gap-x-8 p-16 tablet:p-12 landscape:grid-cols-1 landscape:gap-8 landscape:p-8 portrait:p-6",
+      "ticket-notch grid grid-cols-[minmax(0,1fr)_44%] gap-x-8 landscape:grid-cols-1 landscape:gap-8 landscape:p-8 portrait:p-6",
+      /* flush drops the shared padding at desktop width so the image can
+         reach the top/bottom edges — the text column carries its own
+         padding instead (see below). Horizontal padding stays symmetric
+         (px, not pl) so the bleeding image still clears the card's own
+         right-edge notches instead of sitting flush against them. */
+      flush ? "py-0 px-16 tablet:px-12" : "p-16 tablet:p-12",
       /* the notch class paints the card colour, so pass it as the fill
          rather than a bg-* utility (see .ticket-notch in global.css) */
       isRed ? "text-white [--notch--fill:var(--color-cherry)]" : "text-cherry [--notch--fill:var(--color-white)]",
     ]}>
-    <div class="flex flex-col items-start gap-15 self-center landscape:gap-8 landscape:pt-5">
+    <div
+      class:list={[
+        "flex flex-col items-start gap-15 self-center landscape:gap-8 landscape:pt-5",
+        flush && "py-16 tablet:py-12 landscape:py-0",
+      ]}>
       <div class="flex max-w-120 flex-col gap-5">
         <h3 class="h1">{title}</h3>
         {lines.map((line) => <p class="h3">{line}</p>)}
@@ -67,8 +85,19 @@ const isRed = variant === "red";
       <Button href={href} variant={isRed ? "white" : "red"}>{cta}</Button>
     </div>
 
-    <div class="self-start">
-      {image ? <img src={image.src} alt={image.alt} class="aspect-square w-full rounded-blob object-cover" loading="lazy" /> : placeholder ? (
+    <div class:list={[flush ? "self-stretch landscape:self-start" : "self-start"]}>
+      {image ? (
+        <img
+          src={image.src}
+          alt={image.alt}
+          loading="lazy"
+          class:list={[
+            flush
+              ? "h-full w-full object-contain object-bottom-right landscape:aspect-square landscape:h-auto landscape:rounded-blob landscape:object-cover landscape:object-center"
+              : "aspect-square w-full rounded-blob object-cover",
+          ]}
+        />
+      ) : placeholder ? (
         <div class:list={["aspect-square w-full rounded-blob", isRed ? "bg-black/20" : "bg-[#c4c4c4]"]} />
       ) : null}
     </div>

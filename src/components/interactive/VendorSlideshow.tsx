@@ -39,7 +39,7 @@ export default function VendorSlideshow({ photos }: { photos: Photo[]; }) {
             aria-label={`Wys foto ${i + 1}`}
             aria-current={i === active}
             className={"size-3 cursor-pointer rounded-full transition-colors "
-              + (i === active ? "bg-white" : "bg-white/50")}
+              + (i === active ? "bg-white" : "bg-white/60")}
           />
         ))}
       </div>

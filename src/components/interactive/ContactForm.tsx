@@ -20,7 +20,7 @@ const fieldClasses =
  * Contact form. Uses a Base UI Select for the province picker so the
  * dropdown is fully accessible; plain labelled inputs elsewhere.
  */
-export default function ContactForm() {
+export default function ContactForm({ selectIcon }: { selectIcon: string; }) {
   const [sent, setSent] = useState(false);
 
   if (sent) {
@@ -40,12 +40,12 @@ export default function ContactForm() {
       }}
     >
       <div className="grid grid-cols-2 gap-6 landscape:grid-cols-1">
-        <label className="sr-only" htmlFor="contact-name">Jou Naam &amp; Van</label>
-        <input id="contact-name" name="name" required placeholder="Jou Naam & Van" className={fieldClasses} />
+        <label className="sr-only" htmlFor="contact-name">Jou naam</label>
+        <input id="contact-name" name="name" required placeholder="Jou naam" className={fieldClasses} />
         <label className="sr-only" htmlFor="contact-email">Epos Adres</label>
         <input id="contact-email" name="email" type="email" required placeholder="Epos Adres" className={fieldClasses} />
-        <label className="sr-only" htmlFor="contact-source">Hoe het jy gehoor van Kersiefees 2026?</label>
-        <input id="contact-source" name="source" placeholder="Hoe het jy gehoor van Kersiefees 2026?" className={fieldClasses} />
+        <label className="sr-only" htmlFor="contact-phone">Jou nommer</label>
+        <input id="contact-phone" name="phone" type="tel" placeholder="Jou nommer" className={fieldClasses} />
 
         <Select.Root items={PROVINCES.map((p) => ({ label: p, value: p }))}>
           <Select.Trigger
@@ -53,16 +53,8 @@ export default function ContactForm() {
             className={fieldClasses + " flex cursor-pointer items-center justify-between gap-2 text-left data-placeholder:text-cherry/70"}
           >
             <Select.Value placeholder="Provinsie" />
-            <Select.Icon className="flex">
-              <svg viewBox="0 0 24 24" fill="none" className="size-6" aria-hidden="true">
-                <path
-                  d="M7 10l5 5 5-5"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+            <Select.Icon className="flex size-6 shrink-0 items-center justify-center">
+              <img src={selectIcon} alt="" aria-hidden="true" className="h-3.5 w-2.5 rotate-90" />
             </Select.Icon>
           </Select.Trigger>
           <Select.Portal>

@@ -4,6 +4,25 @@ import Button from "../ui/Button.astro";
 import Container from "../ui/Container.astro";
 import Section from "../ui/Section.astro";
 
+import chevron from "../../assets/figma/faq-chevron.svg";
+
+import postCherryBranch from "../../assets/figma/social-post-cherry-branch.jpg";
+import postFeesvier from "../../assets/figma/social-post-feesvier.jpg";
+import postRiaan from "../../assets/figma/social-post-riaan.jpg";
+import postSmulkunstenaar from "../../assets/figma/social-post-smulkunstenaar.jpg";
+import postTicket from "../../assets/figma/social-post-ticket.jpg";
+
+const HANDLE = "Ceres_Kersiefees";
+const PROFILE = `https://www.instagram.com/${HANDLE}/`;
+
+const posts: { src: string; alt: string; }[] = [
+  { src: postFeesvier.src, alt: "Ons gaan feesvier! - aankondiging van die Kersiefees" },
+  { src: postTicket.src, alt: "5 Desember by Victoria Park Rugbyklub" },
+  { src: postRiaan.src, alt: "Sien vir Riaan Benadé by die Kersiefees" },
+  { src: postSmulkunstenaar.src, alt: "Is jy 'n smulkunstenaar, lekkergoedmaker?" },
+  { src: postCherryBranch.src, alt: "Kersietak-illustrasie" },
+];
+
 const items = [
   {
     question: "Hoe laat begin die geleentheid?",
@@ -37,10 +56,28 @@ const items = [
 ];
 ---
 
-<Section id="faq-section" bg="pink">
-  <Container class="flex flex-col gap-16">
+<Section id="faq-section" bg="none">
+  <Container class="flex flex-col gap-24">
     <h2 class="h1" data-split>Gereelde Vrae</h2>
-    <FaqAccordion items={items} client:visible />
+    <FaqAccordion items={items} chevronIcon={chevron.src} client:visible />
     <Button>Meer vrae? Kontak ons</Button>
+
+    {/* Trailing "@Ceres_Kersiefees" social block — sits inside the FAQ
+        section itself in Figma (785:1618), not a separate section. */}
+    <div class="flex items-start justify-between gap-8 landscape:flex-col">
+      <div class="flex flex-col gap-5">
+        <h3 class="h1">@{HANDLE}</h3>
+        <p class="h3">Volg ons op sosiale media!</p>
+      </div>
+      <Button href={PROFILE} class="shrink-0">Sien meer</Button>
+    </div>
+
+    <div class="grid grid-cols-5 gap-6.5 tablet:grid-cols-3 landscape:grid-cols-2 portrait:grid-cols-1">
+      {posts.map((post) => (
+        <div class="aspect-303/394 overflow-hidden rounded-blob">
+          <img src={post.src} alt={post.alt} class="size-full object-cover" loading="lazy" />
+        </div>
+      ))}
+    </div>
   </Container>
 </Section>

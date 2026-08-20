@@ -1,0 +1,87 @@
+---
+/**
+ * "Hou vas aan julle pitte!" — a ticket/event highlights callout that sits
+ * directly below the Ticket Section in the Figma frame (node 785:3182,
+ * confusingly instanced there under the page outline as "Vendors Section"
+ * even though its underlying component is called "Fun Section" and its
+ * content is entirely about what a day at the fest includes). Kept as its
+ * own section so page order matches the Figma frame exactly.
+ */
+import Button from "../ui/Button.astro";
+import Container from "../ui/Container.astro";
+import Section from "../ui/Section.astro";
+
+import cherryBranch from "../../assets/figma/cherry-branch-2.svg";
+import leaf from "../../assets/figma/leaf-2.svg";
+import toastGlass1 from "../../assets/figma/toast-glass-1.svg";
+import toastGlass2 from "../../assets/figma/toast-glass-2.svg";
+import toastGlass3 from "../../assets/figma/toast-glass-3.svg";
+import toastGlass4 from "../../assets/figma/toast-glass-4.svg";
+import toastGlass5 from "../../assets/figma/toast-glass-5.svg";
+import toastGlass6 from "../../assets/figma/toast-glass-6.svg";
+import toastGlass7 from "../../assets/figma/toast-glass-7.svg";
+
+/* The "cheers" icon (Ticket-Image/03 in Figma) is 7 stacked layers — a base
+   silhouette plus small highlight/fizz details — each positioned by its own
+   inset percentage of the 455.286px square. */
+const toastLayers = [
+  { src: toastGlass1.src, inset: "19.39% 17.38% 19.38% 17.25%" },
+  { src: toastGlass2.src, inset: "30.27% 56.35% 48.82% 25.71%" },
+  { src: toastGlass3.src, inset: "32.65% 60.98% 56.91% 33.83%" },
+  { src: toastGlass4.src, inset: "40.44% 61.67% 51.13% 27.56%" },
+  { src: toastGlass5.src, inset: "37.35% 32.87% 44.07% 49.03%" },
+  { src: toastGlass6.src, inset: "37.35% 37.85% 52.15% 57.05%" },
+  { src: toastGlass7.src, inset: "44.65% 33.84% 47.18% 56.37%" },
+];
+
+const highlights = [
+  "Vars Ceres-kersies en unieke kersie-lekkernye",
+  "Musiek deur Riaan Benadé en Bok van Blerk",
+  "'n Heerlike kosmark",
+  "'n Kersie-geïnspireerde kroeg",
+  "'n Opwindende Kersie-Jol area vir die kinders",
+  "Ontspan op die gras met jou piekniekkombers en geniet die feestelike atmosfeer",
+];
+---
+
+<Section id="hou-vas" bg="none">
+  {/* Figma's Foreground layer (785:3182) flanks the whole section with these
+     two illustrations — leaf bottom-left, cherry branch top-right, both
+     bleeding past the section's own edge — rather than hugging the small
+     toast-glasses icon the way they used to. Sized/positioned as a percentage
+     of the section so they scale the way bgVector does elsewhere on the page.
+     Hidden from `tablet` down: that's where the grid below collapses to a
+     single stacked column (tablet:grid-cols-1), so there's no side margin
+     left for them to flank and they'd otherwise sit on top of the text. */}
+  <img
+    src={leaf.src} alt="" aria-hidden="true"
+    class="pointer-events-none absolute -left-[8%] bottom-0 w-[19%] max-w-none rotate-[32deg] tablet:hidden"
+  />
+  <img
+    src={cherryBranch.src} alt="" aria-hidden="true"
+    class="pointer-events-none absolute -right-[6%] top-[4%] w-[14%] max-w-none rotate-[-37deg] tablet:hidden"
+  />
+
+  <Container class="relative grid grid-cols-[minmax(0,35rem)_minmax(0,1fr)] items-center gap-16 tablet:grid-cols-1">
+    <div class="relative flex items-center justify-center" data-reveal>
+      <div class="relative aspect-square w-72 landscape:w-48">
+        {toastLayers.map((layer) => (
+          <img src={layer.src} alt="" class="absolute block max-w-none" style={`inset: ${layer.inset};`} />
+        ))}
+      </div>
+    </div>
+
+    <div class="flex flex-col items-start gap-5" data-reveal>
+      <h2 class="h1" data-split>Hou vas aan julle pitte!</h2>
+      <p class="body-lg">
+        Op Saterdag, 5 Desember 2026, verander Ceres, Suid-Afrika se kersiehoofstad, in 'n feestelike speelgrond waar kersies, musiek, kos en familiepret
+        saamkom.
+      </p>
+      <p class="h3 font-bold">Kom geniet 'n dag gevul met:</p>
+      <ul class="body-lg flex list-disc flex-col gap-1 pl-5">
+        {highlights.map((item) => <li>{item}</li>)}
+      </ul>
+      <Button href="#kaartjies" class="mt-3">Koop Kaartjies</Button>
+    </div>
+  </Container>
+</Section>

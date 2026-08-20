@@ -1,0 +1,55 @@
+---
+/**
+ * "Kersie-Jol Area" — the kids' play zone (Figma node 817:5469, instanced on
+ * the page as a second "About Section" even though its content is entirely
+ * about the children's activity area). Kept as its own section so page order
+ * matches the Figma frame exactly.
+ */
+import Container from "../ui/Container.astro";
+import Section from "../ui/Section.astro";
+
+import kersiejol1 from "../../assets/figma/kersiejol-photo-1.jpg";
+import kersiejol2 from "../../assets/figma/kersiejol-photo-2.jpg";
+import kersiejol3 from "../../assets/figma/kersiejol-photo-3.jpg";
+
+const activities = ["Mini-hindernisbaan", "Ballonkuns", "Gesigverf", "Smullekkernye", "Inkleurstasie", "Haarvleg (Colourful Braids)"];
+
+const photos = [
+  { src: kersiejol1.src, alt: "Kersie-kleurkuns by die inkleurstasie" },
+  { src: kersiejol2.src, alt: "'n Kersiefees-kleuter geniet die Kersie-Jol Area" },
+  { src: kersiejol3.src, alt: "'n Gesin geniet die Kersie-Jol Area saam" },
+];
+---
+
+<Section id="kersie-jol" bg="none">
+  <Container class="flex flex-col items-center gap-10">
+    <div class="flex flex-col items-center gap-6 text-center">
+      <h2 class="h1" data-split>Kersie-Jol Area</h2>
+      <p class="body-lg max-w-4xl">
+        'n Speelparadys vir die klein kersies! Die Kersie-Jol Area is propvol pret vir die jongspan — van springkastele, trekkerritte en 'n
+        mini-hindernisbaan tot gesigverf, ballonkuns, slime, inkleur en nog baie meer. Laat die kinders speel, ontdek en jol terwyl die grootmense die fees
+        geniet. Bring jou klein kersies — ons sien julle daar!
+      </p>
+    </div>
+
+    <div class="flex flex-col items-center w-full" data-marquee data-marquee-speed="35">
+      <div class="w-screen">
+        <div class="marquee-track gap-10 pr-10">
+          {[0, 1].map((copy) => (
+            <div class="flex shrink-0 items-center gap-10" aria-hidden={copy === 1 ? "true" : undefined}>
+              {activities.map((item) => (
+                <span class="h2 whitespace-nowrap">{item}</span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div class="grid w-full grid-cols-3 gap-5 tablet:grid-cols-1">
+      {photos.map((photo) => (
+        <img src={photo.src} alt={photo.alt} class="aspect-square w-full rounded-blob object-cover" loading="lazy" data-rise />
+      ))}
+    </div>
+  </Container>
+</Section>

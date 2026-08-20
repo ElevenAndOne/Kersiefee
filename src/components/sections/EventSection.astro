@@ -1,4 +1,5 @@
 ---
+import CloudOverlap from "../ui/CloudOverlap.astro";
 import Container from "../ui/Container.astro";
 import Section from "../ui/Section.astro";
 
@@ -44,13 +45,15 @@ const slides = [
 ];
 ---
 
-<Section id="event-section" bg="white">
-  <div class="absolute inset-0 flex flex-col justify-end items-center">
-    <div class="w-full aspect-1920/845 min-w-210">
-      <img src="/images/backgrounds/kersiefees-grassland.svg" alt="Event Section Background" class="w-full h-full" />
-    </div>
-  </div>
-  <Container class="relative min-h-200 flex flex-col justify-center">
+<Section id="event-section" bg="white" data-cloud-parallax>
+  <img
+    src="/images/backgrounds/kersiefees-grassland.svg"
+    alt="Event Section Background"
+    class="absolute inset-0 h-full w-full object-cover object-bottom"
+  />
+  <Container class="relative z-10 min-h-200 flex flex-col justify-center">
     <HighlightsCarousel slides={slides} client:visible />
   </Container>
+
+  <CloudOverlap class="text-blossom" />
 </Section>

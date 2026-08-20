@@ -1,0 +1,38 @@
+---
+/**
+ * "Maak dit 'n naweek om te onthou!" — the festival-programme section
+ * (Figma node 817:5335, instanced on the page as "Vendors Section" even
+ * though its underlying component is "Program Section" and its content is
+ * the Saturday schedule). Kept as its own section so page order matches the
+ * Figma frame exactly.
+ */
+import CloudOverlap from "../ui/CloudOverlap.astro";
+import Container from "../ui/Container.astro";
+import Section from "../ui/Section.astro";
+
+import stage from "../../assets/figma/program-photo-stage.jpg";
+
+const schedule = [
+  "16:00 – Kersie-geïnspireerde Mark & Mixologie-kroeg",
+  "16:00 – 20:00 – Mini Kersie-Jol Area",
+  "16:00 – 22:00 – Musiek & Vermaak",
+  "18:00 – Riaan Benadé",
+  "20:30 – Bok van Blerk",
+];
+---
+
+<Section id="program" bg="cherry" class="pb-40 landscape:pb-24" data-cloud-parallax>
+  <Container class="relative z-10 grid grid-cols-[minmax(0,35rem)_minmax(0,1fr)] gap-16 tablet:grid-cols-1 items-center">
+    <img src={stage.src} alt="Musiek en vermaak op die verhoog teen die berge" class="aspect-square w-full rounded-blob object-cover" loading="lazy" />
+    <div class="text-white">
+      <h2 class="h1" data-split>Maak dit 'n naweek om te onthou!</h2>
+      <p class="h3 font-bold mt-8">Feesprogram</p>
+      <div class="body-lg mt-4 flex flex-col">
+        {schedule.map((line) => <p>{line}</p>)}
+      </div>
+      <p class="body-lg font-bold mt-4">Hekke sluit om 20:00</p>
+    </div>
+  </Container>
+
+  <CloudOverlap class="text-blossom" />
+</Section>

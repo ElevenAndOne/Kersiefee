@@ -2,12 +2,12 @@
 import Button from "./Button.astro";
 import Logo from "./Logo.astro";
 
-const links = [
-  { label: "Meer oor die fees", href: "#oor-die-fees" },
+const links: { label: string; href: string; active?: boolean }[] = [
+  { label: "Meer oor die fees", href: "#about-section" },
   { label: "Koservaring", href: "#verkopers" },
-  { label: "Program", href: "#program" },
-  { label: "Sportaktiwiteite", href: "#program" },
-  { label: "Akkommodasie", href: "#kontak" },
+  { label: "Program", href: "#program", active: true },
+  { label: "Sportaktiwiteite", href: "#sport-section" },
+  { label: "Akkommodasie", href: "#akkommodasie" },
 ];
 ---
 
@@ -17,9 +17,16 @@ const links = [
       <Logo />
     </a>
 
-    <nav class="flex items-center gap-6 tablet:hidden" aria-label="Hoofnavigasie">
+    <nav class="flex items-center gap-4 tablet:hidden" aria-label="Hoofnavigasie">
       {links.map((link) => (
-        <a href={link.href} class="whitespace-nowrap text-lg text-cherry transition-colors hover:text-cherry-dark">
+        <a
+          href={link.href}
+          aria-current={link.active ? "page" : undefined}
+          class:list={[
+            "whitespace-nowrap rounded-full px-5 py-3 text-lg text-cherry transition-colors hover:text-cherry-dark",
+            { "bg-blossom": link.active },
+          ]}
+        >
           {link.label}
         </a>
       ))}

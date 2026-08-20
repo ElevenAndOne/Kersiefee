@@ -1,13 +1,20 @@
 ---
 /**
  * Sport card from the Figma kit: a cherry block with a title, a tight stack
- * of detail lines and a white CTA pill. The card has no width of its own —
- * it fills whichever masonry column it lands in.
+ * of detail lines and a white CTA pill.
+ *
+ * Reworked for the horizontal sports carousel: the card sits flat/compressed
+ * by default -- title + the CTA pill only -- and springs open on hover/focus
+ * to reveal its detail lines. The reveal is a pure-CSS grid-rows tween with
+ * an overshoot curve (no JS): `.sport-card__reveal` animates from `0fr` to
+ * `1fr`, so the row grows from nothing, and the curve overshoots past 1fr
+ * before settling, giving the pop a little bounce instead of a flat resize.
  *
  * The sport illustration sits on its own layer (so it can be faded to 30%
  * without touching the copy): full card width, height left to the artwork's
- * aspect ratio, pinned to the bottom edge — a short card therefore shows
- * only the bottom of the drawing.
+ * aspect ratio, pinned to the bottom edge. A short (collapsed) card therefore
+ * shows only the bottom of the drawing, and more of it appears as the card
+ * opens -- the illustration reveals itself in step with the copy.
  */
 import type { HTMLAttributes } from "astro/types";
 import Button from "./Button.astro";
@@ -35,16 +42,79 @@ const {
 const backdrop = `background-image:url("${image}");background-size:100% auto;background-position:bottom center;background-repeat:no-repeat;`;
 ---
 
-<article {...rest} class:list={["relative overflow-hidden rounded-blob bg-cherry p-8 text-white portrait:p-6", className]}>
-  {image && <div class="pointer-events-none absolute inset-0 opacity-30" style={backdrop} aria-hidden="true"></div>}
+<article {...rest} class:list={["sport-card relative overflow-hidden rounded-blob bg-cherry p-8 text-white portrait:p-6", className]}>
+  {image && <div class="sport-card__backdrop pointer-events-none absolute inset-0 opacity-30" style={backdrop} aria-hidden="true"></div>}
 
-  <div class="relative flex flex-col gap-5">
+  <div class="relative flex flex-col">
     <h3 class="h2">{title}</h3>
+
     {lines.length > 0 && (
-      <div class="body-lg font-bold leading-tight">
-        {lines.map((line) => (line ? <p>{line}</p> : <p aria-hidden="true">&nbsp;</p>))}
+      <div class="sport-card__reveal grid">
+        <div class="overflow-hidden">
+          <div class="body-lg pt-5 font-bold leading-tight">
+            {lines.map((line) => (line ? <p>{line}</p> : <p aria-hidden="true">&nbsp;</p>))}
+          </div>
+        </div>
       </div>
     )}
-    <Button href={href} variant="white" class="self-start">{cta}</Button>
+
+    <Button href={href} variant="white" class="mt-5 self-start">{cta}</Button>
   </div>
 </article>
+
+<style>
+  /* Whole-card "lift": a soft pop on hover/focus, on top of the detail reveal. */
+  .sport-card {
+    transition:
+      transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+      box-shadow 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .sport-card:hover,
+  .sport-card:focus-within {
+    transform: translateY(-0.375rem) scale(1.035);
+    box-shadow: var(--shadow-pop);
+    z-index: 2;
+  }
+
+  .sport-card__backdrop {
+    transition: opacity 0.45s ease-out;
+  }
+
+  .sport-card:hover .sport-card__backdrop,
+  .sport-card:focus-within .sport-card__backdrop {
+    opacity: 0.45;
+  }
+
+  /* The detail lines are collapsed to 0 height by default and spring open on
+     hover/focus. The overshoot curve (past 1fr, settling back) is what makes
+     it read as a bouncy "pop" rather than a plain expand/collapse. */
+  .sport-card__reveal {
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .sport-card:hover .sport-card__reveal,
+  .sport-card:focus-within .sport-card__reveal {
+    grid-template-rows: 1fr;
+  }
+
+  /* Touch has no hover, so the reveal has nothing to trigger it. Rather than
+     bury the detail lines forever on phones/tablets, treat lack of hover as
+     the signal (not viewport width -- a touch laptop still gets a real
+     hover) and render cards pre-opened there. The carousel keeps scrolling;
+     only the per-card reveal skips the compressed state. */
+  @media (hover: none) {
+    .sport-card__reveal {
+      grid-template-rows: 1fr;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sport-card,
+    .sport-card__backdrop,
+    .sport-card__reveal {
+      transition: none;
+    }
+  }
+</style>

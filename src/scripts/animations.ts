@@ -11,29 +11,12 @@ registerEases();
 
 /** Items trail each other by roughly two frames. */
 const STAGGER = 0.039;
-/** Negative stagger: the last item leads and the row unfolds backwards. */
-const STAGGER_BACK = -0.048;
 /** Reveals fire as the element clears the fold, and only once. */
 const revealTrigger = (trigger: Element, start = "top 90%") => ({
   trigger,
   start,
   once: true,
 });
-
-/** Decorative leaves & cherries drift and sway forever. */
-function floatDecorations() {
-  gsap.utils.toArray<HTMLElement>("[data-float]").forEach((el, i) => {
-    gsap.to(el, {
-      y: () => gsap.utils.random(-22, 22),
-      rotation: () => gsap.utils.random(-8, 8),
-      duration: gsap.utils.random(3, 5),
-      ease: "sine.inOut",
-      yoyo: true,
-      repeat: -1,
-      delay: i * 0.35,
-    });
-  });
-}
 
 /** Sections and blocks rise softly into view on the house curve. */
 function scrollReveals() {
@@ -96,35 +79,6 @@ function riseReveals() {
   });
 }
 
-/** Cards and badges tumble in and spring upright. */
-function popReveals() {
-  const pop = {
-    opacity: 1,
-    y: 0,
-    x: 0,
-    rotation: 0,
-    scale: 1,
-    duration: 0.8,
-    ease: "elastic-out",
-  };
-  const from = { opacity: 0, y: 100, x: -40, rotation: -35, scale: 0.6 };
-
-  gsap.utils.toArray<HTMLElement>("[data-pop]").forEach((el) => {
-    gsap.fromTo(el, from, { ...pop, scrollTrigger: revealTrigger(el, "top 95%") });
-  });
-
-  // A group shares one trigger so its items unfold as a run, last one leading.
-  gsap.utils.toArray<HTMLElement>("[data-pop-group]").forEach((group) => {
-    const items = group.children;
-    if (!items.length) return;
-    gsap.fromTo(items, from, {
-      ...pop,
-      stagger: STAGGER_BACK,
-      scrollTrigger: revealTrigger(group, "top 95%"),
-    });
-  });
-}
-
 /** Tickets wobble in with an exaggerated tilt before springing flat. */
 function ticketReveals() {
   gsap.utils.toArray<HTMLElement>("[data-ticket]").forEach((el, i) => {
@@ -172,6 +126,45 @@ function marquees() {
   });
 }
 
+/**
+ * Cloud sections (Event, Program, Directions): as a section's seam with the
+ * next one crosses the fold, its content and background lag a little
+ * behind the scroll — drifting down a touch — while the cloud silhouette
+ * riding on top keeps pace with the page. That's the depth the Figma
+ * component's separate "Foreground" cloud layer was built for.
+ *
+ * The cloud itself is never tweened, so it stays exactly where it always
+ * sits (flush with the section's bottom edge) — the seam can't gap. The
+ * lagging layers only ever drift toward the next section, and the
+ * section's own overflow-hidden (Section.astro) clips whatever that
+ * uncovers at the top, which is already scrolled out of view by then.
+ */
+function cloudParallax() {
+  gsap.utils.toArray<HTMLElement>("[data-cloud-parallax]").forEach((section) => {
+    const cloud = section.querySelector("[data-cloud]");
+    const layers = Array.from(section.children).filter(
+      (el): el is HTMLElement => el instanceof HTMLElement && el !== cloud,
+    );
+    if (!layers.length) return;
+
+    gsap.fromTo(
+      layers,
+      { y: 0 },
+      {
+        y: () => Math.min(section.offsetHeight * 0.06, 80),
+        ease: "none",
+        scrollTrigger: {
+          trigger: section,
+          start: "center center",
+          end: "bottom top",
+          scrub: true,
+          invalidateOnRefresh: true,
+        },
+      },
+    );
+  });
+}
+
 /** Lenis inertia scrolling, driven by the GSAP ticker so ScrollTrigger stays in sync. */
 function smoothScroll() {
   const lenis = new Lenis({ lerp: 0.18, anchors: { offset: -130 } });
@@ -181,43 +174,16 @@ function smoothScroll() {
   gsap.ticker.lagSmoothing(0);
 }
 
-/**
- * Keep the hero artwork drifting downward inside its section while the next
- * section rises over it. The artwork still leaves the viewport, just more
- * slowly than the page, which creates the layered fold/parallax effect.
- */
-function heroParallax() {
-  const hero = document.querySelector<HTMLElement>("[data-hero-parallax-root]");
-  const art = hero?.querySelector<HTMLElement>("[data-hero-parallax-art]");
-  if (!hero || !art) return;
-
-  gsap.to(art, {
-    y: () => Math.min(window.innerHeight * 0.22, 200),
-    scale: 1.035,
-    transformOrigin: "center center",
-    ease: "none",
-    scrollTrigger: {
-      trigger: hero,
-      start: "top top",
-      end: "bottom top",
-      scrub: 0.65,
-      invalidateOnRefresh: true,
-    },
-  });
-}
-
 export function initAnimations() {
   if (reducedMotion()) return;
   document.documentElement.classList.add("gsap-ready");
 
   smoothScroll();
-  floatDecorations();
   scrollReveals();
   riseReveals();
-  popReveals();
   ticketReveals();
   marquees();
-  heroParallax();
+  cloudParallax();
 
   // splitting needs final line boxes, so wait for the webfont
   document.fonts.ready.then(splitHeadings);

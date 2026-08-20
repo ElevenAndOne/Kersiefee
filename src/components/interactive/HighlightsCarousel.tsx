@@ -108,7 +108,7 @@ export default function HighlightsCarousel({ slides }: { slides: Slide[]; }) {
       aria-roledescription="karousel"
       aria-label="Hoogtepunte van die fees"
     >
-      <div className="box-shadow bg-white relative flex min-h-56 w-full max-w-286 items-center justify-between gap-2 px-10 py-8 landscape:px-8 portrait:px-4">
+      <div className="box-shadow bg-white relative flex min-h-56 w-full items-center justify-between gap-6 p-12 landscape:px-8 landscape:py-6 portrait:px-4 portrait:py-6">
         <button
           type="button"
           onClick={() => go(-1)}
@@ -127,7 +127,7 @@ export default function HighlightsCarousel({ slides }: { slides: Slide[]; }) {
             <div
               key={i}
               aria-hidden="true"
-              className="invisible col-start-1 row-start-1 flex max-w-190 flex-col items-center gap-5 text-center"
+              className="invisible col-start-1 row-start-1 flex max-w-190 flex-col items-center gap-6 text-center"
             >
               <h2 className="h1">{s.title}</h2>
               <p className="body-lg">{s.body}</p>
@@ -135,7 +135,7 @@ export default function HighlightsCarousel({ slides }: { slides: Slide[]; }) {
           ))}
 
           <div
-            className="col-start-1 row-start-1 flex max-w-190 flex-col items-center gap-5 text-center text-cherry"
+            className="col-start-1 row-start-1 flex max-w-190 flex-col items-center gap-6 text-center text-cherry"
             aria-live="polite"
           >
             <h2 ref={collect(0)} className="h1 will-change-transform">{slide.title}</h2>
@@ -156,16 +156,11 @@ export default function HighlightsCarousel({ slides }: { slides: Slide[]; }) {
   );
 }
 
+/** Chevron glyph — real path from the Figma icon (node 706:9607), not hand-drawn. */
 function Chevron({ className = "" }: { className?: string; }) {
   return (
-    <svg viewBox="0 0 30 30" fill="none" className={className} aria-hidden="true">
-      <path
-        d="M10 1.5 L26.4 15 L10 28.5"
-        stroke="currentColor"
-        strokeWidth="3"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+    <svg viewBox="0 0 9.50005 16.7929" fill="currentColor" className={className} aria-hidden="true">
+      <path d="M0.926758 0.573242C1.02439 0.47561 1.18263 0.475621 1.28027 0.573242L8.92676 8.21973C9.0244 8.31736 9.0244 8.4756 8.92676 8.57324L1.28027 16.2197C1.18263 16.3173 1.02438 16.3173 0.926758 16.2197L0.573242 15.8662C0.475631 15.7686 0.475648 15.6103 0.573242 15.5127L7.68945 8.39648L0.573242 1.28027C0.475622 1.18263 0.47561 1.02439 0.573242 0.926758L0.926758 0.573242Z" />
     </svg>
   );
 }

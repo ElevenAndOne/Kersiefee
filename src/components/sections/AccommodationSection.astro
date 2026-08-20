@@ -1,0 +1,61 @@
+---
+import Button from "../ui/Button.astro";
+import Container from "../ui/Container.astro";
+import Section from "../ui/Section.astro";
+
+import bgVector from "../../assets/figma/accommodation-bg-vector.svg";
+
+/* Verblyfopsies. Figma's "Grid" lays its 11 placeholder cards out as two
+   overflowing horizontal tracks (5 + 6, each wider than its row and clipped
+   left/right) — the same raw "Track/List spills past its frame" shape Figma
+   uses for the About/Sponsors marquees. But every card here is still the
+   placeholder "Card Title" / lorem ipsum / "Button Label" (no real listings,
+   no hint the 5-vs-6 split is meaningful), and the sibling Sport section
+   uses that identical raw shape for what is, in the shipped design, a plain
+   reflowing card grid rather than a scroller — so this follows suit: one
+   pool of cards in a responsive grid. Drop the real listings into `stays`
+   and the grid renders itself. */
+interface Stay {
+  title: string;
+  body: string;
+  cta?: string;
+  href?: string;
+}
+
+const stays: Stay[] = [];
+---
+
+<Section id="akkommodasie" bg="none">
+  {/* Figma's visible "Background" slot: one faint cherry squiggle, bled off
+      the left edge, sized/positioned relative to the 1920px frame. */}
+  <img
+    src={bgVector.src} alt="" aria-hidden="true"
+    class="pointer-events-none absolute left-[-32.29%] top-0 w-[79.31%] max-w-none landscape:hidden"
+  />
+
+  <Container class="relative flex flex-col items-center gap-16 landscape:gap-10">
+    <div class="flex flex-col items-center gap-6 text-center">
+      <h2 class="h1" data-split>Maak dit ‘n naweek!</h2>
+      <p class="body-lg max-w-4xl">
+        Ontdek die beste verblyf- en kampeeropsies in Ceres en die omliggende gebiede. Of jy nou op soek is na ‘n gerieflike gastehuis in die dorp, ‘n
+        selfsorg-eenheid vir die gesin, of ‘n rustige kampeerplek tussen die berge en natuur, daar is ‘n opsie vir elke tipe reisiger en begroting.
+      </p>
+      <p class="body-lg max-w-4xl">
+        Ons het die opsies beoordeel op grond van <strong class="font-bold">ligging, gerief, fasiliteite, kapasiteit en waarde vir geld,</strong> sodat jy
+        maklik die regte plek vir jou besoek kan kies.
+      </p>
+    </div>
+
+    {stays.length > 0 && (
+      <div class="grid w-full grid-cols-3 gap-5 tablet:grid-cols-2 landscape:grid-cols-1">
+        {stays.map((stay) => (
+          <article class="flex flex-col gap-5 rounded-blob border-2 border-cherry p-8.75 portrait:p-6" data-rise>
+            <h3 class="h2">{stay.title}</h3>
+            <p class="body-lg font-bold leading-tight">{stay.body}</p>
+            <Button href={stay.href ?? "#kontak"} variant="white" class="mt-auto self-start">{stay.cta ?? "Leer Meer"}</Button>
+          </article>
+        ))}
+      </div>
+    )}
+  </Container>
+</Section>

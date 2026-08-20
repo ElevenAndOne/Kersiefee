@@ -3,13 +3,15 @@ import Container from "../ui/Container.astro";
 import Section from "../ui/Section.astro";
 
 import ContactForm from "../interactive/ContactForm.tsx";
+
+import selectChevron from "../../assets/figma/select-chevron.svg";
 ---
 
-<Section id="contact-section" bg="pink">
-  <Container class="min-h-screen">
-    <div class="box-shadow relative flex flex-col items-center gap-6 px-16 py-12 landscape:px-12 portrait:px-6 bg-white">
-      <h2 class="h1 w-full border-b border-blossom pb-6 text-center" data-split>Kontak Ons</h2>
-      <ContactForm client:visible />
+<Section id="contact-section" bg="none">
+  <Container>
+    <div class="box-shadow relative flex flex-col items-center gap-6 p-12 landscape:px-12 portrait:px-6 bg-white">
+      <h2 class="h1 w-full text-center" data-split>Kontak Ons</h2>
+      <ContactForm selectIcon={selectChevron.src} client:visible />
     </div>
   </Container>
 </Section>

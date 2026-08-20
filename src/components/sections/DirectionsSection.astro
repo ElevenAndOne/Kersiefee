@@ -1,16 +1,38 @@
 ---
 import Container from "../ui/Container.astro";
 import Section from "../ui/Section.astro";
+import CloudOverlap from "../ui/CloudOverlap.astro";
 
 import map from "../../assets/figma/map.png";
 import GoogleMap from "../interactive/GoogleMap.tsx";
 import Button from "../ui/Button.astro";
 
+import hillTop from "../../assets/figma/directions-landscape-hill-top.svg";
+import hillMain from "../../assets/figma/directions-landscape-hill-main.svg";
+import hillCorner from "../../assets/figma/directions-landscape-hill-corner.svg";
+import hillLeft from "../../assets/figma/directions-landscape-hill-left.svg";
+
 const apiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
 ---
 
-<Section id="directions-section" bg="cherry">
-  <Container class="grid grid-cols-[minmax(0,35rem)_minmax(0,1fr)] gap-16 tablet:grid-cols-1 items-center">
+<Section id="directions-section" bg="cherry" class="pb-64" data-cloud-parallax>
+  <!-- kersiefees-footer-landscape (light-pink variant): transition strip from the section above -->
+  <div class="relative aspect-1920/333 w-full overflow-hidden bg-blossom" aria-hidden="true">
+    <div class="absolute inset-[0_0_42.56%_43.42%]">
+      <img src={hillTop.src} alt="" class="absolute inset-0 size-full max-w-none" />
+    </div>
+    <div class="absolute inset-[2.83%_0_-0.67%_35.87%]">
+      <img src={hillMain.src} alt="" class="absolute inset-0 size-full max-w-none" />
+    </div>
+    <div class="absolute inset-[67.65%_0_-0.9%_81.15%]">
+      <img src={hillCorner.src} alt="" class="absolute inset-0 size-full max-w-none" />
+    </div>
+    <div class="absolute inset-[4.21%_18.49%_-1.47%_0]">
+      <img src={hillLeft.src} alt="" class="absolute inset-0 size-full max-w-none" />
+    </div>
+  </div>
+
+  <Container class="relative z-10 grid grid-cols-[minmax(0,35rem)_minmax(0,1fr)] gap-24 tablet:grid-cols-1 items-center">
     <div>
       <h2 class="h1" data-split>Hoe om daar te kom</h2>
       <h3 class="h3 mt-8">Rigtings</h3>
@@ -23,4 +45,6 @@ const apiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
       <GoogleMap apiKey={apiKey} fallbackSrc={map.src} fallbackAlt="Kaart van Ceres en omgewing – die fees is by die Rugbyklub, Ceres" client:visible />
     </div>
   </Container>
+
+  <CloudOverlap class="text-blossom" />
 </Section>
