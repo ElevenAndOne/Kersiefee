@@ -7,20 +7,17 @@ import iconCalendar from "../../assets/figma/icon-calendar.svg";
 import iconMap from "../../assets/figma/icon-map.svg";
 import iconTickets from "../../assets/figma/icon-tickets.svg";
 
-import crowd2 from "../../assets/figma/about-photo-crowd-2.jpg";
-import crowd from "../../assets/figma/about-photo-crowd.jpg";
-import family2 from "../../assets/figma/about-photo-family-2.jpg";
-import family from "../../assets/figma/about-photo-family.jpg";
-import food2 from "../../assets/figma/about-photo-food-2.jpg";
-import food from "../../assets/figma/about-photo-food.jpg";
+import cherryDrink from "../../assets/figma/about-photo-cherry-drink.jpg";
+import stall from "../../assets/figma/about-photo-stall.jpg";
+import tents from "../../assets/figma/about-photo-tents.jpg";
 
+/* The three photos the Figma carousel places. The carousel only ever shows
+   the centre slot and its two flanking ones, so three fills the row without
+   a photo appearing twice at once. */
 const photos = [
-  { src: family.src, alt: "'n Gesin kuier saam op die feesterrein" },
-  { src: food.src, alt: "Kersie-geïnspireerde disse by die kosstalletjies" },
-  { src: crowd.src, alt: "Feesgangers geniet die dag by die Kersiefees" },
-  { src: family2.src, alt: "Kinders speel tydens die fees" },
-  { src: food2.src, alt: "Vars Ceres-kersies by 'n stalletjie" },
-  { src: crowd2.src, alt: "Besoekers luister na die live musiek" },
+  { src: tents.src, alt: "Feesgangers kuier onder die skadunette op die feesterrein" },
+  { src: stall.src, alt: "Verkopers by die Krummel & Vlokkie-stalletjie" },
+  { src: cherryDrink.src, alt: "'n Kersiedrankie met vars Ceres-kersies" },
 ];
 
 const tickerItems = [

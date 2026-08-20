@@ -4,18 +4,18 @@ import Button from "../ui/Button.astro";
 import Container from "../ui/Container.astro";
 import Section from "../ui/Section.astro";
 
-import crowd2 from "../../assets/figma/about-photo-crowd-2.jpg";
-import crowd from "../../assets/figma/about-photo-crowd.jpg";
 import vendors2 from "../../assets/figma/vendors-2.jpg";
 import vendors3 from "../../assets/figma/vendors-3.jpg";
 import pizza from "../../assets/figma/vendors-pizza.jpg";
 
+/* Figma places one photo here (the pizza); the other two are the vendor
+   shots already in the repo. The two About photos this used to borrow are
+   gone — they belong to the welcome carousel, and one of them was captioned
+   as a food stall when it is a cherry-picking shot. */
 const photos = [
   { src: pizza.src, alt: "Kersie-geïnspireerde pizza by 'n verkoperstalletjie" },
-  { src: vendors3.src, alt: "Besoekers gesels by die verkoperstalletjies" },
-  { src: vendors2.src, alt: "Kersie-geïnspireerde produkte by die mark" },
-  { src: crowd.src, alt: "Feesgangers by die kosstalletjies" },
-  { src: crowd2.src, alt: "Verkopers by die Krummel & Vlokkie stalletjie" },
+  { src: vendors2.src, alt: "'n Besoeker koop iets by 'n koswa op die feesterrein" },
+  { src: vendors3.src, alt: "Besoekers gesels tussen die stalletjies" },
 ];
 ---
 
@@ -35,7 +35,7 @@ const photos = [
       <p class="body-lg mt-6">
         Ons op soek na uitstaande kersie-geinspireerde kos, drankies, gebak en lekkergoed wat saam met ons 'n onvergeetlike feeservaring kan skep.
       </p>
-      <Button href="#kontak" class="mt-8">Doen Aansoek om 'n Verkoper te Wees</Button>
+      <Button href="https://cdn.prod.website-files.com/6a7d878721e690252d56a2d1/6a85686c6eeac9033835794e_Y26_Kersiefees_Vendors-Info_v02_an.pdf" class="mt-8">Doen Aansoek om 'n Verkoper te Wees</Button>
     </div>
   </Container>
 </Section>
