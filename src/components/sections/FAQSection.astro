@@ -12,8 +12,9 @@ import postRiaan from "../../assets/figma/social-post-riaan.jpg";
 import postSmulkunstenaar from "../../assets/figma/social-post-smulkunstenaar.jpg";
 import postTicket from "../../assets/figma/social-post-ticket.jpg";
 
+/* Capitalised for display, lower-cased in the URL to match the dev note. */
 const HANDLE = "Ceres_Kersiefees";
-const PROFILE = `https://www.instagram.com/${HANDLE}/`;
+const PROFILE = `https://www.instagram.com/${HANDLE.toLowerCase()}/`;
 
 const posts: { src: string; alt: string; }[] = [
   { src: postFeesvier.src, alt: "Ons gaan feesvier! - aankondiging van die Kersiefees" },
@@ -60,7 +61,7 @@ const items = [
   <Container class="flex flex-col gap-24">
     <h2 class="h1" data-split>Gereelde Vrae</h2>
     <FaqAccordion items={items} chevronIcon={chevron.src} client:visible />
-    <Button>Meer vrae? Kontak ons</Button>
+    <Button href="mailto:runeik@dutoit.com">Meer vrae? Kontak ons</Button>
 
     {/* Trailing "@Ceres_Kersiefees" social block — sits inside the FAQ
         section itself in Figma (785:1618), not a separate section. */}
