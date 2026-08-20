@@ -1,8 +1,48 @@
 ---
+/**
+ * Hero: the Kersiefees title animation, a seamless 10s loop that ends where
+ * it starts.
+ *
+ * Desktop fills the fold — the 16:9 frame covers the section and loses a
+ * little off the sides. At ≤768px that crop would slice through the
+ * wordmark, so the frame drops into the flow at its own ratio instead, under
+ * enough headroom to clear the floating navbar. That headroom is painted the
+ * artwork's own backdrop pink — measured off a decoded frame rather than
+ * taken from the token, which is a few values off and shows as a seam.
+ */
 import CloudOverlap from "../ui/CloudOverlap.astro";
 import Section from "../ui/Section.astro";
 ---
 
-<Section id="hero-section" bg="none" class="min-h-svh">
+<Section id="hero-section" class="min-h-svh landscape:min-h-0 bg-[#FBE8EE]!">
+  <div class="absolute inset-0 landscape:relative landscape:bg-[#fae5ec] pt-32 landscape:pt-24">
+    <video
+      class="h-full w-full object-cover object-top landscape:h-auto"
+      poster="/video/kersiefees-landing-page-animation-poster.jpg"
+      src="/video/KersieFees_LandingPageAnimation.mp4"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+      disablepictureinpicture
+      aria-hidden="true"
+      data-hero-video
+    >
+    </video>
+  </div>
+
+  <script is:inline>
+    /* Decorative loop — hold it on the first frame when less motion is asked for.
+       Inline and next to the element so it lands before playback starts. */
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const video = document.querySelector("[data-hero-video]");
+      if (video) {
+        video.removeAttribute("autoplay");
+        video.pause();
+      }
+    }
+  </script>
+
   <CloudOverlap class="text-white" />
 </Section>
