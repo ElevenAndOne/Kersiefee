@@ -45,12 +45,8 @@ const slides = [
 ];
 ---
 
-<Section id="event-section" bg="white" data-cloud-parallax>
-  <img
-    src="/images/backgrounds/kersiefees-grassland.svg"
-    alt="Event Section Background"
-    class="absolute inset-0 h-full w-full object-cover object-bottom"
-  />
+<Section id="event-section" bg="white" class="overflow-hidden" data-cloud-parallax>
+  <img src="/images/backgrounds/kersiefees-grassland.svg" alt="Event Section Background" class="absolute inset-0 h-full w-full object-cover object-top"/>
   <Container class="relative z-10 min-h-200 flex flex-col justify-center">
     <HighlightsCarousel slides={slides} client:visible />
   </Container>

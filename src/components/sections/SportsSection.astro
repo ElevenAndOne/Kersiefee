@@ -108,7 +108,7 @@ const sports = [
 ];
 ---
 
-<Section id="sport-section" bg="none">
+<Section id="sport-section" bg="none" class="z-10">
   <Container class="flex flex-col gap-24 landscape:gap-12">
     <h2 class="h1 text-center" data-split>Neem deel aan Ceres Kersiefees Sport!</h2>
 
@@ -119,9 +119,9 @@ const sports = [
         speed down to 15% on hover -- this carousel needs a genuine stop, so
         it runs its own tween below instead of being picked up by that
         helper. */}
-    <div class="flex flex-col items-center" data-sports-marquee data-marquee-speed="40">
+    <div class="flex flex-col" data-sports-marquee data-marquee-speed="40">
       <div class="w-screen">
-        <div class="marquee-track gap-5 pr-5 items-top">
+        <div class="marquee-track gap-5 pr-5 items-start! h-120">
           {[0, 1].map((copy) => (
             <div class="flex shrink-0 items-start gap-5" aria-hidden={copy === 1 || undefined}>
               {sports.map((sport) => (

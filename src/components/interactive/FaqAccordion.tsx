@@ -13,9 +13,11 @@ export default function FaqAccordion({ items, chevronIcon }: { items: FaqItem[];
         <Accordion.Item key={item.question} value={item.question} className="border-t border-cherry">
           <Accordion.Header>
             <Accordion.Trigger className="group flex w-full cursor-pointer items-center gap-6 py-5 text-left">
-              <span className="max-w-180 flex-1 text-lead font-bold text-cherry">
-                {item.question}
-              </span>
+              <div className="flex-1">
+                <span className="max-w-180 text-lead font-bold text-cherry">
+                  {item.question}
+                </span>
+              </div>
               <img
                 src={chevronIcon}
                 alt=""
