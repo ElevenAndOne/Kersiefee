@@ -5,13 +5,41 @@ import Section from "../ui/Section.astro";
 import TicketCard from "../ui/TicketCard.astro";
 
 import bgVector from "../../assets/figma/ticket-bg-vector.svg";
+import fynbosVelddagPhoto from "../../assets/figma/ticket-photo-fynbos-velddag.avif";
+import kersieLangtafelPhoto from "../../assets/figma/ticket-photo-kersie-langtafel.avif";
+import kersiekreatiefPhoto from "../../assets/figma/ticket-photo-kersiekreatief.avif";
 import kinderkaartjiePhoto from "../../assets/figma/ticket-photo-kinderkaartjie.avif";
 import opelugPreekPhoto from "../../assets/figma/ticket-photo-opelug-preek.avif";
 import standaardkaartjiePhoto from "../../assets/figma/ticket-photo-standaardkaartjie.avif";
 
-/* Three tickets, spaced out (not overlapping) and alternating left/right +
-   a slight counter-clockwise tilt, as in the Figma frame. */
+const quicketHref = "https://www.quicket.co.za/events/389341-ceres-kersiefees/#/";
+
+/* Six tickets, spaced out (not overlapping) and alternating left/right, with
+   a slight counter-clockwise tilt on the odd cards, as in the Figma frame. */
 const tickets: ComponentProps<typeof TicketCard>[] = [
+  {
+    title: "Kersiekreatief",
+    lines: [{
+      date: "Donderdag, 3 Desember 2026",
+      text: "Uitstalling deur kunstenaars in die Ceres omgewing. Meer inligting sal volg.",
+    }],
+    cta: "Leer meer",
+    variant: "white",
+    rotate: -2,
+    image: { src: kersiekreatiefPhoto.src, alt: "'n Ingeraamde kersie-kunswerk teen 'n galerymuur" },
+    href: quicketHref,
+  },
+  {
+    title: "Kersie Langtafel",
+    lines: [{
+      date: "Vrydag, 4 Desember 2026",
+      text: "'n Kersie geinspireerde langtafel ete saam 'n bekroonde smul!",
+    }],
+    cta: "Leer meer",
+    variant: "red",
+    image: { src: kersieLangtafelPhoto.src, alt: "Feesgangers kuier om 'n feestelike langtafel in die buitelug" },
+    href: quicketHref,
+  },
   {
     title: "Standaardkaartjie",
     lines: ["Saterdag, 5 Desember 2026"],
@@ -19,7 +47,7 @@ const tickets: ComponentProps<typeof TicketCard>[] = [
     variant: "white",
     rotate: -2,
     image: { src: standaardkaartjiePhoto.src, alt: "Feesganger geniet 'n verkoelende kersiedrankie" },
-    href: "https://www.quicket.co.za/events/389341-ceres-kersiefees/#/",
+    href: quicketHref,
   },
   {
     title: "Kinderkaartjie",
@@ -29,23 +57,32 @@ const tickets: ComponentProps<typeof TicketCard>[] = [
     rotate: -0.36,
     /* Figma's second card-layout variant: the image is a transparent
        cutout that bleeds to the card's top/bottom edges instead of
-       sitting inset like the other two cards. */
+       sitting inset like the other cards. */
     flush: true,
     image: { src: kinderkaartjiePhoto.src, alt: "Riaan Benadé en Bok van Blerk tree op by die Kersiefees" },
-    href: "https://www.quicket.co.za/events/389341-ceres-kersiefees/#/",
+    href: quicketHref,
   },
   {
     title: "Opelug Preek",
-    lines: [
-      "Sondag, 6 Desember 2026",
-      "Kerke, bedieninge en gelowiges van Ceres en omgewing word uitgenooi om saam te kom vir 'n spesiale oggend van lofprysing en aanbidding ter ere van Jesus.",
-    ],
+    lines: [{
+      date: "Sondag, 6 Desember 2026",
+      text:
+        "Kerke, bedieninge en gelowiges van Ceres en omgewing word uitgenooi om saam te kom vir 'n spesiale oggend van lofprysing en aanbidding ter ere van Jesus.",
+    }],
     prices: [{ price: "Gratis" }],
     cta: "Leer meer",
     variant: "white",
     rotate: -2,
     image: { src: opelugPreekPhoto.src, alt: "Feesgangers aanbid saam terwyl die son sak" },
     href: "https://www.instagram.com/ceres_kersiefees/",
+  },
+  {
+    title: "Fynbos Velddag",
+    lines: ["Geinspireerde fynbos gesprek saam met Leon Kruge, in die Kouebokkeveld! Meer inligting sal volg."],
+    cta: "Leer meer",
+    variant: "red",
+    image: { src: fynbosVelddagPhoto.src, alt: "'n Voël rus op fynbos in die Kouebokkeveld" },
+    href: quicketHref,
   },
 ];
 ---

@@ -17,9 +17,13 @@ interface PriceLine {
   price: string;
 }
 
+/* A grouped line is Figma's date-plus-description block: a bold date sitting
+   directly on the text below it, with no 20px gap between the two. */
+type Line = string | { date: string; text: string };
+
 interface Props {
   title: string;
-  lines?: string[];
+  lines?: Line[];
   prices?: PriceLine[];
   cta?: string;
   href?: string;
@@ -74,7 +78,13 @@ const isRed = variant === "red";
       ]}>
       <div class="flex max-w-120 flex-col gap-5">
         <h3 class="h1">{title}</h3>
-        {lines.map((line) => <p class="h3">{line}</p>)}
+        {lines.map((line) =>
+          typeof line === "string" ? <p class="h3">{line}</p> : (
+            <div>
+              <p class="h3 font-bold">{line.date}</p>
+              <p class="h3">{line.text}</p>
+            </div>
+          ))}
         {prices.map((p) => (
           <Fragment>
             {p.label && <p class="h3">{p.label}</p>}
