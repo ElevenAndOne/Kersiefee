@@ -1,16 +1,16 @@
 ---
+import CloudOverlap from "../ui/CloudOverlap.astro";
 import Container from "../ui/Container.astro";
 import Section from "../ui/Section.astro";
-import CloudOverlap from "../ui/CloudOverlap.astro";
 
-import map from "../../assets/figma/map.png";
+import map from "../../assets/figma/map.avif";
 import GoogleMap from "../interactive/GoogleMap.tsx";
 import Button from "../ui/Button.astro";
 
-import hillTop from "../../assets/figma/directions-landscape-hill-top.svg";
-import hillMain from "../../assets/figma/directions-landscape-hill-main.svg";
 import hillCorner from "../../assets/figma/directions-landscape-hill-corner.svg";
 import hillLeft from "../../assets/figma/directions-landscape-hill-left.svg";
+import hillMain from "../../assets/figma/directions-landscape-hill-main.svg";
+import hillTop from "../../assets/figma/directions-landscape-hill-top.svg";
 
 const apiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
 ---

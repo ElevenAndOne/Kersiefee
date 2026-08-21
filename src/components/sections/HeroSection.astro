@@ -18,30 +18,24 @@ import Section from "../ui/Section.astro";
   <div class="absolute inset-0 landscape:relative landscape:bg-[#fae5ec] pt-32 landscape:pt-24">
     <video
       class="h-full w-full object-cover object-top landscape:h-auto"
-      poster="/video/kersiefees-landing-page-animation-poster.jpg"
+      poster="/video/kersiefees-landing-page-animation-poster.avif"
       src="/video/KersieFees_LandingPageAnimation.mp4"
       autoplay
-      muted
-      loop
-      playsinline
-      preload="auto"
-      disablepictureinpicture
-      aria-hidden="true"
-      data-hero-video
-    >
+      muted loop playsinline preload="auto"
+      disablepictureinpicture aria-hidden="true" data-hero-video>
     </video>
   </div>
 
   <script is:inline>
-    /* Decorative loop — hold it on the first frame when less motion is asked for.
+  /* Decorative loop — hold it on the first frame when less motion is asked for.
        Inline and next to the element so it lands before playback starts. */
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      const video = document.querySelector("[data-hero-video]");
-      if (video) {
-        video.removeAttribute("autoplay");
-        video.pause();
-      }
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const video = document.querySelector("[data-hero-video]");
+    if (video) {
+      video.removeAttribute("autoplay");
+      video.pause();
     }
+  }
   </script>
 
   <CloudOverlap class="text-white" />

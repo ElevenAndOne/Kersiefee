@@ -1,0 +1,17 @@
+{
+  "name": "Ceres Kersiefees 2026",
+  "short_name": "Kersiefees",
+  "description": "Vier die kersieseisoen saam met ons by die Ceres Kersiefees – Saterdag, 5 Desember 2026, Rugbyklub, Ceres.",
+  "lang": "af-ZA",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "theme_color": "#ec1848",
+  "background_color": "#fcf7fa",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

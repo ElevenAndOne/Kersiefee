@@ -8,11 +8,11 @@
 import Container from "../ui/Container.astro";
 import Section from "../ui/Section.astro";
 
-import cherry_01 from "../../assets/images/cherry-section/01.png";
-import cherry_02 from "../../assets/images/cherry-section/02.png";
-import cherry_03 from "../../assets/images/cherry-section/03.png";
-import cherry_04 from "../../assets/images/cherry-section/04.png";
-import cherry_05 from "../../assets/images/cherry-section/05.png";
+import cherry_01 from "../../assets/images/cherry-section/01.avif";
+import cherry_02 from "../../assets/images/cherry-section/02.avif";
+import cherry_03 from "../../assets/images/cherry-section/03.avif";
+import cherry_04 from "../../assets/images/cherry-section/04.avif";
+import cherry_05 from "../../assets/images/cherry-section/05.avif";
 
 const activities = ["Mini-hindernisbaan", "Ballonkuns", "Gesigverf", "Smullekkernye", "Inkleurstasie", "Haarvleg (Colourful Braids)"];
 
@@ -30,9 +30,9 @@ const photos = [
     <div class="flex flex-col items-center gap-6 text-center">
       <h2 class="h1" data-split>Kersie-Jol Area</h2>
       <p class="body-lg max-w-4xl">
-        'n Speelparadys vir die klein kersies! Die Kersie-Jol Area is propvol pret vir die jongspan — van springkastele, trekkerritte en 'n
-        mini-hindernisbaan tot gesigverf, ballonkuns, slime, inkleur en nog baie meer. Laat die kinders speel, ontdek en jol terwyl die grootmense die fees
-        geniet. Bring jou klein kersies — ons sien julle daar!
+        'n Speelparadys vir die klein kersies! Die Kersie-Jol Area is propvol pret vir die jongspan — van springkastele, trekkerritte en 'n mini-hindernisbaan
+        tot gesigverf, ballonkuns, slime, inkleur en nog baie meer. Laat die kinders speel, ontdek en jol terwyl die grootmense die fees geniet. Bring jou klein
+        kersies — ons sien julle daar!
       </p>
     </div>
 
@@ -41,9 +41,7 @@ const photos = [
         <div class="marquee-track gap-10 pr-10">
           {[0, 1].map((copy) => (
             <div class="flex shrink-0 items-center gap-10" aria-hidden={copy === 1 ? "true" : undefined}>
-              {activities.map((item) => (
-                <span class="h2 whitespace-nowrap">{item}</span>
-              ))}
+              {activities.map((item) => <span class="h2 whitespace-nowrap">{item}</span>)}
             </div>
           ))}
         </div>
@@ -56,7 +54,10 @@ const photos = [
           {[0, 1].map((copy) => (
             <div class="flex shrink-0 items-center gap-10" aria-hidden={copy === 1 ? "true" : undefined}>
               {photos.map((photo) => (
-                <img src={photo.src} alt={photo.alt} class="aspect-square w-80  rounded-blob object-cover" loading="lazy" data-rise />
+                <img
+                  src={photo.src} alt={photo.alt} class="aspect-square w-80 rounded-blob object-cover" loading="lazy"
+                  data-rise
+                />
               ))}
             </div>
           ))}

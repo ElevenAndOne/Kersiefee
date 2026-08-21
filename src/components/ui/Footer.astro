@@ -4,16 +4,15 @@ import footerLogo from "../../assets/figma/footer-logo.svg";
 import tickets from "../../assets/figma/icon-tickets.svg";
 import facebook from "../../assets/figma/social-facebook.svg";
 import instagram from "../../assets/figma/social-instagram.svg";
-import linkedin from "../../assets/figma/social-linkedin.svg";
-import x from "../../assets/figma/social-x.svg";
 import Button from "../ui/Button.astro";
 import Container from "../ui/Container.astro";
 
 /* Destinations come from the dev notes on the footer's Social Link nodes.
-   Figma has one for Facebook and Instagram only — the LinkedIn and X icons
-   are in the design with nowhere to point yet, so they render as plain
-   badges rather than links that go nowhere. */
-const socials: { icon: string; label: string; href?: string }[] = [
+   Figma has one for Facebook and Instagram only. The design also shows
+   LinkedIn and X icons, but the festival has no account on either and they
+   were never rendered — their assets have been dropped along with the rest of
+   the unused set, so re-adding them means re-exporting from Figma. */
+const socials: { icon: string; label: string; href?: string; }[] = [
   { icon: facebook.src, label: "Facebook", href: "https://www.facebook.com/profile.php?id=61580597143920" },
   { icon: instagram.src, label: "Instagram", href: "https://www.instagram.com/ceres_kersiefees/" },
 ];
@@ -21,7 +20,7 @@ const socials: { icon: string; label: string; href?: string }[] = [
 /* Same story for the quick links, and same order as the frame's two-column
    grid reads (row-major). Only three carry a dev note; the rest have no page
    to point at yet, so they stay plain text rather than linking nowhere. */
-const quickLinks: { label: string; href?: string }[] = [
+const quickLinks: { label: string; href?: string; }[] = [
   { label: "Bepalings & Voorwaardes" },
   { label: "Mediapakket" },
   { label: "Privaatheidsbeleid" },
@@ -36,7 +35,12 @@ const quickLinks: { label: string; href?: string }[] = [
 
 <footer class="relative overflow-hidden bg-white text-white">
   <!-- rolling red hills lead-in -->
-  <img src='./images/backgrounds/kersiefees-footer-landscape.svg' alt="" aria-hidden="true" class="relative z-1 -mb-px block w-full max-w-none landscape:w-[290%] landscape:-translate-x-1/4" />
+  <img
+    src="./images/backgrounds/kersiefees-footer-landscape.svg"
+    alt=""
+    aria-hidden="true"
+    class="relative z-1 -mb-px block w-full max-w-none landscape:w-[290%] landscape:-translate-x-1/4"
+  />
 
   <div class="relative bg-cherry">
     <img src={ellipse.src} alt="" aria-hidden="true" class="pointer-events-none absolute -top-3.5 left-0 w-full max-w-none" />
@@ -64,8 +68,8 @@ const quickLinks: { label: string; href?: string }[] = [
         <div class="flex flex-col gap-8">
           <img src={footerLogo.src} alt="Ceres Kersiefees" class="w-60 landscape:w-45" loading="lazy" />
           <p class="max-w-120 text-lg leading-normal">
-            Of jy &rsquo;n kersie-smulpaap is, &rsquo;n sportliefhebber, &rsquo;n Musiekentoesias of net die kersies wil sien dans - daar is iets vir almal by die Ceres
-            Kersiefees.
+            Of jy &rsquo;n kersie-smulpaap is, &rsquo;n sportliefhebber, &rsquo;n Musiekentoesias of net die kersies wil sien dans - daar is iets vir almal by
+            die Ceres Kersiefees.
           </p>
           <div class="flex items-center gap-2">
             {socials.map((social) => {

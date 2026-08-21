@@ -13,15 +13,23 @@ import bgVector from "../../assets/figma/accommodation-bg-vector.svg";
 
    The dev-handover frame numbers its cards 1-4 and 7-11 — 5 and 6 never got
    written — so the numbering is derived from the array position instead of
-   being typed in, and closes up on its own once those two land. */
+   being typed in, and closes up on its own once those two land.
+
+   Still awaiting copy (the booking research covers all three): guest houses
+   "Four Seasons" and "La Dolce Vita B&B" are the missing 5 and 6, and the
+   campsite list is one short of the intended six — "Cederberg Conservancy –
+   Nuwerust Rest Camp". */
 interface Stay {
   title: string;
   /** Bold pricing block; one entry per line (a few of these run to three). */
   price: string[];
   body: string;
-  /** Booking destination. Figma carries none yet, so the CTA stays an inert
-      button until the real links are dropped in. */
+  /** Booking destination — always off-site, so the CTA opens in a new tab. */
   href?: string;
+  /** CTA label. "Bespreek nou" only where `href` reaches a real availability/
+      booking flow; "Doen navraag" where the best we have is an enquiry form or
+      the property's contact details. */
+  cta?: "Bespreek nou" | "Doen navraag";
 }
 
 const guestHouses: Stay[] = [
@@ -30,24 +38,32 @@ const guestHouses: Stay[] = [
     price: ["Vanaf R680 per nag vir een persoon en R980 per nag vir twee persone wat deel."],
     body:
       "Dit is die beste veelsydige opsie in die dorp. Die gastehuis is sentraal geleë en bied verskillende kamertipes, gesinskamers, veilige parkering, Wi-Fi, ’n swembad en ’n gelisensieerde restaurant op die perseel. Daar is ook ’n kamer wat vir gaste met beperkte mobiliteit ingerig is.",
+    href: "https://thevillageceres.co.za/bookings/",
+    cta: "Doen navraag",
   },
   {
     title: "Porterhouse Eleven Guest House",
     price: ["Vanaf R1 000 per kamer per nag vir een persoon of R1 200 vir twee persone wat deel. Ontbyt kos R100 per persoon."],
     body:
       "’n Netjiese driester-gastehuis met agt ruim en suite-kamers, asook selfsorg- en gesinsopsies. Fasiliteite sluit lugversorging, Wi-Fi, veilige parkering, braaigeriewe en ’n klein plonspoel",
+    href: "https://www.booking.com/hotel/za/porterhouse-eleven.html",
+    cta: "Bespreek nou",
   },
   {
     title: "Cherry Blossom Cottage",
     price: ["Vanaf R2 000 vir een persoon of R2 700 vir twee persone. Tot vier persone kan vir R3 400 tuisgaan."],
     body:
       "’n Uitstekende opsie vir gesinne of klein groepe. Die tweeslaapkamerkothuis het en suite-badkamers, ’n volledig toegeruste kombuis, binnenshuise braai, kaggel, lugversorging, Wi-Fi en batterykrag tydens beurtkrag.",
+    href: "https://www.booking.com/hotel/za/cherry-blossom-cottage-ceres.html",
+    cta: "Bespreek nou",
   },
   {
     title: "Mountain View Guest House",
     price: ["R1 050 per nag vir een persoon of R1 500 vir twee persone wat deel. ’n Volledige Engelse ontbyt is ingesluit."],
     body:
       "’n Luukse B&B met vyf en suite-kamers, elkeen met ’n privaat stoepingang. Gaste geniet berg-, tuin- en swembad-uitsigte, asook lugversorging, Wi-Fi, veilige parkering en ontbyt.",
+    href: "https://www.lekkeslaap.co.za/accommodation/mountain-view-guesthouse",
+    cta: "Bespreek nou",
   },
 ];
 
@@ -57,6 +73,10 @@ const campsites: Stay[] = [
     price: ["R110 per persoon per nag. Kinders jonger as vyf jaar kamp gratis."],
     body:
       "Die beste algehele kampeeropsie wat fasiliteite en waarde betref. Elke kampeerplek het elektrisiteit, ’n waterkraan, braaidrom met rooster, piekniektafel en toegang tot gedeelde ablusiegeriewe. Die plaas is troeteldiervriendelik en ongeveer 30 km buite Ceres geleë.",
+    /* Klondyke's Nightsbridge form covers the cottages only — the farm asks for
+       campsite bookings by email, so this card enquires rather than books. */
+    href: "https://www.cherryfarm.co.za/accommodation/",
+    cta: "Doen navraag",
   },
   {
     title: "Petervale Guest Farm",
@@ -67,6 +87,8 @@ const campsites: Stay[] = [
     ],
     body:
       "’n Rustige boskampeerervaring met uitsigte oor ’n dam. Die kampeerplekke het toilette, warmwaterstorte en vars fonteinwater. ’n Tipi-tent met ses matrasse kan ook teen ’n bykomende R460 per nag bespreek word.",
+    href: "https://www.petervale.net/enquires-bookings",
+    cta: "Bespreek nou",
   },
   {
     title: "Kaleo Guest Farm",
@@ -77,18 +99,28 @@ const campsites: Stay[] = [
     ],
     body:
       "’n Veelsydige gasteplaas met verskillende kampeeropsies. Premium staanplekke bied privaat badkamergeriewe, elektrisiteit, ’n onderdakbraai en ’n wasbak. Aktiwiteite sluit staproetes, swem in die plaasdam, voëlkyk en die besigtiging van rotskuns in.",
+    /* No Nightsbridge (or any other instant-booking) flow is published for
+       Kaleo — the official site takes enquiries by phone and email. */
+    href: "https://www.kaleomanor.co.za/",
+    cta: "Doen navraag",
   },
   {
     title: "Pine Forest Holiday Resort",
     price: ["Karavaan- en kampeerplekke vanaf R319 per staanplek vir ’n maksimum van ses persone. Elektrisiteit is ingesluit."],
     body:
       "Die gerieflikste kampeeropsie vir besoekers wat geleenthede in Ceres bywoon, aangesien dit in die dorp geleë is. Fasiliteite sluit ’n Olimpiese-grootte swembad, putt-putt, muurbalbaan, kinderspeelarea, braaigeriewe en ’n ontspanningsaal in.",
+    /* Municipal resort with no online booking — Ceres Tourism carries the
+       official phone and email details. */
+    href: "https://www.ceres.org.za/places/pine-forest-holiday-resort/",
+    cta: "Doen navraag",
   },
   {
     title: "Heiveld Farm Cottages",
     price: ["Vanaf R420 vir een kampeerder of R470 vir twee kampeerders. Bykomende gaste betaal R200 per persoon per nag."],
     body:
       "’n Goeie keuse vir aktiewe besoekers. Die werkende plaas bied forelhengel, kanovaart, staproetes, bergfietsry, putt-putt, vlugbal, rotsklim, rotspoele, voëlkyk en toegang tot San-rotskuns.",
+    href: "https://book.nightsbridge.com/24789",
+    cta: "Bespreek nou",
   },
 ];
 
@@ -144,7 +176,17 @@ const rows = [
                         ))}
                       </p>
                       <p class="body-lg leading-snug">{stay.body}</p>
-                      <Button href={stay.href} variant="white" class="self-start">Kontak</Button>
+                      {/* Nine near-identical CTAs, so each one names its own
+                          listing for screen readers. */}
+                      <Button
+                        href={stay.href}
+                        target={stay.href ? "_blank" : undefined}
+                        variant="white"
+                        class="self-start"
+                      >
+                        {stay.cta ?? "Kontak"}
+                        <span class="sr-only">&nbsp;— {stay.title}</span>
+                      </Button>
                     </article>
                   ))}
                 </div>

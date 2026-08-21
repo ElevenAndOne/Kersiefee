@@ -7,7 +7,7 @@ import Logo from "./Logo.astro";
 const TICKETS = "https://www.quicket.co.za/events/389341-ceres-kersiefees/#/";
 const CONTACT = "mailto:runeik@dutoit.com";
 
-const links: { label: string; href: string }[] = [
+const links: { label: string; href: string; }[] = [
   { label: "Meer oor die fees", href: "#about-section" },
   { label: "Koservaring", href: "#verkopers" },
   { label: "Program", href: "#program" },
@@ -27,8 +27,7 @@ const links: { label: string; href: string }[] = [
         <a
           href={link.href}
           class="whitespace-nowrap rounded-full px-5 py-3 text-lg text-cherry transition-colors hover:bg-blossom hover:text-cherry-dark"
-          data-nav-link
-        >
+          data-nav-link>
           {link.label}
         </a>
       ))}

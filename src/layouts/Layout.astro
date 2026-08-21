@@ -4,16 +4,104 @@ import "@fontsource/lato/700.css";
 import "@fontsource/lato/900.css";
 import "../styles/global.css";
 
+import {
+  DEFAULT_DESCRIPTION,
+  DEFAULT_TITLE,
+  EVENT,
+  LOCALE,
+  OG_IMAGE,
+  OG_IMAGE_ALT,
+  SITE_NAME,
+  SOCIALS,
+  THEME_COLOR,
+  TICKETS_URL,
+} from "../site";
+
 interface Props {
   title?: string;
   description?: string;
+  /** Page-specific share card; defaults to the site-wide one. */
+  image?: string;
+  imageAlt?: string;
+  /** Keep a page out of the index (thank-you pages, drafts, and the like). */
+  noindex?: boolean;
 }
 
 const {
-  title = "Ceres Kersiefees 2026",
-  description =
-    "Vier die kersieseisoen saam met ons by die Ceres Kersiefees – sport, musiek, kos en kersies vir die hele gesin. Saterdag, 5 Desember 2026, Rugbyklub, Ceres.",
+  title = DEFAULT_TITLE,
+  description = DEFAULT_DESCRIPTION,
+  image = OG_IMAGE,
+  imageAlt = OG_IMAGE_ALT,
+  noindex = false,
 } = Astro.props;
+
+/* Absolute URLs, which og:/twitter: tags and the canonical link all require.
+   `Astro.site` is the `site` value from astro.config.mjs. */
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const imageUrl = new URL(image, Astro.site).href;
+
+/* The home page's <title> is already the full brand name; deeper pages get it
+   appended so a SERP entry reads on its own. */
+const pageTitle = title === DEFAULT_TITLE ? title : `${title} | ${SITE_NAME}`;
+
+/* Structured data. A Festival is a schema.org Event, which is what earns the
+   date/venue/ticket treatment in search results — so the facts here have to
+   match the page copy exactly. */
+const eventSchema = {
+  "@context": "https://schema.org",
+  "@type": "Festival",
+  name: DEFAULT_TITLE,
+  description: DEFAULT_DESCRIPTION,
+  url: canonical,
+  image: [imageUrl],
+  startDate: EVENT.startDate,
+  endDate: EVENT.endDate,
+  eventStatus: "https://schema.org/EventScheduled",
+  eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+  inLanguage: "af",
+  isAccessibleForFree: false,
+  location: {
+    "@type": "Place",
+    name: EVENT.venue.name,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: EVENT.venue.street,
+      addressLocality: EVENT.venue.locality,
+      addressRegion: EVENT.venue.region,
+      postalCode: EVENT.venue.postalCode,
+      addressCountry: EVENT.venue.country,
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: EVENT.venue.latitude,
+      longitude: EVENT.venue.longitude,
+    },
+  },
+  performer: EVENT.performers.map((name) => ({ "@type": "MusicGroup", name })),
+  organizer: {
+    "@type": "Organization",
+    name: SITE_NAME,
+    url: new URL("/", Astro.site).href,
+  },
+  offers: EVENT.offers.map((offer) => ({
+    "@type": "Offer",
+    name: offer.name,
+    price: offer.price,
+    priceCurrency: "ZAR",
+    url: TICKETS_URL,
+    availability: "https://schema.org/InStock",
+    validFrom: "2026-01-01T00:00:00+02:00",
+  })),
+};
+
+const organisationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: SITE_NAME,
+  url: new URL("/", Astro.site).href,
+  logo: new URL("/favicon.svg", Astro.site).href,
+  sameAs: SOCIALS,
+};
 ---
 
 <!DOCTYPE html>
@@ -21,9 +109,46 @@ const {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
+
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta
+      name="robots"
+      content={noindex ? "noindex, nofollow" : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"}
+    />
+
+    {/* Icons, all generated from the one Figma mark. The .ico (16/32/48) is
+        for legacy crawlers and pinned tabs; modern browsers take the SVG. The
+        Apple tile has to be an opaque raster — iOS ignores alpha. */}
+    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content={THEME_COLOR} />
+
+    {/* Open Graph — WhatsApp and Facebook are how a festival link actually
+        travels, and both need the absolute image URL plus its dimensions. */}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:locale" content={LOCALE} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={imageAlt} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    <meta name="twitter:image:alt" content={imageAlt} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(eventSchema)} is:inline />
+    <script type="application/ld+json" set:html={JSON.stringify(organisationSchema)} is:inline />
   </head>
   <body>
     <slot />

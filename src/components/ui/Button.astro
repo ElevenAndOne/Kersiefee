@@ -11,6 +11,9 @@ interface Props {
   arrow?: boolean;
   class?: string;
   type?: "button" | "submit";
+  /** Set on off-site links; `rel` defaults to a safe noopener pair. */
+  target?: "_blank";
+  rel?: string;
 }
 
 const {
@@ -19,6 +22,8 @@ const {
   arrow = true,
   class: className = "",
   type = "button",
+  target,
+  rel = target === "_blank" ? "noopener noreferrer" : undefined,
 } = Astro.props;
 
 const base =
@@ -30,7 +35,9 @@ const circle = variant === "red" ? "bg-white text-cherry" : "bg-cherry text-whit
 const Tag = href ? "a" : "button";
 ---
 
-<Tag href={href} type={href ? undefined : type} class:list={[base, look, pad, className]}>
+<Tag
+  href={href} type={href ? undefined : type} target={href ? target : undefined} rel={href ? rel : undefined}
+  class:list={[base, look, pad, className]}>
   <span class="py-1.5 whitespace-nowrap landscape:whitespace-normal landscape:leading-snug"><slot /></span>
   {arrow && (
     <span class:list={["flex size-11 shrink-0 items-center justify-center rounded-full transition-transform duration-300 group-hover:rotate-360", circle]}>

@@ -1,0 +1,5 @@
+# Ceres Kersiefees — everything is public and indexable.
+User-agent: *
+Allow: /
+
+Sitemap: https://kersiefees.co.za/sitemap-index.xml
