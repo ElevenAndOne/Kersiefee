@@ -10,7 +10,7 @@ export default defineConfig({
   /* Canonical origin. Astro builds the sitemap from it, and Layout.astro reads
      it via `Astro.site` for the canonical link and the og:/twitter: URLs — so
      every absolute URL on the site follows from this one value. */
-  site: "https://kersiefees.co.za",
+  site: "https://cereskersiefees.co.za",
 
   integrations: [react(), sitemap()],
 

@@ -201,6 +201,7 @@ const rows = [
 
 <script>
   import { gsap } from "gsap";
+  import { dragScrub } from "../../scripts/marquee";
   import { reducedMotion, registerEases } from "../../scripts/motion";
 
   registerEases();
@@ -251,8 +252,27 @@ const rows = [
     const slowToStop = () => rampTo(0, 0.7, "power2.out");
     const speedBackUp = () => rampTo(1, 0.9, "power1.inOut");
 
-    wrap.addEventListener("mouseenter", slowToStop);
-    wrap.addEventListener("mouseleave", speedBackUp);
+    /* Tracked so releasing a drag while still hovering leaves the row at rest,
+       rather than overriding the hover stop. */
+    let hovering = false;
+    wrap.addEventListener("mouseenter", () => {
+      hovering = true;
+      slowToStop();
+    });
+    wrap.addEventListener("mouseleave", () => {
+      hovering = false;
+      speedBackUp();
+    });
+
+    /* Drag to scrub. `span` carries the row's direction, so the reversed
+       bottom row follows the pointer the same way the top one does. */
+    dragScrub(wrap, tween, {
+      span: reverse ? distance : -distance,
+      onGrab: () => gsap.killTweensOf(tween),
+      onRelease: () => {
+        if (!hovering) speedBackUp();
+      },
+    });
 
     // Keyboard focus pauses it the same way — a moving target is nearly
     // impossible to use without a mouse.

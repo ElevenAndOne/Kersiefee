@@ -2,6 +2,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import Lenis from "lenis";
+import { dragScrub } from "./marquee";
 import { reducedMotion, registerEases } from "./motion";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
@@ -104,7 +105,7 @@ function ticketReveals() {
   });
 }
 
-/** Infinite marquees (info ribbon + sponsor logos); ease down on hover. */
+/** Infinite marquees (info ribbon + sponsor logos); ease down on hover, draggable. */
 function marquees() {
   gsap.utils.toArray<HTMLElement>("[data-marquee]").forEach((wrap) => {
     const track = wrap.querySelector<HTMLElement>(".marquee-track");
@@ -120,9 +121,26 @@ function marquees() {
     });
 
     // ramp the speed change instead of snapping it
-    const rampTo = (scale: number) => gsap.to(tween, { timeScale: scale, duration: 0.45, ease: "power1.inOut" });
-    wrap.addEventListener("mouseenter", () => rampTo(0.15));
-    wrap.addEventListener("mouseleave", () => rampTo(1));
+    const rampTo = (scale: number, duration = 0.45) =>
+      gsap.to(tween, { timeScale: scale, duration, ease: "power1.inOut", overwrite: true });
+
+    /* Tracked so a drag released without the pointer having left can resume at
+       the eased-down hover speed rather than jumping back to full. */
+    let hovering = false;
+    wrap.addEventListener("mouseenter", () => {
+      hovering = true;
+      rampTo(0.15);
+    });
+    wrap.addEventListener("mouseleave", () => {
+      hovering = false;
+      rampTo(1);
+    });
+
+    dragScrub(wrap, tween, {
+      span: -distance,
+      onGrab: () => gsap.killTweensOf(tween),
+      onRelease: () => rampTo(hovering ? 0.15 : 1, 0.9),
+    });
   });
 }
 

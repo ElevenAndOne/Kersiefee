@@ -2,4 +2,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://kersiefees.co.za/sitemap-index.xml
+Sitemap: https://cereskersiefees.co.za/sitemap-index.xml

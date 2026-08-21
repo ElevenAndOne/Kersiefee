@@ -190,6 +190,28 @@ body {
   will-change: transform;
 }
 
+/* Added by dragScrub() (scripts/marquee.ts), so the grab affordance only shows
+   up where the gesture is actually wired — never with JS off or under
+   prefers-reduced-motion, where the rows fall back to native scrolling.
+   `pan-y` keeps vertical page scrolling with the browser while we take over
+   the horizontal axis. */
+.marquee-drag {
+  cursor: grab;
+  touch-action: pan-y;
+}
+
+.marquee-drag.is-dragging {
+  cursor: grabbing;
+  user-select: none;
+}
+
+/* A half-dragged image or link would otherwise start a native drag and
+   swallow the rest of the gesture. */
+.marquee-drag img,
+.marquee-drag a {
+  -webkit-user-drag: none;
+}
+
 /* ---------- Themed Google Map: hide chrome, keep only the map ---------- */
 .themed-map .gm-style-cc,
 .themed-map .gmnoprint,

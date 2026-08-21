@@ -16,7 +16,8 @@ const sports = [
       "Inskrywings: R120 by die Ceres Gholfklub",
       "Formaat: Enkel stableford",
     ],
-    cta: "Kontak Ons",
+    cta: "Inskrywings",
+    href: "mailto:runeik@dutoit.com",
   },
   {
     title: "Rolbal",
@@ -28,7 +29,8 @@ const sports = [
       "Formaat: 3 wedstryde van 90 minute elk",
       "Ingesluit by inskrywing: R1000 per span (4 persone) sluit middagete & toegang tot die Ceres Kersiefees in.",
     ],
-    cta: "Kontak Ons",
+    cta: "Inskrywings",
+    href: "mailto:runeik@dutoit.com",
   },
   {
     title: "TruCape Fast Five Hockey",
@@ -40,6 +42,8 @@ const sports = [
       "Afdelings: Junior (o.10 - o.13) & Senior (o.14 - 19)",
       "Ingesluit by inskrywing: R600 per span (5 spelers) & Toegang tot die Ceres Kersiefees",
     ],
+    cta: "Inskrywings",
+    href: "mailto:admin@fdconradie.co.za"
   },
   {
     title: "Junior Tennis Tournament",
@@ -53,6 +57,8 @@ const sports = [
       "U/14, U/16, U/18 ordinary ball: R375",
       "Cost includes singles and doubles, except U/9 singles only",
     ],
+    cta: "Inskrywings",
+    href: "https://www.capetennis.co.za"
   },
   {
     title: "Hyrox",
@@ -63,6 +69,8 @@ const sports = [
       "Inskrywings: The Barn Gym (083 301 6941)",
       "Ingesluit by inskrywing: R200 Members / R300 Non-Members; Toegang tot die Ceres Kersiefees",
     ],
+    cta: "Inskrywings",
+    href: "https://www.facebook.com/p/The-Barn-Gym-61586060408399/"
   },
   {
     title: "Kinder Kampus Driekamp",
@@ -94,6 +102,8 @@ const sports = [
       "Fietsry: 4km",
       "Draf: 2km",
     ],
+    cta: "Inskrywings",
+    href: "https://www.quicket.co.za/events/388055-kinder-kampus-driekamp/"
   },
   {
     title: "Padel",
@@ -104,6 +114,8 @@ const sports = [
       "Inskrywings: Playtomic App",
       "Ingesluit by inskrywing: R225; Toegang tot die Ceres Kersiefees",
     ],
+    cta: "Inskrywings",
+    href: 'https://playtomic.com/clubs/ceres-padel'
   },
 ];
 ---
@@ -137,6 +149,7 @@ const sports = [
 
 <script>
   import { gsap } from "gsap";
+  import { dragScrub } from "../../scripts/marquee";
   import { reducedMotion, registerEases } from "../../scripts/motion";
 
   registerEases();
@@ -185,8 +198,17 @@ const sports = [
       const slowToStop = () => rampTo(0, 0.7, "power2.out");
       const speedBackUp = () => rampTo(1, 0.9, "power1.inOut");
 
-      wrap.addEventListener("mouseenter", slowToStop);
-      wrap.addEventListener("mouseleave", speedBackUp);
+      /* Tracked so releasing a drag while still hovering leaves the carousel
+         at rest, rather than overriding the hover stop. */
+      let hovering = false;
+      wrap.addEventListener("mouseenter", () => {
+        hovering = true;
+        slowToStop();
+      });
+      wrap.addEventListener("mouseleave", () => {
+        hovering = false;
+        speedBackUp();
+      });
 
       // Keyboard focus (tabbing to a card's CTA) pauses it the same way --
       // otherwise a moving target is nearly impossible to use without a mouse.
@@ -194,6 +216,17 @@ const sports = [
       wrap.addEventListener("focusout", (event) => {
         const next = (event as FocusEvent).relatedTarget as Node | null;
         if (!next || !wrap.contains(next)) speedBackUp();
+      });
+
+      /* Drag to scrub. Hover already brings this row to a stop, so a drag on
+         desktop is really about throwing it further than the wait allows;
+         on touch, where there is no hover, it is the only way to steer it. */
+      dragScrub(wrap, tween, {
+        span: -distance,
+        onGrab: () => gsap.killTweensOf(tween),
+        onRelease: () => {
+          if (!hovering) speedBackUp();
+        },
       });
     }
   }
