@@ -14,6 +14,12 @@ import standaardkaartjiePhoto from "../../assets/figma/ticket-photo-standaardkaa
 
 const quicketHref = "https://www.quicket.co.za/events/389341-ceres-kersiefees/#/";
 
+/* Some events are not sold through Quicket — their CTA dials the organiser
+   who handles that event's bookings instead. */
+const leaTroskieTel = "tel:+27827515281"; // Lea Troskie, 082 751 5281
+const matildaHendrikzTel = "tel:+27781446180"; // Matilda Hendrikz, 078 144 6180
+const runeiKotzeTel = "tel:+27749685168"; // Runei Kotze, 074 968 5168
+
 /* Six tickets, spaced out (not overlapping) and alternating left/right, with
    a slight counter-clockwise tilt on the odd cards, as in the Figma frame. */
 const tickets: ComponentProps<typeof TicketCard>[] = [
@@ -27,7 +33,7 @@ const tickets: ComponentProps<typeof TicketCard>[] = [
     variant: "white",
     rotate: -2,
     image: { src: kersiekreatiefPhoto.src, alt: "'n Ingeraamde kersie-kunswerk teen 'n galerymuur" },
-    href: quicketHref,
+    href: leaTroskieTel,
   },
   {
     title: "Kersie Langtafel",
@@ -38,7 +44,7 @@ const tickets: ComponentProps<typeof TicketCard>[] = [
     cta: "Leer meer",
     variant: "red",
     image: { src: kersieLangtafelPhoto.src, alt: "Feesgangers kuier om 'n feestelike langtafel in die buitelug" },
-    href: quicketHref,
+    href: matildaHendrikzTel,
   },
   {
     title: "Standaardkaartjie",
@@ -74,7 +80,7 @@ const tickets: ComponentProps<typeof TicketCard>[] = [
     variant: "white",
     rotate: -2,
     image: { src: opelugPreekPhoto.src, alt: "Feesgangers aanbid saam terwyl die son sak" },
-    href: "https://www.instagram.com/ceres_kersiefees/",
+    href: runeiKotzeTel,
   },
   {
     title: "Fynbos Velddag",
@@ -82,7 +88,7 @@ const tickets: ComponentProps<typeof TicketCard>[] = [
     cta: "Leer meer",
     variant: "red",
     image: { src: fynbosVelddagPhoto.src, alt: "'n Voël rus op fynbos in die Kouebokkeveld" },
-    href: quicketHref,
+    href: runeiKotzeTel,
   },
 ];
 ---
