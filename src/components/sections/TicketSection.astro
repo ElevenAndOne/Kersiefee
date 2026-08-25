@@ -5,6 +5,7 @@ import Section from "../ui/Section.astro";
 import TicketCard from "../ui/TicketCard.astro";
 
 import bgVector from "../../assets/figma/ticket-bg-vector.svg";
+import cherryTimePhoto from "../../assets/figma/ticket-photo-cherry-time.avif";
 import fynbosVelddagPhoto from "../../assets/figma/ticket-photo-fynbos-velddag.avif";
 import kersieLangtafelPhoto from "../../assets/figma/ticket-photo-kersie-langtafel.avif";
 import kersiekreatiefPhoto from "../../assets/figma/ticket-photo-kersiekreatief.avif";
@@ -14,15 +15,18 @@ import standaardkaartjiePhoto from "../../assets/figma/ticket-photo-standaardkaa
 
 const quicketHref = "https://www.quicket.co.za/events/389341-ceres-kersiefees/#/";
 
-/* Some events are not sold through Quicket — their CTA dials the organiser
-   who handles that event's bookings instead. */
-const leaTroskieTel = "tel:+27827515281"; // Lea Troskie, 082 751 5281
-const matildaHendrikzTel = "tel:+27781446180"; // Matilda Hendrikz, 078 144 6180
-const runeiKotzeTel = "tel:+27749685168"; // Runei Kotze, 074 968 5168
 
-/* Six tickets, spaced out (not overlapping) and alternating left/right, with
-   a slight counter-clockwise tilt on the odd cards, as in the Figma frame. */
 const tickets: ComponentProps<typeof TicketCard>[] = [
+  {
+    title: "Cherry Time™ Kersieplaas-Besoek",
+    lines: [
+      "Stap tussen die kersiebome, proe die vars kersies, ontmoet die mense agter die oes en ervaar Ceres se kersieseisoen eerstehands! Meer inligting sal volg.",
+    ],
+    cta: "Leer meer",
+    variant: "red",
+    image: { src: cherryTimePhoto.src, alt: "'n Hand pluk ryp kersies van 'n tak" },
+    href: "tel:+27749685168",
+  },
   {
     title: "Kersiekreatief",
     lines: [{
@@ -33,7 +37,7 @@ const tickets: ComponentProps<typeof TicketCard>[] = [
     variant: "white",
     rotate: -2,
     image: { src: kersiekreatiefPhoto.src, alt: "'n Ingeraamde kersie-kunswerk teen 'n galerymuur" },
-    href: leaTroskieTel,
+    href: "tel:+27827515281",
   },
   {
     title: "Kersie Langtafel",
@@ -44,7 +48,7 @@ const tickets: ComponentProps<typeof TicketCard>[] = [
     cta: "Leer meer",
     variant: "red",
     image: { src: kersieLangtafelPhoto.src, alt: "Feesgangers kuier om 'n feestelike langtafel in die buitelug" },
-    href: matildaHendrikzTel,
+    href: "tel:+27781446180",
   },
   {
     title: "Standaardkaartjie",
@@ -61,9 +65,6 @@ const tickets: ComponentProps<typeof TicketCard>[] = [
     prices: [{ price: "R150" }],
     variant: "red",
     rotate: -0.36,
-    /* Figma's second card-layout variant: the image is a transparent
-       cutout that bleeds to the card's top/bottom edges instead of
-       sitting inset like the other cards. */
     flush: true,
     image: { src: kinderkaartjiePhoto.src, alt: "Riaan Benadé en Bok van Blerk tree op by die Kersiefees" },
     href: quicketHref,
@@ -80,7 +81,7 @@ const tickets: ComponentProps<typeof TicketCard>[] = [
     variant: "white",
     rotate: -2,
     image: { src: opelugPreekPhoto.src, alt: "Feesgangers aanbid saam terwyl die son sak" },
-    href: runeiKotzeTel,
+    href: "tel:+27749685168",
   },
   {
     title: "Fynbos Velddag",
@@ -88,7 +89,7 @@ const tickets: ComponentProps<typeof TicketCard>[] = [
     cta: "Leer meer",
     variant: "red",
     image: { src: fynbosVelddagPhoto.src, alt: "'n Voël rus op fynbos" },
-    href: runeiKotzeTel,
+    href: "tel:+27749685168",
   },
 ];
 ---
@@ -113,7 +114,7 @@ const tickets: ComponentProps<typeof TicketCard>[] = [
 
     <div class="flex w-full flex-col gap-8 landscape:gap-6">
       {tickets.map((ticket, i) => (
-        <div class:list={["flex", i % 2 === 0 ? "justify-start" : "justify-end"]}>
+        <div class:list={["flex", i % 2 === 0 ? "justify-end" : "justify-start"]}>
           <TicketCard {...ticket} class="w-3/4 landscape:w-full" />
         </div>
       ))}
