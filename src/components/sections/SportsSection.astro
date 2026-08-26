@@ -43,7 +43,7 @@ const sports = [
       "Ingesluit by inskrywing: R600 per span (5 spelers) & Toegang tot die Ceres Kersiefees",
     ],
     cta: "Inskrywings",
-    href: "mailto:admin@fdconradie.co.za"
+    href: "mailto:admin@fdconradie.co.za",
   },
   {
     title: "Junior Tennis Tournament",
@@ -58,7 +58,7 @@ const sports = [
       "Cost includes singles and doubles, except U/9 singles only",
     ],
     cta: "Inskrywings",
-    href: "https://www.capetennis.co.za"
+    href: "https://www.capetennis.co.za",
   },
   {
     title: "Hyrox",
@@ -70,7 +70,7 @@ const sports = [
       "Ingesluit by inskrywing: R200 Members / R300 Non-Members; Toegang tot die Ceres Kersiefees",
     ],
     cta: "Inskrywings",
-    href: "https://www.facebook.com/p/The-Barn-Gym-61586060408399/"
+    href: "https://www.facebook.com/p/The-Barn-Gym-61586060408399/",
   },
   {
     title: "Kinder Kampus Driekamp",
@@ -82,28 +82,19 @@ const sports = [
       "",
       "Afdelings:",
       "",
-      "McFun: 3-5 jaar",
-      "Sproeier: 20m",
-      "Hardloop: 200m",
-      "Fietsry: 100",
-      "",
-      "Mid: 9-10 jaar",
-      "Swem: 50m",
-      "Fietsry: 2km",
-      "Draf: 1km",
-      "",
-      "Mini: 6-8 jaar",
-      "Plas: 30m",
-      "Fietsry: 1km",
-      "Draf: 500m",
-      "",
-      "Max: 11-13 jaar",
-      "Swem: 100m",
-      "Fietsry: 4km",
-      "Draf: 2km",
+    ],
+    /* The four age divisions are a 2x2 grid rather than one long list, so the
+       card stays readable when it springs open. */
+    elements: [
+      `<div class="grid grid-cols-2 gap-4">
+        <span>McFun: 3-5 jaar<br/>Sproeier: 20m<br/>Hardloop: 200m<br/>Fietsry: 100</span>
+        <span>Mid: 9-10 jaar<br/>Swem: 50m<br/>Fietsry: 2km<br/>Draf: 1km</span>
+        <span>Mini: 6-8 jaar<br/>Plas: 30m<br/>Fietsry: 1km<br/>Draf: 500m</span>
+        <span>Max: 11-13 jaar<br/>Swem: 100m<br/>Fietsry: 4km<br/>Draf: 2km</span>
+      </div>`,
     ],
     cta: "Inskrywings",
-    href: "https://www.quicket.co.za/events/388055-kinder-kampus-driekamp/"
+    href: "https://www.quicket.co.za/events/388055-kinder-kampus-driekamp/",
   },
   {
     title: "Padel",
@@ -115,32 +106,42 @@ const sports = [
       "Ingesluit by inskrywing: R225; Toegang tot die Ceres Kersiefees",
     ],
     cta: "Inskrywings",
-    href: 'https://playtomic.com/clubs/ceres-padel'
+    href: "https://playtomic.com/clubs/ceres-padel",
   },
 ];
 ---
 
 <Section id="sport-section" bg="none" class="z-10">
   <Container class="flex flex-col gap-24 landscape:gap-12">
-    <h2 class="h1 text-center" data-split>Neem deel aan Ceres Kersiefees Sport!</h2>
+    <h2 class="h1 text-center" data-split>
+      Neem deel aan Ceres Kersiefees Sport!
+    </h2>
 
-    {/* Auto-scrolling carousel, same full-bleed marquee mechanic as the
+    {
+      /* Auto-scrolling carousel, same full-bleed marquee mechanic as the
         About/Sponsors/Kersie-Jol tickers (w-screen breakout, clipped by
         Section's overflow-hidden). It gets its own data attribute rather
         than `data-marquee` because the shared marquees() helper only eases
         speed down to 15% on hover -- this carousel needs a genuine stop, so
         it runs its own tween below instead of being picked up by that
-        helper. */}
+        helper. */
+    }
     <div class="flex flex-col" data-sports-marquee data-marquee-speed="40">
       <div class="w-screen">
-        <div class="marquee-track gap-5 pr-5 items-start! h-120">
-          {[0, 1].map((copy) => (
-            <div class="flex shrink-0 items-start gap-5" aria-hidden={copy === 1 || undefined}>
-              {sports.map((sport) => (
-                <SportCard {...sport} class="w-[clamp(17rem,32vw,25rem)] shrink-0" data-rise />
-              ))}
-            </div>
-          ))}
+        <div class="marquee-track gap-5 pr-5 items-start! min-h-120">
+          {
+            [0, 1].map((copy) => (
+              <div class="flex shrink-0 items-start gap-5" aria-hidden={copy === 1 || undefined} >
+                {sports.map((sport) => (
+                  <SportCard
+                    {...sport}
+                    class="w-[clamp(17rem,32vw,25rem)] shrink-0"
+                    data-rise
+                  />
+                ))}
+              </div>
+            ))
+          }
         </div>
       </div>
     </div>
@@ -165,7 +166,9 @@ const sports = [
          track -- cards further down also carry aria-hidden on decorative
          bits (backdrops, blank spacer lines), which must stay put. */
       track.parentElement?.classList.add("overflow-x-auto");
-      track.querySelectorAll<HTMLElement>(':scope > [aria-hidden="true"]').forEach((el) => el.remove());
+      track
+        .querySelectorAll<HTMLElement>(':scope > [aria-hidden="true"]')
+        .forEach((el) => el.remove());
     } else {
       /* The duplicate group stays aria-hidden for screen readers, but it must
          stay fully hoverable and clickable -- it's half of what's on screen
@@ -175,9 +178,13 @@ const sports = [
          thing still worth trimming is sequential Tab order, so its CTA
          links don't duplicate stops for keyboard users -- tabindex="-1" does
          that without touching mouse/hover at all. */
-      track.querySelectorAll<HTMLElement>(':scope > [aria-hidden="true"] a, :scope > [aria-hidden="true"] button').forEach((el) => {
-        el.tabIndex = -1;
-      });
+      track
+        .querySelectorAll<HTMLElement>(
+          ':scope > [aria-hidden="true"] a, :scope > [aria-hidden="true"] button',
+        )
+        .forEach((el) => {
+          el.tabIndex = -1;
+        });
 
       const speed = Number(wrap.dataset.marqueeSpeed ?? 40); // px / second
       const distance = track.scrollWidth / 2;

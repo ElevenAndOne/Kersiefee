@@ -23,6 +23,13 @@ interface Props extends HTMLAttributes<"article"> {
   title: string;
   /** detail lines; an empty string renders a blank line, as in Figma */
   lines?: string[];
+  /**
+   * extra markup rendered below the lines, e.g. a multi-column block. HTML
+   * strings rather than real elements: card data is built in a frontmatter
+   * fence, where Astro forbids JSX, so the strings are injected with
+   * `set:html` instead.
+   */
+  elements?: string[];
   cta?: string;
   href?: string;
   /** decorative illustration, e.g. "/images/sports/golf.svg" */
@@ -32,6 +39,7 @@ interface Props extends HTMLAttributes<"article"> {
 const {
   title,
   lines = [],
+  elements = [],
   cta = "Inskrywings",
   href = "#kontak",
   image,
@@ -48,11 +56,12 @@ const backdrop = `background-image:url("${image}");background-size:100% auto;bac
   <div class="relative flex flex-col">
     <h3 class="h2">{title}</h3>
 
-    {lines.length > 0 && (
+    {(lines.length > 0 || elements.length > 0) && (
       <div class="sport-card__reveal grid">
         <div class="overflow-hidden">
           <div class="body-lg pt-5 font-bold leading-tight">
             {lines.map((line) => (line ? <p>{line}</p> : <p aria-hidden="true">&nbsp;</p>))}
+            {elements.map((element) => <Fragment set:html={element} />)}
           </div>
         </div>
       </div>
