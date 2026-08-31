@@ -111,14 +111,44 @@ function marquees() {
     const track = wrap.querySelector<HTMLElement>(".marquee-track");
     if (!track) return;
 
+    const copies = track.querySelectorAll<HTMLElement>(":scope > *");
+    if (copies.length < 2) return;
+
     const speed = Number(wrap.dataset.marqueeSpeed ?? 50); // px / second
-    const distance = track.scrollWidth / 2;
-    const tween = gsap.to(track, {
-      x: -distance,
-      duration: distance / speed,
+
+    /* One loop period: the offset between the track's two identical copies.
+       NOT scrollWidth / 2 — once the track overflows, Chrome leaves its
+       trailing padding-right out of scrollWidth, which put the wrap point
+       half that padding short of a full period: a visible jump every loop. */
+    const period = () => copies[1].offsetLeft - copies[0].offsetLeft;
+
+    /* The loop runs on a unitless 0→1 proxy and maps it to px in onUpdate,
+       so the travel always spans the CURRENT period. A px distance baked
+       into the tween went stale as soon as the lazy-loaded logos arrived
+       and widened the track, which also made the wrap-around jump. */
+    const setX = gsap.quickSetter(track, "x", "px");
+    let px = period();
+    const loop = { p: 0 };
+    const tween = gsap.to(loop, {
+      p: 1,
+      duration: px / speed,
       ease: "none",
       repeat: -1,
+      onUpdate: () => setX(-px * loop.p),
     });
+
+    /* Whenever images/fonts settle or a breakpoint crossing resizes the
+       copies, re-measure and re-apply at the same loop progress — with a
+       matching duration so `speed` stays true px/second. */
+    const resync = () => {
+      px = period();
+      const progress = tween.progress();
+      tween.duration(px / speed).progress(progress);
+      setX(-px * progress);
+    };
+    const sizes = new ResizeObserver(resync);
+    sizes.observe(track);
+    sizes.observe(copies[0]);
 
     // ramp the speed change instead of snapping it
     const rampTo = (scale: number, duration = 0.45) =>
@@ -137,7 +167,7 @@ function marquees() {
     });
 
     dragScrub(wrap, tween, {
-      span: -distance,
+      span: () => -px,
       onGrab: () => gsap.killTweensOf(tween),
       onRelease: () => rampTo(hovering ? 0.15 : 1, 0.9),
     });
@@ -206,6 +236,6 @@ export function initAnimations() {
   // splitting needs final line boxes, so wait for the webfont
   document.fonts.ready.then(splitHeadings);
 
-  // recalc marquee distances after fonts/images settle
+  // recalc scroll-trigger positions after fonts/images settle
   window.addEventListener("load", () => ScrollTrigger.refresh());
 }

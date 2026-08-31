@@ -15,7 +15,10 @@ import logo05 from "../../assets/figma/sponsor-7.svg";
 import logo03 from "../../assets/figma/sponsor-8.svg";
 import logo02 from "../../assets/figma/sponsor-9.svg";
 
-const logos = [logo09, logo08, logo06, logo05, logo04, logo03, logo02].map((m) => m.src);
+/* Kept as full metadata: the width/height attributes below let the browser
+   size each logo's box before the lazy SVG downloads, so the marquee track
+   measures at its real width from the first frame. */
+const logos = [logo09, logo08, logo06, logo05, logo04, logo03, logo02];
 ---
 
 <Section id="sponsors-section" bg="white">
@@ -35,8 +38,15 @@ const logos = [logo09, logo08, logo06, logo05, logo04, logo03, logo02].map((m) =
         <div class="marquee-track gap-28 pr-28 landscape:gap-16 landscape:pr-16">
           {[0, 1].map((copy) => (
             <div class="flex shrink-0 items-center gap-28 landscape:gap-16" aria-hidden={copy === 1 ? "true" : undefined}>
-              {logos.map((src, i) => (
-                <img src={src} alt={copy === 0 ? `Borg-logo ${i + 1}` : ""} class="h-33.75 w-auto object-contain landscape:h-16" loading="lazy" />
+              {logos.map((logo, i) => (
+                <img
+                  src={logo.src}
+                  width={logo.width}
+                  height={logo.height}
+                  alt={copy === 0 ? `Borg-logo ${i + 1}` : ""}
+                  class="h-33.75 w-auto object-contain landscape:h-16"
+                  loading="lazy"
+                />
               ))}
             </div>
           ))}

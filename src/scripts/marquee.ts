@@ -28,9 +28,11 @@ interface Options {
   /**
    * Signed pixels the track travels over one repeat — negative for a row
    * running left, positive for one running right. Dividing a pointer delta by
-   * it converts px of drag into tween progress, direction included.
+   * it converts px of drag into tween progress, direction included. A getter
+   * suits a track whose width is still settling (lazy images, breakpoint
+   * changes); a plain number suits one measured once.
    */
-  span: number;
+  span: number | (() => number);
   /** Fired when a drag takes hold, to cancel any ramp the caller had running. */
   onGrab: () => void;
   /** Fired when the gesture (and any throw) ends, to resume the caller's tween. */
@@ -43,6 +45,7 @@ export function dragScrub(
   { span, onGrab, onRelease }: Options,
 ) {
   const wrapProgress = gsap.utils.wrap(0, 1);
+  const spanPx = typeof span === "function" ? span : () => span;
 
   let pointerId: number | null = null;
   /* Touch has to commit to an axis: a mostly-vertical first move is the page
@@ -101,7 +104,7 @@ export function dragScrub(
          itself keeps this independent of the tween's own playhead. */
       const proxy = { p: tween.progress() };
       throwTween = gsap.to(proxy, {
-        p: proxy.p + (velocity * THROW_MS) / span,
+        p: proxy.p + (velocity * THROW_MS) / spanPx(),
         duration: THROW_EASE_DURATION,
         ease: "power2.out",
         onUpdate: () => tween.progress(wrapProgress(proxy.p)),
@@ -147,7 +150,7 @@ export function dragScrub(
       beginDrag(event);
     }
 
-    tween.progress(wrapProgress(startProgress + dx / span));
+    tween.progress(wrapProgress(startProgress + dx / spanPx()));
 
     const dt = event.timeStamp - lastTime;
     if (dt > 0) {
