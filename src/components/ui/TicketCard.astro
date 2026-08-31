@@ -61,6 +61,11 @@ const isRed = variant === "red";
       /* the image keeps Figma's share of the ticket (480 of the 1081px inner
          width), so the split holds as the ticket narrows */
       "ticket-notch grid grid-cols-[minmax(0,1fr)_44%] gap-x-8 landscape:grid-cols-1 landscape:gap-8 landscape:p-8 portrait:p-6",
+      /* In the stacked layout the notches move to the top/bottom edges and
+         carve --notch--size (1.25rem) into the box, which left the image
+         sitting nearly on the bottom scallops. The extra 1.25rem of bottom
+         padding gives the content the same visual clearance as the sides. */
+      "landscape:pb-13 portrait:pb-11",
       /* flush drops the shared padding at desktop width so the image can
          reach the top/bottom edges — the text column carries its own
          padding instead (see below). Horizontal padding stays symmetric
