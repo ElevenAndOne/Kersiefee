@@ -349,7 +349,12 @@ const directories = [
     });
 
     const speed = Number(wrap.dataset.marqueeSpeed ?? 30); // px / second
-    const distance = track.scrollWidth / 2;
+    /* One loop period: the offset between the two identical copies. NOT
+       scrollWidth / 2 — once the track overflows, Chrome leaves its trailing
+       padding-right out of scrollWidth, which put the wrap point half that
+       padding short of a full period: a small jump every loop. */
+    const copies = track.querySelectorAll<HTMLElement>(":scope > *");
+    const distance = copies[1].offsetLeft - copies[0].offsetLeft;
     /* A reversed row starts one copy to the left and travels back to zero, so
        it reads rightward while the row above it reads leftward. Either way the
        two identical copies make the wrap-around invisible. */
