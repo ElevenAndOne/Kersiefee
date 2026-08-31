@@ -16,7 +16,10 @@ import standaardkaartjiePhoto from "../../assets/figma/ticket-photo-standaardkaa
 const quicketHref = "https://www.quicket.co.za/events/389341-ceres-kersiefees/#/";
 
 
-const tickets: ComponentProps<typeof TicketCard>[] = [
+/* `hidden` keeps a ticket in the file but off the page. Kersiekreatief, Kersie
+   Langtafel and Fynbos Velddag are hidden at the client's request ("Please HIDE
+   for now"), so restoring one is a single flag once its details firm up. */
+const tickets: (ComponentProps<typeof TicketCard> & { hidden?: boolean; })[] = [
   {
     title: "Cherry Time™ Kersieplaas-Besoek",
     lines: [
@@ -29,6 +32,7 @@ const tickets: ComponentProps<typeof TicketCard>[] = [
   },
   {
     title: "Kersiekreatief",
+    hidden: true,
     lines: [{
       date: "Donderdag, 3 Desember 2026",
       text: "Uitstalling deur kunstenaars in die Ceres omgewing. Meer inligting sal volg.",
@@ -41,6 +45,7 @@ const tickets: ComponentProps<typeof TicketCard>[] = [
   },
   {
     title: "Kersie Langtafel",
+    hidden: true,
     lines: [{
       date: "Vrydag, 4 Desember 2026",
       text: "'n Kersie geinspireerde langtafel ete saam 'n bekroonde smul!",
@@ -52,7 +57,7 @@ const tickets: ComponentProps<typeof TicketCard>[] = [
   },
   {
     title: "Standaardkaartjie",
-    lines: ["Saterdag, 5 Desember 2026"],
+    lines: ["Saterdag, 5 Desember 2026", "Sluit die toegang in tot die feesgronde vanaf 16:00"],
     prices: [{ price: "R250" }],
     variant: "white",
     rotate: -2,
@@ -61,7 +66,7 @@ const tickets: ComponentProps<typeof TicketCard>[] = [
   },
   {
     title: "Kinderkaartjie",
-    lines: ["(5-18 ouderdom)"],
+    lines: ["(5-18 ouderdom)", "Sluit die toegang in tot die feesgronde vanaf 16:00"],
     prices: [{ price: "R150" }],
     variant: "red",
     rotate: -0.36,
@@ -85,6 +90,7 @@ const tickets: ComponentProps<typeof TicketCard>[] = [
   },
   {
     title: "Fynbos Velddag",
+    hidden: true,
     lines: ["Geinspireerde fynbos gesprek saam met Leon Kluge! Meer inligting sal volg."],
     cta: "Leer meer",
     variant: "red",
@@ -92,6 +98,11 @@ const tickets: ComponentProps<typeof TicketCard>[] = [
     href: "tel:+27749685168",
   },
 ];
+
+/* `hidden` is stripped rather than passed through — TicketCard has no such
+   prop, and it would land on the element as the HTML attribute of that name.
+   The left/right stagger indexes the visible stack, so it stays alternating. */
+const visibleTickets = tickets.filter((ticket) => !ticket.hidden).map(({ hidden, ...ticket }) => ticket);
 ---
 
 <Section id="kaartjies" bg="none">
@@ -113,7 +124,7 @@ const tickets: ComponentProps<typeof TicketCard>[] = [
     </div>
 
     <div class="flex w-full flex-col gap-8 landscape:gap-6">
-      {tickets.map((ticket, i) => (
+      {visibleTickets.map((ticket, i) => (
         <div class:list={["flex", i % 2 === 0 ? "justify-end" : "justify-start"]}>
           <TicketCard {...ticket} class="w-3/4 landscape:w-full" />
         </div>
