@@ -130,6 +130,74 @@ const rows = [
   { stays: guestHouses, from: 1, reverse: false },
   { stays: campsites, from: guestHouses.length + 1, reverse: true },
 ];
+
+/* ---------------------------------------------------------------------------
+   Ceres Toerisme se eie verblyflys.
+
+   Added at the client's request (Runei Kotze, via ClickUp): "can we please add
+   the IN TOWN accommodation to our Kersiefees list? It doesn't need to have
+   prices and all the details. Minimum info is fine. Contact details & name."
+
+   So these are contact tiles, not booking cards — no prices, no write-up, no
+   CTA — and they sit in a static grid rather than joining the marquees above.
+   Source: the "2026 Ceres Accommodation and Services List" workbook, IN TOWN
+   sheet.
+--------------------------------------------------------------------------- */
+interface Listing {
+  title: string;
+  /** Accommodation type, from the tourism list. */
+  type: string;
+  /** One entry per published number; each becomes its own tel: link. */
+  tel: string[];
+  email?: string;
+}
+
+/** `tel:` target — strip the spacing and swap the leading 0 for +27. */
+const telHref = (tel: string) => `tel:${tel.replace(/\D/g, "").replace(/^0/, "+27")}`;
+
+const inTown: Listing[] = [
+  { title: "Apple & Pear Accommodation", type: "Selfsorg", tel: ["063 913 9489"], email: "appleandpearaccommodation@gmail.com" },
+  { title: "Chantilly Guest House", type: "Selfsorg en bed & ontbyt", tel: ["083 441 9532"], email: "tanyafre00@gmail.com" },
+  { title: "Cherry Blossom Cottage", type: "Selfsorg", tel: ["082 763 5961"], email: "hello@cherryblossomcottage.co.za" },
+  { title: "Four Seasons", type: "Selfsorg", tel: ["023 316 2035"], email: "bookings@thevillageceres.co.za" },
+  { title: "La Dolce Vita B&B", type: "Selfsorg en bed & ontbyt", tel: ["023 312 3775", "081 784 4400"], email: "peppecanelli@yahoo.com" },
+  { title: "La Petite Piere", type: "Selfsorg", tel: ["073 599 9100"], email: "dumasyvette1@gmail.com" },
+  { title: "Lemon and Olive Tree Cottages", type: "Selfsorg en bed & ontbyt", tel: ["073 789 7922"], email: "hanle@bolandrental.co.za" },
+  { title: "Linger Longer Accommodation", type: "Selfsorg", tel: ["082 375 7157"], email: "time.again3757@gmail.com" },
+  { title: "Mountain View Guest House", type: "Bed & ontbyt", tel: ["082 497 2672"], email: "info@mountainviewceres.co.za" },
+  { title: "Pine Forest Holiday Resort", type: "Selfsorg en kampeer", tel: ["023 492 0183", "023 492 0184"], email: "denontvangs1@witzenberg.gov.za" },
+  { title: "Porterhouse Eleven Guest House", type: "Selfsorg en bed & ontbyt", tel: ["023 312 1278"], email: "bookings@porterhouseceres.co.za" },
+  { title: "Riverside Lodge", type: "Bed & ontbyt", tel: ["023 316 1653", "072 101 4519"], email: "riverside.ceres1@gmail.com" },
+  { title: "The Village Guest House & Restaurant", type: "Bed & ontbyt", tel: ["023 316 2035", "082 448 9092"], email: "bookings@thevillageceres.co.za" },
+  { title: "Time & Again Accommodation", type: "Selfsorg", tel: ["082 375 7157"], email: "time.again3757@gmail.com" },
+  { title: "Vrede & Vreugde Accommodation", type: "Selfsorg", tel: ["082 890 0146"], email: "benmarphithi@mweb.co.za" },
+];
+
+/* The seven the client highlighted on the Koue Bokkeveld map ("Please also
+   check that these are included"). Kaleo and Heiveld already run as featured
+   cards above; the other five had no place on the page at all. Contact details
+   come from the map itself, topped up from the workbook's OUT OF TOWN, CAMPING
+   and VENUES sheets where those carry an address as well. */
+const outOfTown: Listing[] = [
+  { title: "Boplaas 1743 Gastehuis", type: "Gastehuis en selfsorg", tel: ["023 317 0040", "076 141 2720"], email: "info@boplaas1743.co.za" },
+  { title: "Gys se Huis", type: "Selfsorg", tel: ["076 290 7115"], email: "forgottenhighwayceres@gmail.com" },
+  { title: "Heiveld Farm Cottages", type: "Selfsorg en kampeer", tel: ["083 661 9912"], email: "johalet@houdenbek.co.za" },
+  { title: "Kaleo Guest Farm", type: "Selfsorg en kampeer", tel: ["082 922 8967"], email: "stay@kaleomanor.co.za" },
+  { title: "Ribbokskloof Cottages", type: "Selfsorg en kampeer", tel: ["079 523 7010"] },
+  { title: "The Hamlet Country Lodge", type: "Lodge", tel: ["023 313 3070", "071 648 9439"] },
+  { title: "Wadrif", type: "Selfsorg", tel: ["073 929 7871"] },
+];
+
+/* Nothing is listed twice on one page: anything already carrying a full card
+   above drops out of the directory. Derived from the featured arrays rather
+   than pruned by hand, so adding or pulling a card keeps this correct on its
+   own — the titles are written to match. */
+const featured = new Set([...guestHouses, ...campsites].map((stay) => stay.title));
+
+const directories = [
+  { title: "In die dorp", listings: inTown },
+  { title: "Buite die dorp", listings: outOfTown },
+].map((group) => ({ ...group, listings: group.listings.filter((listing) => !featured.has(listing.title)) }));
 ---
 
 <Section id="akkommodasie" bg="none">
@@ -193,6 +261,54 @@ const rows = [
               ))}
             </div>
           </div>
+        </div>
+      ))}
+    </div>
+
+    {/* Ceres Toerisme's full list. Deliberately plainer than the featured
+        cards above — name, type and contact details only — so it reads as a
+        directory to scan rather than nine more things to compare. */}
+    <div class="flex w-full flex-col items-center gap-10">
+      <div class="flex max-w-4xl flex-col items-center gap-4 text-center">
+        <h3 class="h1" data-split>Nog plekke om te bly</h3>
+        <p class="body-lg">
+          Die volledige verblyflys vir Ceres en die omgewing, met dank aan Ceres Toerisme. Skakel of e-pos die eienaars direk vir beskikbaarheid en pryse.
+        </p>
+        <p class="body-lg">
+          Ceres Toerismekantoor: <a href="tel:+27233161287" class="font-bold underline underline-offset-4 hover:no-underline">023 316 1287</a>
+          {" · "}
+          <a href="https://www.ceres.org.za" target="_blank" rel="noopener noreferrer" class="font-bold underline underline-offset-4 hover:no-underline">
+            ceres.org.za
+          </a>
+        </p>
+      </div>
+
+      {directories.map((group) => (
+        <div class="flex w-full flex-col gap-6">
+          <h4 class="h2 text-center">{group.title}</h4>
+          <ul class="grid grid-cols-3 gap-5 tablet:grid-cols-2 landscape:grid-cols-1">
+            {group.listings.map((listing) => (
+              <li class="flex flex-col gap-2 rounded-blob bg-white p-6 shadow-cherry-soft" data-rise>
+                <h5 class="h3 font-extrabold leading-tight">{listing.title}</h5>
+                <p class="text-body font-bold opacity-70">{listing.type}</p>
+                {/* Links, not plain text — on a phone these are the whole
+                    point of the listing. */}
+                <div class="flex flex-col items-start gap-1 text-body">
+                  {listing.tel.map((tel) => (
+                    <a href={telHref(tel)} class="underline underline-offset-4 hover:no-underline">
+                      {tel}
+                      <span class="sr-only">&nbsp;— {listing.title}</span>
+                    </a>
+                  ))}
+                  {listing.email && (
+                    <a href={`mailto:${listing.email}`} class="break-words underline underline-offset-4 hover:no-underline">
+                      {listing.email}
+                    </a>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
       ))}
     </div>
