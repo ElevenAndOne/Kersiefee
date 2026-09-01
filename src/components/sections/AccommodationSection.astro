@@ -150,6 +150,9 @@ interface Listing {
   /** One entry per published number; each becomes its own tel: link. */
   tel: string[];
   email?: string;
+  /** Bare host, no scheme: shown as written, linked as https. Only some of
+      the properties publish a site of their own. */
+  web?: string;
 }
 
 /** `tel:` target — strip the spacing and swap the leading 0 for +27. */
@@ -177,12 +180,15 @@ const inTown: Listing[] = [
    check that these are included"). Kaleo and Heiveld already run as featured
    cards above; the other five had no place on the page at all. Contact details
    come from the map itself, topped up from the workbook's OUT OF TOWN, CAMPING
-   and VENUES sheets where those carry an address as well. */
+   and VENUES sheets where those carry an address as well. Rhodene Farm
+   Cottages is the one entry here that is not off that map: it came in later,
+   direct from the property. */
 const outOfTown: Listing[] = [
   { title: "Boplaas 1743 Gastehuis", type: "Gastehuis en selfsorg", tel: ["023 317 0040", "076 141 2720"], email: "info@boplaas1743.co.za" },
   { title: "Gys se Huis", type: "Selfsorg", tel: ["076 290 7115"], email: "forgottenhighwayceres@gmail.com" },
   { title: "Heiveld Farm Cottages", type: "Selfsorg en kampeer", tel: ["083 661 9912"], email: "johalet@houdenbek.co.za" },
   { title: "Kaleo Guest Farm", type: "Selfsorg en kampeer", tel: ["082 922 8967"], email: "stay@kaleomanor.co.za" },
+  { title: "Rhodene Farm Cottages", type: "Selfsorg", tel: ["023 313 3607", "072 872 1333"], email: "cottages@rhodene.co.za", web: "www.rhodene.co.za" },
   { title: "Ribbokskloof Cottages", type: "Selfsorg en kampeer", tel: ["079 523 7010"] },
   { title: "The Hamlet Country Lodge", type: "Lodge", tel: ["023 313 3070", "071 648 9439"] },
   { title: "Wadrif", type: "Selfsorg", tel: ["073 929 7871"] },
@@ -291,6 +297,14 @@ const directories = [
                   {listing.email && (
                     <a href={`mailto:${listing.email}`} class="break-words underline underline-offset-4 hover:no-underline">
                       {listing.email}
+                    </a>
+                  )}
+                  {listing.web && (
+                    <a
+                      href={`https://${listing.web}`} target="_blank" rel="noopener noreferrer"
+                      class="break-words underline underline-offset-4 hover:no-underline"
+                    >
+                      {listing.web}
                     </a>
                   )}
                 </div>
