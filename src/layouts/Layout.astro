@@ -150,6 +150,17 @@ const organisationSchema = {
     <script type="application/ld+json" set:html={JSON.stringify(eventSchema)} is:inline />
     <script type="application/ld+json" set:html={JSON.stringify(organisationSchema)} is:inline />
 
+    {/* Google Analytics — the snippet is Google's verbatim boilerplate;
+        is:inline keeps Astro from bundling it. */}
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-JX4S9G35CG"></script>
+    <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JX4S9G35CG');
+    </script>
+
     {/* Meta Pixel — the snippet is Meta's verbatim boilerplate; is:inline
         keeps Astro from bundling it. */}
     <script is:inline>
