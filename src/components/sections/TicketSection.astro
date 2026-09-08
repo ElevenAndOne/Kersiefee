@@ -14,11 +14,13 @@ import opelugPreekPhoto from "../../assets/figma/ticket-photo-opelug-preek.avif"
 import standaardkaartjiePhoto from "../../assets/figma/ticket-photo-standaardkaartjie.avif";
 
 const quicketHref = "https://www.quicket.co.za/events/389341-ceres-kersiefees/#/";
+const kersieKreatiefHref = "https://www.quicket.co.za/events/394208-kersie-kreatief-art-exhibition/";
 
 
-/* `hidden` keeps a ticket in the file but off the page. Kersiekreatief, Kersie
-   Langtafel and Fynbos Velddag are hidden at the client's request ("Please HIDE
-   for now"), so restoring one is a single flag once its details firm up. */
+/* `hidden` keeps a ticket in the file but off the page. Kersie Langtafel and
+   Fynbos Velddag are hidden at the client's request ("Please HIDE for now"), so
+   restoring one is a single flag once its details firm up — as happened with
+   Kersie Kreatief, which now has its date, price and its own Quicket event. */
 const tickets: (ComponentProps<typeof TicketCard> & { hidden?: boolean; })[] = [
   {
     title: "Cherry Time™ Kersieplaas-Besoek",
@@ -31,17 +33,17 @@ const tickets: (ComponentProps<typeof TicketCard> & { hidden?: boolean; })[] = [
     href: "tel:+27749685168",
   },
   {
-    title: "Kersiekreatief",
-    hidden: true,
+    title: "Kersie Kreatief Kunsuitstalling",
     lines: [{
       date: "Donderdag, 3 Desember 2026",
-      text: "Uitstalling deur kunstenaars in die Ceres omgewing. Meer inligting sal volg.",
+      text: "Uitstalling deur kunstenaars in die Ceres omgewing, 'n sorgvuldig saamgestelde wynproe en 'n ruim oestafel.",
     }],
-    cta: "Leer meer",
+    prices: [{ price: "R230" }],
+    cta: "Koop Jou Kaartjie!",
     variant: "white",
     rotate: -2,
     image: { src: kersiekreatiefPhoto.src, alt: "'n Ingeraamde kersie-kunswerk teen 'n galerymuur" },
-    href: "tel:+27827515281",
+    href: kersieKreatiefHref,
   },
   {
     title: "Kersie Langtafel",
