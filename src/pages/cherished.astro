@@ -1,0 +1,397 @@
+---
+/**
+ * CheriSHEd — the festival's style, beauty and wellness morning with
+ * Marilize de Clercq, on the festival Saturday but at Country Sjiek rather
+ * than the festival grounds. It gets its own page because it books
+ * differently: by EFT, with proof of payment sent to the organiser, so the
+ * bank details, dress code and priority list need more room than a card in
+ * the ticket stack has. That card (TicketSection) links here.
+ *
+ * The copy is the organiser's brief (the "Cherished Event" PDF), put into
+ * Afrikaans to match the rest of the site. Names stay as they are —
+ * CheriSHEd, Country Sjiek, TheStyleMentor, AGELess — and so does "Cherished
+ * Event", the phrase the organiser sorts WhatsApp sign-ups by.
+ *
+ * Playfair Display is this event's own voice (its wordmark and sign-offs),
+ * so it's imported here rather than in the shared layout.
+ */
+import "@fontsource/playfair-display/400-italic.css";
+import "@fontsource/playfair-display/700.css";
+
+import Button from "../components/ui/Button.astro";
+import CloudOverlap from "../components/ui/CloudOverlap.astro";
+import Container from "../components/ui/Container.astro";
+import Footer from "../components/ui/Footer.astro";
+import NavBar from "../components/ui/NavBar.astro";
+import Section from "../components/ui/Section.astro";
+import Layout from "../layouts/Layout.astro";
+import { DEFAULT_TITLE, SITE_NAME } from "../site";
+
+import cherries from "../assets/images/cherished/cherries.avif";
+import portrait from "../assets/images/cherished/portrait.avif";
+import ribbonCherries from "../assets/images/cherished/ribbon-cherries.avif";
+
+const title = "CheriSHEd met Marilize de Clercq";
+/* Its own 1200×630 share card, since this is the link that gets passed
+   around on WhatsApp. A JPEG, not the festival card's PNG: a photo would come
+   out at ~430 KB as PNG, and WhatsApp drops previews much over 300 KB. */
+const image = "/og-cherished.jpg";
+const imageAlt = "CheriSHEd saam met Marilize de Clercq – Saterdag, 5 Desember 2026 by Country Sjiek";
+const description =
+  "'n Oggend van styl, skoonheid en welstand saam met Marilize de Clercq. Saterdag, 5 Desember 2026, 09:30 vir 10:00 by Country Sjiek in die Breëriviervallei.";
+
+/* Adele Visser takes both the proofs of payment and the priority-list
+   sign-ups, on WhatsApp. */
+const ADELE = { name: "Adele Visser", phone: "084 910 1619", tel: "tel:+27849101619", whatsapp: "https://wa.me/27849101619" };
+
+const prices = [
+  { label: "Vroegvoël", price: "R385", note: "Bespreek teen 5 November" },
+  { label: "Standaard", price: "R425", note: "Ná 5 November" },
+];
+
+const expectations = [
+  { title: "Stylpraatjie", text: "Vars perspektiewe op styl en selfuitdrukking." },
+  { title: "Lewendige demonstrasie", text: "Sien hoe praktiese idees voor jou oë lewe kry." },
+  { title: "Skoonheid en welstand", text: "Wenke om na jouself om te sien, van binne en van buite." },
+];
+
+/* The brief sets the last one apart (bold, in red), so it's flagged here. */
+const inclusions = [
+  { text: "Heerlike kos" },
+  { text: "'n Koffie- en teestasie" },
+  { text: "Gelukstrekkings" },
+  { text: "Lewendige musiek deur Anjulie", highlight: true },
+];
+
+const bio = [
+  "Marilize de Clercq het al 28 jaar in die modebedryf agter die rug, met werk in stilering, televisie, advertensies en samewerkings met handelsmerke.",
+  "Sy het al op Top Billing, Pasella en Expresso verskyn en het met toonaangewende plaaslike en internasionale handelsmerke saamgewerk.",
+  "Bekend vir haar moderne AGELess-benadering tot styl en skoonheid, bring sy vars insig oor beeld, identiteit en die veranderende wêreld van mode.",
+];
+
+/* Sampled off the swatches in the brief's dress-code page. */
+const palette = [
+  { name: "Kersierooi", hex: "#b9181b" },
+  { name: "Wynrooi", hex: "#7b0110" },
+  { name: "Donkerpruim", hex: "#51111e" },
+  { name: "Bessiepienk", hex: "#c61a48" },
+  { name: "Ouroos", hex: "#c33f59" },
+];
+
+const bank: { label: string; value: string; copy?: boolean; }[] = [
+  { label: "Rekeningnaam", value: "CHERISHED" },
+  { label: "Bank", value: "Capitec" },
+  { label: "Rekeningtipe", value: "Spaarrekening" },
+  { label: "Rekeningnommer", value: "2603208515", copy: true },
+  { label: "Verwysing", value: "Jou naam en van" },
+];
+
+/* A schema.org Event of its own, in place of the festival's: its date, venue
+   and prices all differ. The brief gives no end time or street address, so
+   neither is claimed. */
+const pageUrl = new URL(Astro.url.pathname, Astro.site).href;
+const homeUrl = new URL("/", Astro.site).href;
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Event",
+  name: title,
+  description,
+  url: pageUrl,
+  image: [new URL(image, Astro.site).href],
+  startDate: "2026-12-05T10:00:00+02:00",
+  doorTime: "2026-12-05T09:30:00+02:00",
+  eventStatus: "https://schema.org/EventScheduled",
+  eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+  inLanguage: "af",
+  location: {
+    "@type": "Place",
+    name: "Country Sjiek",
+    address: { "@type": "PostalAddress", addressRegion: "Wes-Kaap", addressCountry: "ZA" },
+  },
+  performer: { "@type": "Person", name: "Marilize de Clercq" },
+  superEvent: { "@type": "Festival", name: DEFAULT_TITLE, url: homeUrl },
+  organizer: { "@type": "Organization", name: SITE_NAME, url: homeUrl },
+  offers: [
+    { "@type": "Offer", name: "Vroegvoël", price: "385", priceCurrency: "ZAR", validThrough: "2026-11-05T23:59:59+02:00", url: pageUrl },
+    { "@type": "Offer", name: "Standaard", price: "425", priceCurrency: "ZAR", url: pageUrl },
+  ],
+};
+---
+
+<Layout
+  {title} {description} {image} {imageAlt}
+  {structuredData}>
+  <NavBar />
+  <main>
+    {/* ---- Hero: the poster, as a page ---- */}
+    <Section bg="pink" class="overflow-hidden">
+      <Container
+        class="relative grid grid-cols-[minmax(0,1fr)_minmax(0,30rem)] items-center gap-24 pt-44 pb-[max(16rem,24vw)] tablet:grid-cols-[minmax(0,1fr)_minmax(0,22rem)] tablet:gap-12 tablet:pt-40 landscape:grid-cols-1 landscape:gap-16 landscape:pt-32 landscape:pb-[max(8rem,28vw)]">
+        <div class="flex flex-col items-start">
+          <p class="text-sm font-bold uppercase tracking-[0.3em]">Ceres Kersiefees bied aan</p>
+
+          {/* The ribbon hangs over "SHE", as it does on the poster. */}
+          <div class="relative mt-36 landscape:mt-28">
+            <img
+              src={ribbonCherries.src} alt="" aria-hidden="true" width="230"
+              height="165" class="absolute bottom-[88%] left-[60%] w-40 -translate-x-1/2 landscape:w-28"
+            />
+            <h1 class="font-serif text-[clamp(3.75rem,1.5rem+6vw,7.5rem)] leading-none font-bold tracking-tight text-plum">
+              Cheri<span class="text-cherry-dark">SHE</span>d
+            </h1>
+          </div>
+          <p class="mt-4 font-serif text-lg uppercase tracking-[0.3em] text-plum landscape:text-sm portrait:text-xs portrait:tracking-[0.2em]">
+            Styl <span class="text-cherry-dark">•</span> Skoonheid <span class="text-cherry-dark">•</span> Welstand
+          </p>
+          <p class="mt-8 font-serif text-h2 font-normal italic text-plum">saam met Marilize de Clercq</p>
+
+          <dl class="body-lg mt-12 grid w-full max-w-160 grid-cols-[auto_minmax(0,1fr)] gap-x-10 gap-y-4 border-t border-cherry/20 pt-8 portrait:gap-x-6">
+            <dt class="font-bold">Wanneer</dt>
+            <dd>Saterdag, 5 Desember 2026<br />09:30 vir 10:00</dd>
+            <dt class="font-bold">Waar</dt>
+            <dd>Country Sjiek, Breëriviervallei</dd>
+            <dt class="font-bold">Kaartjies</dt>
+            <dd>R385 vroegvoël, bespreek teen 5 November<br />R425 standaard</dd>
+          </dl>
+
+          <div class="mt-12 flex flex-wrap gap-4">
+            <Button href="#bespreek">Bespreek jou plek</Button>
+            <Button href="#prioriteitslys" variant="white">Sluit aan by die prioriteitslys</Button>
+          </div>
+        </div>
+
+        <div class="relative landscape:mx-auto landscape:w-4/5 portrait:w-full">
+          <img
+            src={portrait.src} alt="'n Laggende vrou met 'n sonbril onder 'n kersietak" width="412" height="760"
+            class="aspect-3/4 w-full rotate-2 rounded-blob object-cover object-[50%_15%] shadow-cherry"
+          />
+          {/* Sticker, poster-style, pinned over the leaves where it hides no
+              face. Decorative: the same facts are in the list. */}
+          <div
+            aria-hidden="true"
+            class="absolute -right-8 -top-10 flex size-40 rotate-12 flex-col items-center justify-center rounded-full bg-cherry text-center text-white shadow-pop tablet:-right-4 tablet:size-32 landscape:-right-3 landscape:-top-8">
+            <span class="text-sm font-bold uppercase tracking-widest tablet:text-xs">Vroegvoël</span>
+            <span class="h1">R385</span>
+            <span class="text-sm tablet:text-xs">tot 5 November</span>
+          </div>
+        </div>
+      </Container>
+
+      <CloudOverlap class="text-white" />
+    </Section>
+
+    {/* ---- The experience ---- */}
+    <Section id="ervaring" bg="white">
+      <Container class="flex flex-col gap-20 landscape:gap-12">
+        <div class="flex max-w-4xl flex-col gap-6">
+          <h2 class="h1" data-split>'n Oggend om geïnspireer te voel</h2>
+          <p class="text-lead">Styl, skoonheid en welstand kom saam vir 'n inspirerende somerbyeenkoms.</p>
+        </div>
+
+        <div class="flex flex-col gap-8">
+          <h3 class="h3 font-bold">Wat om te verwag</h3>
+          <ol class="grid grid-cols-3 gap-12 tablet:gap-8 landscape:grid-cols-1">
+            {expectations.map((item, i) => (
+              <li class="flex flex-col gap-3 border-t border-cherry/20 pt-6" data-reveal>
+                <span class="font-serif text-h1 font-normal italic text-cherry-dark" aria-hidden="true">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <h4 class="h2">{item.title}</h4>
+                <p class="body-lg">{item.text}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        {/* What the ticket includes, set as a ticket: the inclusions on the
+            body, the prices and booking button on a stub torn off along a
+            dashed line. */}
+        <div style="transform: rotate(-1deg)" data-ticket>
+          <div class="ticket-notch grid grid-cols-[minmax(0,1fr)_auto] text-white [--notch--fill:var(--color-cherry)] tablet:grid-cols-1">
+            <div class="flex flex-col gap-8 p-16 tablet:p-12 landscape:p-8 landscape:pt-12 portrait:p-6 portrait:pt-10">
+              <h3 class="h1">Jou kaartjie sluit in</h3>
+              <ul class="h3 grid list-disc grid-cols-[repeat(2,auto)] justify-start gap-x-16 gap-y-4 pl-6 landscape:grid-cols-1">
+                {inclusions.map((item) => <li class:list={[item.highlight && "font-bold"]}>{item.text}</li>)}
+              </ul>
+            </div>
+
+            <div class="flex flex-col items-start justify-center gap-8 border-l-2 border-dashed border-white/40 p-16 tablet:border-t-2 tablet:border-l-0 tablet:p-12 landscape:p-8 landscape:pb-13 portrait:p-6 portrait:pb-11">
+              <div class="flex gap-12 portrait:gap-8">
+                {prices.map((p) => (
+                  <div class="flex flex-col gap-1">
+                    <p class="text-sm font-bold uppercase tracking-widest">{p.label}</p>
+                    <p class="h1">{p.price}</p>
+                    <p class="text-base">{p.note}</p>
+                  </div>
+                ))}
+              </div>
+              <Button href="#bespreek" variant="white">Bespreek jou plek</Button>
+            </div>
+          </div>
+        </div>
+      </Container>
+    </Section>
+
+    {/* ---- The speaker ---- */}
+    <Section id="spreker" bg="pink">
+      <Container class="grid grid-cols-[minmax(0,28rem)_minmax(0,1fr)] gap-24 tablet:grid-cols-1 tablet:gap-10">
+        <div class="flex flex-col items-start gap-5">
+          <p class="text-sm font-bold uppercase tracking-[0.3em]">Ontmoet ons spreker</p>
+          <h2 class="h1" data-split>Marilize de Clercq</h2>
+          <p class="text-sm leading-relaxed font-bold uppercase tracking-widest">
+            Stylstrateeg · Spreker · Stigter van TheStyleMentor
+          </p>
+          <img
+            src={cherries.src} alt="" aria-hidden="true" width="640"
+            height="814" class="mt-2 w-40 -rotate-12 tablet:hidden" loading="lazy"
+          />
+        </div>
+
+        <div class="text-lead flex max-w-3xl flex-col gap-6" data-reveal>
+          {bio.map((paragraph) => <p>{paragraph}</p>)}
+        </div>
+      </Container>
+    </Section>
+
+    {/* ---- Dress code ---- */}
+    <Section id="drakode" bg="white">
+      <Container class="flex flex-col items-center gap-16 text-center landscape:gap-12">
+        <div class="flex flex-col items-center gap-5">
+          <p class="text-sm font-bold uppercase tracking-[0.3em]">Ons drakode: Somersjiek</p>
+          <h2 class="font-serif text-[clamp(2.75rem,1.5rem+4vw,5rem)] leading-none font-bold text-plum" data-split>
+            'n Tikkie <em class="font-normal text-cherry-dark">Kersie</em>
+          </h2>
+          <p class="text-lead max-w-2xl">'n Elegante someroggend, geïnspireer deur die kersiepalet.</p>
+        </div>
+
+        <ul class="flex flex-wrap justify-center gap-10 landscape:gap-x-6 landscape:gap-y-8">
+          {palette.map((swatch) => (
+            <li class="flex flex-col items-center gap-4" data-rise>
+              <span class="size-32 rounded-full shadow-cherry tablet:size-28 landscape:size-20" style={`background-color: ${swatch.hex};`}></span>
+              <span class="body-lg">{swatch.name}</span>
+            </li>
+          ))}
+        </ul>
+
+        <div class="flex max-w-2xl flex-col items-center gap-4">
+          <h3 class="h2">Van kop tot tone, of net 'n tikkie</h3>
+          <p class="text-lead">Kies 'n kleur waarvan jy hou – in jou uitrusting, of net as 'n tikkie in jou bykomstighede.</p>
+          <p class="mt-4 font-serif text-h2 font-normal italic text-cherry-dark">Elegant, ontspanne en pragtig jy.</p>
+        </div>
+      </Container>
+    </Section>
+
+    {/* ---- Booking ---- */}
+    <Section id="bespreek" bg="cherry">
+      <Container class="grid grid-cols-[minmax(0,1fr)_minmax(0,34rem)] items-center gap-24 tablet:grid-cols-1 tablet:gap-12">
+        <div class="flex flex-col items-start gap-8">
+          <h2 class="h1" data-split>Bespreek jou plek</h2>
+          <p class="text-lead max-w-2xl">
+            Besprekings geskied per EFT. Betaal in die CheriSHEd-rekening en stuur jou bewys van betaling aan {ADELE.name}.
+          </p>
+
+          <div class="flex gap-12 portrait:gap-8">
+            {prices.map((p) => (
+              <div class="flex flex-col gap-1">
+                <p class="text-sm font-bold uppercase tracking-widest">{p.label}</p>
+                <p class="h1">{p.price}</p>
+                <p class="text-base">{p.note}</p>
+              </div>
+            ))}
+          </div>
+
+          <div class="flex flex-col items-start gap-4 border-t border-white/30 pt-8">
+            <p class="h3 font-bold">Stuur jou bewys van betaling aan</p>
+            <p class="h2">
+              {ADELE.name} · <a href={ADELE.tel} class="underline decoration-white/40 underline-offset-4 hover:decoration-white">{ADELE.phone}</a>
+            </p>
+            <Button href={ADELE.whatsapp} variant="white" target="_blank" class="mt-2">WhatsApp vir Adele</Button>
+          </div>
+        </div>
+
+        <div class="w-full tablet:max-w-xl" style="transform: rotate(2deg)" data-ticket>
+          <div class="ticket-notch p-16 text-cherry [--notch--fill:var(--color-white)] tablet:p-12 landscape:p-8 landscape:pt-12 landscape:pb-13 portrait:p-6 portrait:pt-10 portrait:pb-11">
+            <p class="text-sm font-bold uppercase tracking-[0.3em]">Bankbesonderhede</p>
+            <dl class="mt-4 flex flex-col">
+              {bank.map((row) => (
+                <div class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-cherry/15 py-4">
+                  <dt class="body-lg">{row.label}</dt>
+                  <dd class="h3 flex items-baseline gap-3 font-bold">
+                    <span>{row.value}</span>
+                    {row.copy && (
+                      <button
+                        type="button"
+                        class="hidden cursor-pointer rounded-full bg-blossom px-3 py-1 text-sm font-bold transition-colors hover:bg-cherry hover:text-white"
+                        data-copy={row.value}>
+                        Kopieer
+                      </button>
+                    )}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+            <p class="body-lg mt-6 font-bold text-cherry-dark">Belangrik: gebruik jou naam en van as verwysing.</p>
+          </div>
+        </div>
+      </Container>
+    </Section>
+
+    {/* ---- Priority list ---- */}
+    <Section id="prioriteitslys" bg="white">
+      <Container class="grid grid-cols-[minmax(0,1fr)_minmax(0,28rem)] items-center gap-24 tablet:grid-cols-1 tablet:gap-12">
+        <div class="flex flex-col items-start gap-6">
+          <h2 class="h1" data-split>Iets moois begin hier</h2>
+          <p class="text-lead max-w-3xl">
+            Sluit aan by die CheriSHEd-prioriteitslys vir eerste toegang tot nuus oor die geleentheid, 'n herinnering voordat vroegvoëlkaartjies sluit, en 'n
+            kans in 'n eksklusiewe prystrekking.
+          </p>
+
+          <div class="rounded-blob bg-blossom px-8 py-6">
+            <p class="h3 font-bold">'n Eksklusiewe prystrekking</p>
+            <p class="body-lg mt-2">Almal wat teen 5 November 2026 registreer, staan 'n kans om 'n baie spesiale geskenk te wen.</p>
+          </div>
+
+          <p class="body-lg max-w-3xl">
+            Stuur jou naam en van, gevolg deur “Cherished Event”, per WhatsApp aan <strong>{ADELE.name}</strong> by{" "}
+            <a href={ADELE.tel} class="font-bold underline decoration-cherry/40 underline-offset-4 hover:decoration-cherry">{ADELE.phone}</a>. Ons voeg jou by
+            die prioriteitslys en hou jou op hoogte van nuus en jou vroegvoël-herinnering.
+          </p>
+
+          <Button href={ADELE.whatsapp} target="_blank">WhatsApp vir Adele</Button>
+          <p class="text-sm opacity-80">Registrasie op die prioriteitslys bespreek nie 'n kaartjie nie.</p>
+        </div>
+
+        {/* The brief's example message, shown the way it'll look sent. */}
+        <figure class="rotate-[-2deg] rounded-3xl bg-blossom p-8 shadow-cherry tablet:w-full tablet:max-w-md landscape:p-6" data-reveal>
+          <figcaption class="flex items-center gap-4 border-b border-cherry/15 pb-5">
+            <span class="flex size-12 shrink-0 items-center justify-center rounded-full bg-cherry font-bold text-white" aria-hidden="true">AV</span>
+            <span class="flex flex-col">
+              <span class="font-bold">{ADELE.name}</span>
+              <span class="text-sm">{ADELE.phone}</span>
+            </span>
+          </figcaption>
+          <p class="mt-6 text-sm font-bold uppercase tracking-widest">Byvoorbeeld</p>
+          <p class="h3 mt-3 ml-auto w-fit max-w-full rounded-2xl rounded-br-sm bg-cherry px-5 py-3 text-white shadow-cherry">
+            Anna Smit - Cherished Event
+          </p>
+        </figure>
+      </Container>
+    </Section>
+  </main>
+  <Footer />
+</Layout>
+
+<script>
+/* The copy buttons ship hidden and only appear where the Clipboard API is
+   there to back them, so nobody is offered a button that can't work. */
+if (navigator.clipboard) {
+  document.querySelectorAll<HTMLButtonElement>("[data-copy]").forEach((button) => {
+    button.classList.remove("hidden");
+    button.addEventListener("click", async () => {
+      await navigator.clipboard.writeText(button.dataset.copy ?? "");
+      button.textContent = "Gekopieer!";
+      setTimeout(() => (button.textContent = "Kopieer"), 2000);
+    });
+  });
+}
+</script>

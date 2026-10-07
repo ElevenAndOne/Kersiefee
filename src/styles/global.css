@@ -55,8 +55,14 @@
   /* Grass illustration base */
   --color-green-shadow: #277539;
   /* Shadow Green */
+  --color-plum: #51111e;
+  /* Deep plum, from the CheriSHEd dress-code palette */
   /* Typography (Lato; Figma styles H1/H2/H3, Paragraph 1/2, Button) */
   --font-sans: "Lato", system-ui, sans-serif;
+  /* Display serif for the CheriSHEd side event's own voice (its wordmark and
+     sign-offs). Only that page imports it, and since @font-face is lazy, no
+     other page fetches the font files even if the build shares its CSS. */
+  --font-serif: "Playfair Display", Georgia, serif;
   --text-h1: clamp(2rem, 1.2rem + 2.5vw, 3rem);
   /* Heading 1 · 48 Black */
   --text-h1--line-height: 1.1;
