@@ -27,8 +27,9 @@ import Section from "../components/ui/Section.astro";
 import Layout from "../layouts/Layout.astro";
 import { DEFAULT_TITLE, SITE_NAME } from "../site";
 
-import cherries from "../assets/images/cherished/cherries.avif";
-import portrait from "../assets/images/cherished/portrait.avif";
+import marilizeBoutique from "../assets/images/cherished/marilize-boutique.avif";
+import marilizeHero from "../assets/images/cherished/marilize-hero.avif";
+import marilizePortrait from "../assets/images/cherished/marilize-portrait.avif";
 import ribbonCherries from "../assets/images/cherished/ribbon-cherries.avif";
 
 const title = "CheriSHEd met Marilize de Clercq";
@@ -162,8 +163,8 @@ const structuredData = {
 
         <div class="relative landscape:mx-auto landscape:w-4/5 portrait:w-full">
           <img
-            src={portrait.src} alt="'n Laggende vrou met 'n sonbril onder 'n kersietak" width="412" height="760"
-            class="aspect-3/4 w-full rotate-2 rounded-blob object-cover object-[50%_15%] shadow-cherry"
+            src={marilizeHero.src} alt="Marilize de Clercq in 'n wit broekpak en sonbril" width="760" height="1013"
+            class="aspect-3/4 w-full rotate-2 rounded-blob object-cover shadow-cherry"
           />
           {/* Sticker, poster-style, pinned over the leaves where it hides no
               face. Decorative: the same facts are in the list. */}
@@ -234,21 +235,30 @@ const structuredData = {
 
     {/* ---- The speaker ---- */}
     <Section id="spreker" bg="pink">
-      <Container class="grid grid-cols-[minmax(0,28rem)_minmax(0,1fr)] gap-24 tablet:grid-cols-1 tablet:gap-10">
+      <Container
+        class="grid grid-cols-[minmax(0,30rem)_minmax(0,1fr)] items-center gap-24 tablet:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] tablet:gap-12 landscape:grid-cols-1">
+        {/* Two of her own photos, laid down like prints: the close-up, and
+            the boutique shot overlapping its corner. */}
+        <div class="relative pr-16 pb-20 landscape:mx-auto landscape:w-4/5 portrait:w-full portrait:pr-10 portrait:pb-14" data-reveal>
+          <img
+            src={marilizePortrait.src} alt="Marilize de Clercq" width="908" height="1135"
+            loading="lazy" class="aspect-4/5 w-full -rotate-2 rounded-blob object-cover shadow-cherry"
+          />
+          <img
+            src={marilizeBoutique.src} alt="Marilize de Clercq in 'n juweliersboetiek" width="720" height="960"
+            loading="lazy" class="absolute right-0 bottom-0 aspect-3/4 w-1/2 rotate-3 rounded-blob border-6 border-white object-cover shadow-pop"
+          />
+        </div>
+
         <div class="flex flex-col items-start gap-5">
           <p class="text-sm font-bold uppercase tracking-[0.3em]">Ontmoet ons spreker</p>
           <h2 class="h1" data-split>Marilize de Clercq</h2>
           <p class="text-sm leading-relaxed font-bold uppercase tracking-widest">
             Stylstrateeg · Spreker · Stigter van TheStyleMentor
           </p>
-          <img
-            src={cherries.src} alt="" aria-hidden="true" width="640"
-            height="814" class="mt-2 w-40 -rotate-12 tablet:hidden" loading="lazy"
-          />
-        </div>
-
-        <div class="text-lead flex max-w-3xl flex-col gap-6" data-reveal>
-          {bio.map((paragraph) => <p>{paragraph}</p>)}
+          <div class="text-lead mt-4 flex max-w-3xl flex-col gap-6" data-reveal>
+            {bio.map((paragraph) => <p>{paragraph}</p>)}
+          </div>
         </div>
       </Container>
     </Section>
