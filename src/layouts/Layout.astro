@@ -25,6 +25,9 @@ interface Props {
   imageAlt?: string;
   /** Keep a page out of the index (thank-you pages, drafts, and the like). */
   noindex?: boolean;
+  /** A page about a different event (e.g. one of the festival's side events)
+      passes its own schema.org Event here, in place of the festival's. */
+  structuredData?: Record<string, unknown>;
 }
 
 const {
@@ -33,6 +36,7 @@ const {
   image = OG_IMAGE,
   imageAlt = OG_IMAGE_ALT,
   noindex = false,
+  structuredData,
 } = Astro.props;
 
 /* Absolute URLs, which og:/twitter: tags and the canonical link all require.
@@ -147,7 +151,7 @@ const organisationSchema = {
     <meta name="twitter:image" content={imageUrl} />
     <meta name="twitter:image:alt" content={imageAlt} />
 
-    <script type="application/ld+json" set:html={JSON.stringify(eventSchema)} is:inline />
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData ?? eventSchema)} is:inline />
     <script type="application/ld+json" set:html={JSON.stringify(organisationSchema)} is:inline />
 
     {/* Google Analytics — the snippet is Google's verbatim boilerplate;
