@@ -7,18 +7,21 @@ import Logo from "./Logo.astro";
 const TICKETS = "https://www.quicket.co.za/events/389341-ceres-kersiefees/#/";
 const CONTACT = "mailto:runeik@dutoit.com";
 
+/* Rooted at "/" so the bar also works from a sub-page (e.g. /cherished/).
+   On the home page they still smooth-scroll in place: Lenis takes over any
+   link whose path matches the current page and only the hash differs. */
 const links: { label: string; href: string; }[] = [
-  { label: "Meer oor die fees", href: "#about-section" },
-  { label: "Koservaring", href: "#verkopers" },
-  { label: "Program", href: "#program" },
-  { label: "Sportaktiwiteite", href: "#sport-section" },
-  { label: "Akkommodasie", href: "#akkommodasie" },
+  { label: "Meer oor die fees", href: "/#about-section" },
+  { label: "Koservaring", href: "/#verkopers" },
+  { label: "Program", href: "/#program" },
+  { label: "Sportaktiwiteite", href: "/#sport-section" },
+  { label: "Akkommodasie", href: "/#akkommodasie" },
 ];
 ---
 
 <header class="fixed inset-x-0 top-6 z-50 px-8 landscape:top-4 landscape:px-4" data-navbar>
   <div class="mx-auto flex max-w-nav items-center justify-between gap-6 rounded-full bg-white py-4 pl-10 pr-4 shadow-cherry-soft landscape:py-3 landscape:pl-6 landscape:pr-3">
-    <a href="#top" class="shrink-0">
+    <a href="/#top" class="shrink-0">
       <Logo />
     </a>
 
