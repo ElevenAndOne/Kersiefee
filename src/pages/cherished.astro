@@ -27,6 +27,7 @@ import Section from "../components/ui/Section.astro";
 import Layout from "../layouts/Layout.astro";
 import { DEFAULT_TITLE, SITE_NAME } from "../site";
 
+import CountrySjiek from "../assets/images/cherished/country-sjiek.svg";
 import marilizeBoutique from "../assets/images/cherished/marilize-boutique.avif";
 import marilizeHero from "../assets/images/cherished/marilize-hero.avif";
 import marilizePortrait from "../assets/images/cherished/marilize-portrait.avif";
@@ -149,8 +150,18 @@ const structuredData = {
           <dl class="body-lg mt-12 grid w-full max-w-160 grid-cols-[auto_minmax(0,1fr)] gap-x-10 gap-y-4 border-t border-cherry/20 pt-8 portrait:gap-x-6">
             <dt class="font-bold">Wanneer</dt>
             <dd>Saterdag, 5 Desember 2026<br />09:30 vir 10:00</dd>
-            <dt class="font-bold">Waar</dt>
-            <dd>Country Sjiek, Breëriviervallei</dd>
+            {/* The venue's own logo in place of its name, at the client's
+                request, set inline with the region like the share card's
+                lockup. Traced to SVG so it inks in currentColor. The logo
+                stands taller than a line of text, so this row centres its
+                label instead of top-aligning it. */}
+            <dt class="self-center font-bold">Waar</dt>
+            <dd class="flex flex-wrap items-center gap-x-4 gap-y-2">
+              <CountrySjiek role="img" aria-label="Country Sjiek" class="h-auto w-24 shrink-0 text-plum" />
+              {/* Too wide for one line on a phone: the region drops under the
+                  logo there, and a divider with nothing before it would dangle. */}
+              <span class="border-l border-cherry/30 pl-4 portrait:border-l-0 portrait:pl-0">Breëriviervallei</span>
+            </dd>
             <dt class="font-bold">Kaartjies</dt>
             <dd>R385 vroegvoël, bespreek teen 5 November<br />R425 standaard</dd>
           </dl>

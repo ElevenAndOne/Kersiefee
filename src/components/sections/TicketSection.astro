@@ -5,7 +5,6 @@ import Section from "../ui/Section.astro";
 import TicketCard from "../ui/TicketCard.astro";
 
 import bgVector from "../../assets/figma/ticket-bg-vector.svg";
-import cherishedPhoto from "../../assets/images/cherished/marilize-square.avif";
 import cherryTimePhoto from "../../assets/figma/ticket-photo-cherry-time.avif";
 import fynbosVelddagPhoto from "../../assets/figma/ticket-photo-fynbos-velddag.avif";
 import kersieLangtafelPhoto from "../../assets/figma/ticket-photo-kersie-langtafel.avif";
@@ -13,6 +12,8 @@ import kersiekreatiefPhoto from "../../assets/figma/ticket-photo-kersiekreatief.
 import kinderkaartjiePhoto from "../../assets/figma/ticket-photo-kinderkaartjie.avif";
 import opelugPreekPhoto from "../../assets/figma/ticket-photo-opelug-preek.avif";
 import standaardkaartjiePhoto from "../../assets/figma/ticket-photo-standaardkaartjie.avif";
+import CountrySjiek from "../../assets/images/cherished/country-sjiek.svg";
+import cherishedPhoto from "../../assets/images/cherished/marilize-square.avif";
 
 const quicketHref = "https://www.quicket.co.za/events/389341-ceres-kersiefees/#/";
 const kersieKreatiefHref = "https://www.quicket.co.za/events/394208-kersie-kreatief-art-exhibition/";
@@ -60,13 +61,15 @@ const tickets: (ComponentProps<typeof TicketCard> & { hidden?: boolean; })[] = [
   },
   /* Booked by EFT rather than on Quicket, so the card hands over to the
      event's own page, which carries the bank details, dress code and the rest
-     of the organiser's brief. Not at the festival grounds — hence the venue. */
+     of the organiser's brief. Not at the festival grounds, so the card shows
+     the venue: as its logo, at the client's request, rather than its name. */
   {
     title: "CheriSHEd met Marilize de Clercq",
     lines: [{
       date: "Saterdag, 5 Desember 2026",
-      text: "'n Oggend van styl, skoonheid en welstand by Country Sjiek in die Breëriviervallei.",
+      text: "'n Oggend van styl, skoonheid en welstand in die Breëriviervallei.",
     }],
+    venue: { logo: CountrySjiek, name: "Country Sjiek" },
     prices: [{ label: "Vroegvoël tot 5 November, daarna R425", price: "R385" }],
     cta: "Leer meer & bespreek",
     variant: "red",
