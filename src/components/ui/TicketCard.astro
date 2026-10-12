@@ -10,6 +10,7 @@
  * red "Kinderkaartjie" card, whose asset is a transparent cutout rather than
  * a cropped photo).
  */
+import type { SvgComponent } from "astro/types";
 import Button from "./Button.astro";
 
 interface PriceLine {
@@ -35,6 +36,9 @@ interface Props {
   placeholder?: boolean;
   /** image bleeds to the card's top/bottom edges instead of sitting inset */
   flush?: boolean;
+  /** A venue's logo, shown under the details in place of its name. It inks
+      in currentColor, so it takes the card's text colour. */
+  venue?: { logo: SvgComponent; name: string; };
   class?: string;
 }
 
@@ -49,10 +53,12 @@ const {
   image = null,
   placeholder = false,
   flush = false,
+  venue,
   class: className = "",
 } = Astro.props;
 
 const isRed = variant === "red";
+const VenueLogo = venue?.logo;
 ---
 
 <div class:list={[className]} style={`transform: rotate(${rotate}deg);`} data-ticket>
@@ -90,6 +96,7 @@ const isRed = variant === "red";
               <p class="h3">{line.text}</p>
             </div>
           ))}
+        {VenueLogo && <VenueLogo role="img" aria-label={venue?.name} class="h-auto w-28 landscape:w-24" />}
         {prices.map((p) => (
           <Fragment>
             {p.label && <p class="h3">{p.label}</p>}
