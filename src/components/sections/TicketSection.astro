@@ -17,6 +17,9 @@ import cherishedPhoto from "../../assets/images/cherished/marilize-square.avif";
 
 const quicketHref = "https://www.quicket.co.za/events/389341-ceres-kersiefees/#/";
 const kersieKreatiefHref = "https://www.quicket.co.za/events/394208-kersie-kreatief-art-exhibition/";
+/* Quicket's share link, minus the share-box utm/ref tags it carried: from
+   here they would mislabel the site's clicks as Quicket's own shares. */
+const cherryTimeHref = "https://www.quicket.co.za/events/401886-cherrytime-cherry-picking/";
 
 
 /* `hidden` keeps a ticket in the file but off the page. Kersie Langtafel and
@@ -27,12 +30,12 @@ const tickets: (ComponentProps<typeof TicketCard> & { hidden?: boolean; })[] = [
   {
     title: "Cherry Time™ Kersieplaas-Besoek",
     lines: [
-      "Stap tussen die kersiebome, proe die vars kersies, ontmoet die mense agter die oes en ervaar Ceres se kersieseisoen eerstehands! Meer inligting sal volg.",
+      "Stap tussen die kersiebome, proe die vars kersies, ontmoet die mense agter die oes en ervaar Ceres se kersieseisoen eerstehands!",
     ],
-    cta: "Leer meer",
+    cta: "Koop Jou Kaartjie!",
     variant: "red",
     image: { src: cherryTimePhoto.src, alt: "'n Hand pluk ryp kersies van 'n tak" },
-    href: "tel:+27749685168",
+    href: cherryTimeHref,
   },
   {
     title: "Kersie Kreatief Kunsuitstalling",
