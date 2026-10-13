@@ -47,7 +47,7 @@ const description =
 const ADELE = { name: "Adele Visser", phone: "084 910 1619", tel: "tel:+27849101619", whatsapp: "https://wa.me/27849101619" };
 
 const prices = [
-  { label: "Vroegvoël", price: "R385", note: "Bespreek teen 5 November" },
+  { label: "Early bird", price: "R385", note: "Bespreek teen 5 November" },
   { label: "Standaard", price: "R425", note: "Ná 5 November" },
 ];
 
@@ -114,7 +114,7 @@ const structuredData = {
   superEvent: { "@type": "Festival", name: DEFAULT_TITLE, url: homeUrl },
   organizer: { "@type": "Organization", name: SITE_NAME, url: homeUrl },
   offers: [
-    { "@type": "Offer", name: "Vroegvoël", price: "385", priceCurrency: "ZAR", validThrough: "2026-11-05T23:59:59+02:00", url: pageUrl },
+    { "@type": "Offer", name: "Early bird", price: "385", priceCurrency: "ZAR", validThrough: "2026-11-05T23:59:59+02:00", url: pageUrl },
     { "@type": "Offer", name: "Standaard", price: "425", priceCurrency: "ZAR", url: pageUrl },
   ],
 };
@@ -163,7 +163,7 @@ const structuredData = {
               <span class="border-l border-cherry/30 pl-4 portrait:border-l-0 portrait:pl-0">Breëriviervallei</span>
             </dd>
             <dt class="font-bold">Kaartjies</dt>
-            <dd>R385 vroegvoël, bespreek teen 5 November<br />R425 standaard</dd>
+            <dd>R385 early bird, bespreek teen 5 November<br />R425 standaard</dd>
           </dl>
 
           <div class="mt-12 flex flex-wrap gap-4">
@@ -182,7 +182,7 @@ const structuredData = {
           <div
             aria-hidden="true"
             class="absolute -right-8 -top-10 flex size-40 rotate-12 flex-col items-center justify-center rounded-full bg-cherry text-center text-white shadow-pop tablet:-right-4 tablet:size-32 landscape:-right-3 landscape:-top-8">
-            <span class="text-sm font-bold uppercase tracking-widest tablet:text-xs">Vroegvoël</span>
+            <span class="text-sm font-bold uppercase tracking-widest tablet:text-xs">Early bird</span>
             <span class="h1">R385</span>
             <span class="text-sm tablet:text-xs">tot 5 November</span>
           </div>
@@ -363,7 +363,7 @@ const structuredData = {
         <div class="flex flex-col items-start gap-6">
           <h2 class="h1" data-split>Iets moois begin hier</h2>
           <p class="text-lead max-w-3xl">
-            Sluit aan by die CheriSHEd-prioriteitslys vir eerste toegang tot nuus oor die geleentheid, 'n herinnering voordat vroegvoëlkaartjies sluit, en 'n
+            Sluit aan by die CheriSHEd-prioriteitslys vir eerste toegang tot nuus oor die geleentheid, 'n herinnering voordat early bird-kaartjies sluit, en 'n
             kans in 'n eksklusiewe prystrekking.
           </p>
 
@@ -375,7 +375,7 @@ const structuredData = {
           <p class="body-lg max-w-3xl">
             Stuur jou naam en van, gevolg deur “Cherished Event”, per WhatsApp aan <strong>{ADELE.name}</strong> by{" "}
             <a href={ADELE.tel} class="font-bold underline decoration-cherry/40 underline-offset-4 hover:decoration-cherry">{ADELE.phone}</a>. Ons voeg jou by
-            die prioriteitslys en hou jou op hoogte van nuus en jou vroegvoël-herinnering.
+            die prioriteitslys en hou jou op hoogte van nuus en jou early bird-herinnering.
           </p>
 
           <Button href={ADELE.whatsapp} target="_blank">WhatsApp vir Adele</Button>
