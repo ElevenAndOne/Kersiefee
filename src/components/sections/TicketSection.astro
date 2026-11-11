@@ -11,8 +11,6 @@ import kersiekreatiefPhoto from "../../assets/figma/ticket-photo-kersiekreatief.
 import kinderkaartjiePhoto from "../../assets/figma/ticket-photo-kinderkaartjie.avif";
 import opelugPreekPhoto from "../../assets/figma/ticket-photo-opelug-preek.avif";
 import standaardkaartjiePhoto from "../../assets/figma/ticket-photo-standaardkaartjie.avif";
-import CountrySjiek from "../../assets/images/cherished/country-sjiek.svg";
-import cherishedPhoto from "../../assets/images/cherished/marilize-square.avif";
 
 const quicketHref = "https://www.quicket.co.za/events/389341-ceres-kersiefees/#/";
 const kersieKreatiefHref = "https://www.quicket.co.za/events/394208-kersie-kreatief-art-exhibition/";
@@ -46,23 +44,6 @@ const tickets: (ComponentProps<typeof TicketCard> & { hidden?: boolean; })[] = [
     variant: "red",
     image: { src: kersieLangtafelPhoto.src, alt: "Feesgangers kuier om 'n feestelike langtafel in die buitelug" },
     href: "tel:+27781446180",
-  },
-  /* Booked by EFT rather than on Quicket, so the card hands over to the
-     event's own page, which carries the bank details, dress code and the rest
-     of the organiser's brief. Not at the festival grounds, so the card shows
-     the venue: as its logo, at the client's request, rather than its name. */
-  {
-    title: "CheriSHEd met Marilize de Clercq",
-    lines: [{
-      date: "Saterdag, 5 Desember 2026",
-      text: "'n Oggend van styl, skoonheid en welstand in die Breëriviervallei.",
-    }],
-    venue: { logo: CountrySjiek, name: "Country Sjiek" },
-    prices: [{ label: "Early bird tot 5 November, daarna R425", price: "R385" }],
-    cta: "Leer meer & bespreek",
-    variant: "red",
-    image: { src: cherishedPhoto.src, alt: "Marilize de Clercq in 'n wit baadjie en sonbril" },
-    href: "/cherished/",
   },
   {
     title: "Standaardkaartjie",
