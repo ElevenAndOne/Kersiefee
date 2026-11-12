@@ -5,8 +5,8 @@ import Section from "../ui/Section.astro";
 import TicketCard from "../ui/TicketCard.astro";
 
 import bgVector from "../../assets/figma/ticket-bg-vector.svg";
+import fireFoodWinePhoto from "../../assets/figma/ticket-photo-fire-food-wine.avif";
 import fynbosVelddagPhoto from "../../assets/figma/ticket-photo-fynbos-velddag.avif";
-import kersieLangtafelPhoto from "../../assets/figma/ticket-photo-kersie-langtafel.avif";
 import kersiekreatiefPhoto from "../../assets/figma/ticket-photo-kersiekreatief.avif";
 import kinderkaartjiePhoto from "../../assets/figma/ticket-photo-kinderkaartjie.avif";
 import opelugPreekPhoto from "../../assets/figma/ticket-photo-opelug-preek.avif";
@@ -15,10 +15,10 @@ import standaardkaartjiePhoto from "../../assets/figma/ticket-photo-standaardkaa
 const quicketHref = "https://www.quicket.co.za/events/389341-ceres-kersiefees/#/";
 const kersieKreatiefHref = "https://www.quicket.co.za/events/394208-kersie-kreatief-art-exhibition/";
 
-/* `hidden` keeps a ticket in the file but off the page. Kersie Langtafel and
-   Fynbos Velddag are hidden at the client's request ("Please HIDE for now"), so
-   restoring one is a single flag once its details firm up — as happened with
-   Kersie Kreatief, which now has its date, price and its own Quicket event. */
+/* `hidden` keeps a ticket in the file but off the page. Fynbos Velddag is
+   hidden at the client's request ("Please HIDE for now"), so restoring it is a
+   single flag once its details firm up. Friday's slot, once the hidden Kersie
+   Langtafel, is now the Fire, Food & Wine dinner, booked by phone. */
 const tickets: (ComponentProps<typeof TicketCard> & { hidden?: boolean; })[] = [
   {
     title: "Kersie Kreatief Kunsuitstalling",
@@ -34,20 +34,21 @@ const tickets: (ComponentProps<typeof TicketCard> & { hidden?: boolean; })[] = [
     href: kersieKreatiefHref,
   },
   {
-    title: "Kersie Langtafel",
-    hidden: true,
+    title: "Fire, Food & Wine",
     lines: [{
       date: "Vrydag, 4 Desember 2026",
-      text: "'n Kersie geinspireerde langtafel ete saam 'n bekroonde smul!",
+      text:
+        "Geniet 'n sorgvuldig uitgesoekte verskeidenheid premium Leeuwenkuil-wyne, perfek gepaar met 'n eksklusiewe vyfgangfees van kersie-geïnspireerde geregte, vars van die vuur.",
     }],
-    cta: "Leer meer",
+    prices: [{ price: "R695" }],
+    cta: "Kontak Ons",
     variant: "red",
-    image: { src: kersieLangtafelPhoto.src, alt: "Feesgangers kuier om 'n feestelike langtafel in die buitelug" },
+    image: { src: fireFoodWinePhoto.src, alt: "'n Hand skink rooiwyn uit 'n Leeuwenkuil-bottel" },
     href: "tel:+27781446180",
   },
   {
     title: "Standaardkaartjie",
-    lines: ["Saterdag, 5 Desember 2026", "Sluit die toegang in tot die feesgronde vanaf 16:00"],
+    lines: ["Saterdag, 5 Desember 2026"],
     prices: [{ price: "R250" }],
     variant: "white",
     rotate: -2,
