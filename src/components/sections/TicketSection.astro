@@ -8,12 +8,16 @@ import bgVector from "../../assets/figma/ticket-bg-vector.svg";
 import fireFoodWinePhoto from "../../assets/figma/ticket-photo-fire-food-wine.avif";
 import fynbosVelddagPhoto from "../../assets/figma/ticket-photo-fynbos-velddag.avif";
 import kersiekreatiefPhoto from "../../assets/figma/ticket-photo-kersiekreatief.avif";
+import klondykePhoto from "../../assets/figma/ticket-photo-klondyke.avif";
 import kinderkaartjiePhoto from "../../assets/figma/ticket-photo-kinderkaartjie.avif";
 import opelugPreekPhoto from "../../assets/figma/ticket-photo-opelug-preek.avif";
 import standaardkaartjiePhoto from "../../assets/figma/ticket-photo-standaardkaartjie.avif";
 
 const quicketHref = "https://www.quicket.co.za/events/389341-ceres-kersiefees/#/";
 const kersieKreatiefHref = "https://www.quicket.co.za/events/394208-kersie-kreatief-art-exhibition/";
+/* Klondyke sells its own picking tickets and punnets, so the card hands over
+   to the farm's ticket page; prices live there rather than being copied here. */
+const klondykeHref = "https://cherryfarm.co.za/tickets";
 
 /* `hidden` keeps a ticket in the file but off the page. Fynbos Velddag is
    hidden at the client's request ("Please HIDE for now"), so restoring it is a
@@ -78,6 +82,18 @@ const tickets: (ComponentProps<typeof TicketCard> & { hidden?: boolean; })[] = [
     rotate: -2,
     image: { src: opelugPreekPhoto.src, alt: "Feesgangers aanbid saam terwyl die son sak" },
     href: "tel:+27749685168",
+  },
+  {
+    title: "Kersiepluk by Klondyke",
+    lines: [{
+      date: "Daagliks in Desember, 08:30–16:30",
+      text:
+        "Ry met die trekker na die boord en pluk jou eie kersies by Klondyke Cherry Farm. Geniet kosstalletjies, 'n piekniek onder die dennebome, koffie by die nuwe plaasstal, perdry in die skoolvakansie, 'n speelpark vir kinders en stap- en bergfietsroetes.",
+    }, "Bly oor in Cherry Cottage of op die kampterrein (onderhewig aan beskikbaarheid)."],
+    cta: "Koop Jou Kaartjie!",
+    variant: "red",
+    image: { src: klondykePhoto.src, alt: "'n Hand pluk 'n tros ryp kersies van die boom" },
+    href: klondykeHref,
   },
   {
     title: "Fynbos Velddag",
